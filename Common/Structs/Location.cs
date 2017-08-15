@@ -19,7 +19,7 @@ namespace Common.Structs
 
         public Location() { }
 
-        public Location(float x, float y, float z, float o, uint map, string description)
+        public Location(float x, float y, float z, float o, uint map, string description = "")
         {
             this.X = x;
             this.Y = y;
@@ -28,16 +28,7 @@ namespace Common.Structs
             this.Map = map;
             this.Description = description;
         }
-
-        public Location(float x, float y, float z, float o, uint map)
-        {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
-            this.O = o;
-            this.Map = map;
-        }
-
+        
 
         public void Update(float x, float y, float z)
         {
