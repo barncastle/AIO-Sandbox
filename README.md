@@ -16,7 +16,7 @@ Clients for the below can be found [on this thread](http://www.ownedcore.com/for
 | Beta 3 (0.8.0)          | Usable		   |
 | Beta 3 (0.9.0)          | Usable		   |
 | Beta 3 (0.10.0 - 0.11.0)| Usable		   |
-| Beta 3 (0.12.0)		  | Usable		   |
+| Beta 3 (0.12.0 - 1.0.X) | Usable		   |
 | TBC Alpha (2.0.0)		  | Can't login	   |
 
 \* Those marked 'Usable' have intermittent area triggers however the below commands negate this issue.
