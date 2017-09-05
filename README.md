@@ -1,7 +1,7 @@
 # AIO Sandbox
 
 This project is an attempt to make a plugin based "All In One" sandbox server that supports all the pre-release builds of WoW with an emphasis on exploration. 
-You'll need [.Net Core 4.6.1](https://www.microsoft.com/en-gb/download/details.aspx?id=49981) to run this.
+You'll need [.Net Core 4.6.1](https://www.microsoft.com/en-gb/download/details.aspx?id=49981) to run this. This project was built with Visual Studio 2017.
 
 ##### Builds: #####
 
