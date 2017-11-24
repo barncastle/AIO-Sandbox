@@ -24,7 +24,7 @@ namespace WorldServer
 
 			//Load Plugins
 			PluginHandler.GetPlugins();
-			Sandbox = PluginHandler.SelectPlugin(true);
+			Sandbox = PluginHandler.SelectPlugin();
 
 			RealmManager.RealmSession = new RealmSocket();
 			WorldManager.WorldSession = new WorldSocket();
