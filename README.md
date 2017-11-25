@@ -10,9 +10,9 @@ Clients for the below can be found [on this thread](http://www.ownedcore.com/for
 | Build                   | Status         |
 | ----------------------- | :------------- |
 | Alpha (0.5.3)           | Working		   |
-| Beta 1 (0.5.5)          | Not Implemented|
-| Beta 2 (0.6.0)          | Working		   |
-| Beta 3 (0.7.X)          | Usable		   |
+| Alpha (0.5.5)           | Working        |
+| Beta 1 (0.6.0)          | Working		   |
+| Beta 2 (0.7.X)          | Usable		   |
 | Beta 3 (0.8.0)          | Usable		   |
 | Beta 3 (0.9.0)          | Usable		   |
 | Beta 3 (0.10.0 - 0.11.0)| Usable		   |
@@ -30,7 +30,7 @@ Clients for the below can be found [on this thread](http://www.ownedcore.com/for
 * **.go instance {name}** : teleports inside the specified instance; partial locations will suggest available options
 * **.go instance {id}** : teleports inside the specified areatrigger
 * **.morph {id}** : morphs the player to the specified model
-* **.nudge [1-100]** : teleports you forward X * one step in the direction you're facing; ideal for invisible walls
+* **.nudge Optional: [0-100] {z offset}** : teleports you forward X * one step in the direction you're facing and adjusts your Z co-ordinate if supplied
 * **.speed [0.1 - 10] Optional: {run | swim | all}** : sets your speed; defaults to 'all' if no type is supplied
 
 For some interesting places to visit have a look at [Marlamin's map viewer](https://newmaps.marlam.in) - co-ordinates can be toggled with the "Enable technical details?" checkbox.

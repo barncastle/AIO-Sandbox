@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldServer", "WorldServer\WorldServer.csproj", "{B736A574-F0AD-43D2-BF24-A54EDC0BCD6B}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beta_3988", "Plugins\Beta_3988\Beta_3988.csproj", "{85FA1408-8526-4F9E-9A04-C9C78D2F31F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBC_Alpha_5610", "Plugins\TBC_Alpha_5610\TBC_Alpha_5610.csproj", "{19DD917C-87C6-407E-BFAA-9ECD37155040}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alpha_3494", "Plugins\Alpha_3494\Alpha_3494.csproj", "{FD14FB48-C3D1-40EC-8526-E401661FE24A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,8 +71,15 @@ Global
 		{19DD917C-87C6-407E-BFAA-9ECD37155040}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19DD917C-87C6-407E-BFAA-9ECD37155040}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19DD917C-87C6-407E-BFAA-9ECD37155040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD14FB48-C3D1-40EC-8526-E401661FE24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD14FB48-C3D1-40EC-8526-E401661FE24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD14FB48-C3D1-40EC-8526-E401661FE24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD14FB48-C3D1-40EC-8526-E401661FE24A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6B3E5E47-F534-40C5-8A61-5C3B3ABB1030}
 	EndGlobalSection
 EndGlobal

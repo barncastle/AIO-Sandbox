@@ -106,7 +106,7 @@ namespace Common.Commands
 		#endregion
 
 		#region Nudge
-		[CommandHelp(".nudge Optional: [0 - 100] {height}")]
+		[CommandHelp(".nudge Optional: [0 - 100] {z offset}")]
 		public static void Nudge(IWorldManager manager, string[] args)
 		{
 			var character = manager.Account.ActiveCharacter;
