@@ -32,17 +32,14 @@ namespace WorldServer.Plugins
 
 		public static SandboxHost SelectPlugin()
 		{
-			bool retry = false;
+			bool retry = true;
 
 			//Print initial plugin options
 			if (!loaded)
 			{
 				Log.Message(LogType.INIT, "Select a plugin from the below list:");
 				for (int i = 0; i < Sandboxes.Count; i++)
-				{
-					string realm = Sandboxes[i].RealmName[0] == '|' ? Sandboxes[i].RealmName.Substring(10) : Sandboxes[i].RealmName;
-					Log.Message(LogType.INIT, $"{i + 1}. {realm}");
-				}
+					Log.Message(LogType.INIT, $"{i + 1}. {Sandboxes[i].RealmName}");
 				Log.Message();
 
 				loaded = true;
@@ -54,12 +51,8 @@ namespace WorldServer.Plugins
 			if (int.TryParse(Console.ReadLine().Trim(), out int index))
 			{
 				index--;
-				if (index < 0 || index >= Sandboxes.Count) //Out of range
-					retry = true;
-			}
-			else
-			{
-				retry = true;
+				if (index >= 0 && index < Sandboxes.Count) //Out of range
+					retry = false;
 			}
 
 			if (retry)
