@@ -1,5 +1,6 @@
 ﻿using Common.Constants;
 using Common.Interfaces;
+using Common.Structs;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -69,19 +70,12 @@ namespace Common.Commands
 
 			var character = manager.Account.ActiveCharacter;
 			uint map = character.Location.Map;
-			bool teleport = true;
 
-			if (teleport &= Read(args, 0, out float x))
-				character.BuildMessage($"Invalid X parameter.");
-
-			if (teleport &= Read(args, 1, out float y))
-				character.BuildMessage($"Invalid Y parameter.");
-
-			if (teleport &= Read(args, 2, out float z))
-				character.BuildMessage($"Invalid Z parameter.");
-
-			if (args.Length > 3 && (teleport &= Read(args, 3, out map)))
-				character.BuildMessage($"Invalid Map parameter.");
+			bool teleport = Read(args, 0, out float x);
+			teleport &= Read(args, 1, out float y);
+			teleport &= Read(args, 2, out float z);
+			if (args.Length > 3)
+				teleport &= Read(args, 3, out map);
 
 			if (teleport)
 				character.Teleport(x, y, z, character.Location.O, map, ref manager);
@@ -113,18 +107,25 @@ namespace Common.Commands
 		#endregion
 
 		#region Nudge
-		[CommandHelp(".nudge Optional: [1 - 100]")]
+		[CommandHelp(".nudge Optional: [0 - 100] {height}")]
 		public static void Nudge(IWorldManager manager, string[] args)
 		{
 			var character = manager.Account.ActiveCharacter;
-			var loc = character.Location;
+			var loc = (Location)character.Location.Clone();
 
-			Read(args, 0, out float force);
-			force = Math.Min(Math.Max((int)force, 1), 100); //Min 1 Max 100
+			if (Read(args, 0, out float force))
+				force = Math.Min(Math.Max((int)force, 0), 100); // min 0 max 100
+			else if (args.Length == 0)
+				force = 1;
+			else
+				return;
 
-			float X = (float)(loc.X + Math.Cos(loc.O) * force);
-			float Y = (float)(loc.Y + Math.Sin(loc.O) * force);
-			character.Teleport(X, Y, loc.Z, loc.O, loc.Map, ref manager);
+			loc.X += (float)Math.Cos(loc.O) * force;
+			loc.Y += (float)Math.Sin(loc.O) * force;
+			if (args.Length > 1 && Read(args, 1, out float z)) // adjust Z position
+				loc.Z += z;
+
+			character.Teleport(loc.X, loc.Y, loc.Z, loc.O, loc.Map, ref manager);
 		}
 		#endregion
 
@@ -160,7 +161,7 @@ namespace Common.Commands
 		#endregion
 
 		#region Morph
-		[CommandHelp(".morph id")]
+		[CommandHelp(".morph {id}")]
 		public static void Morph(IWorldManager manager, string[] args)
 		{
 			if (args.Length < 1)

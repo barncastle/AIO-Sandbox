@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Common.Structs
 {
     [Serializable]
-    public class Location
+    public class Location : ICloneable
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -69,5 +69,10 @@ namespace Common.Structs
         {
             return $"X: {X}, Y: {Y}, Z: {Z}, O: {O}, Map: {Map}";
         }
-    }
+
+		public object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+	}
 }
