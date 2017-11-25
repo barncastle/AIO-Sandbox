@@ -1,4 +1,5 @@
 ﻿using Common.Constants;
+using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
 using System;
@@ -50,8 +51,7 @@ namespace Common.Commands
 					manager.Send(manager.Account.ActiveCharacter.BuildMessage("No matching locations found"));
 					break;
 				case 1: //Single match
-					var loc = locations.First().Value;
-					manager.Account.ActiveCharacter.Teleport(loc.X, loc.Y, loc.Z, loc.O, loc.Map, ref manager);
+					manager.Account.ActiveCharacter.Teleport(locations.First().Value, ref manager);
 					break;
 				default: //Multiple possible matches
 					manager.Send(manager.Account.ActiveCharacter.BuildMessage("Multiple matches:"));
@@ -91,8 +91,7 @@ namespace Common.Commands
 			{
 				if (AreaTriggers.Triggers.ContainsKey(areaid))
 				{
-					var area = AreaTriggers.Triggers[areaid];
-					character.Teleport(area.X, area.Y, area.Z, area.O, area.Map, ref manager);
+					character.Teleport(AreaTriggers.Triggers[areaid], ref manager);
 				}
 				else
 				{
@@ -125,7 +124,7 @@ namespace Common.Commands
 			if (args.Length > 1 && Read(args, 1, out float z)) // adjust Z position
 				loc.Z += z;
 
-			character.Teleport(loc.X, loc.Y, loc.Z, loc.O, loc.Map, ref manager);
+			character.Teleport(loc, ref manager);
 		}
 		#endregion
 

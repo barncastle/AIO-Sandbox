@@ -77,7 +77,7 @@ namespace Alpha_3368.Handlers
 						break;
 				}
 
-				manager.Account.ActiveCharacter.Teleport(loc.X, loc.Y, loc.Z, loc.O, loc.Map, ref manager);
+				manager.Account.ActiveCharacter.Teleport(loc, ref manager);
 			}
 			else
 				Log.Message(LogType.ERROR, "AreaTrigger for {0} missing.", id);

@@ -1,5 +1,6 @@
 ﻿using Common.Constants;
 using Common.Interfaces;
+using Common.Structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,5 +116,10 @@ namespace Common.Extensions
             writer.WriteFloat(modifier * 7f);
             return writer;
         }
-    }
+
+		public static void Teleport(this ICharacter character, Location loc, ref IWorldManager manager)
+		{
+			character.Teleport(loc.X, loc.Y, loc.Z, loc.O, loc.Map, ref manager);
+		}
+	}
 }

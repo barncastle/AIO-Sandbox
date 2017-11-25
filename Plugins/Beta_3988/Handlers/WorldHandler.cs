@@ -73,8 +73,8 @@ namespace Beta_3988.Handlers
             if (AreaTriggers.Triggers.ContainsKey(id))
             {
                 var loc = AreaTriggers.Triggers[id];
-                manager.Account.ActiveCharacter.Teleport(loc.X, loc.Y, loc.Z, loc.O, loc.Map, ref manager);
-            }
+				manager.Account.ActiveCharacter.Teleport(loc, ref manager);
+			}
             else
                 Log.Message(LogType.ERROR, "AreaTrigger for {0} missing.", id);
         }
