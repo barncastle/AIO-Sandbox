@@ -20,7 +20,7 @@ namespace Alpha_3368
             if (parse)
             {
                 //Packet header (0.5.3.3368): Size: 2 bytes + Cmd: 4 bytes
-                Size = (uint)((this.ReadUInt16() / 0x100) - 4);
+                Size = (uint)((this.ReadUInt16() / 0x100) + 2);
                 Opcode = this.ReadUInt32();
             }
         }

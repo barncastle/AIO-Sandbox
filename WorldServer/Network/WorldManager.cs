@@ -7,6 +7,7 @@ using Common.Interfaces;
 using Common.Constants;
 using Common.Network;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace WorldServer.Network
 {
@@ -32,15 +33,25 @@ namespace WorldServer.Network
 					byte[] buffer = new byte[Socket.Available];
 					Socket.Receive(buffer, buffer.Length, SocketFlags.None);
 
-					IPacketReader pkt = WorldServer.Sandbox.ReadPacket(buffer);
-					if (WorldServer.Sandbox.Opcodes.OpcodeExists(pkt.Opcode))
+					while (buffer.Length > 0)
 					{
-						Opcodes opcode = WorldServer.Sandbox.Opcodes[pkt.Opcode];
-						Log.Message(LogType.DUMP, "RECEIVED OPCODE: {0}, LENGTH: {1}", opcode.ToString(), pkt.Size);
-						PacketManager.InvokeHandler(pkt, this, opcode);
+						IPacketReader pkt = WorldServer.Sandbox.ReadPacket(buffer);
+						if (WorldServer.Sandbox.Opcodes.OpcodeExists(pkt.Opcode))
+						{
+							Opcodes opcode = WorldServer.Sandbox.Opcodes[pkt.Opcode];
+							Log.Message(LogType.DUMP, "RECEIVED OPCODE: {0}, LENGTH: {1}", opcode.ToString(), pkt.Size);
+							PacketManager.InvokeHandler(pkt, this, opcode);
+						}
+						else
+						{
+							Log.Message(LogType.DEBUG, "UNKNOWN OPCODE: 0x{0} ({1}), LENGTH: {2}", pkt.Opcode.ToString("X"), pkt.Opcode, pkt.Size);
+						}
+
+						if (buffer.Length == pkt.Size)
+							break;
+
+						buffer = buffer.Skip((int)pkt.Size).ToArray();
 					}
-					else
-						Log.Message(LogType.DEBUG, "UNKNOWN OPCODE: 0x{0} ({1}), LENGTH: {1}", pkt.Opcode.ToString("X"), (uint)pkt.Opcode, pkt.Size);
 				}
 
 				//Auto save
