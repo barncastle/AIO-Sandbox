@@ -69,25 +69,13 @@ namespace Common.Extensions
                     fieldData.Add(field, new byte[] { (byte)value });
                     break;
                 case TypeCode.Single:
-                    fieldData.Add(field, BitConverter.GetBytes((float)value));
-                    break;
                 case TypeCode.UInt16:
-                    fieldData.Add(field, BitConverter.GetBytes((ushort)value));
-                    break;
                 case TypeCode.UInt32:
-                    fieldData.Add(field, BitConverter.GetBytes((uint)value));
-                    break;
                 case TypeCode.UInt64:
-                    fieldData.Add(field, BitConverter.GetBytes((ulong)value));
-                    break;
                 case TypeCode.Int16:
-                    fieldData.Add(field, BitConverter.GetBytes((short)value));
-                    break;
                 case TypeCode.Int32:
-                    fieldData.Add(field, BitConverter.GetBytes((int)value));
-                    break;
                 case TypeCode.Int64:
-                    fieldData.Add(field, BitConverter.GetBytes((long)value));
+                    fieldData.Add(field, BitConverter.GetBytes((dynamic)value));
                     break;
                 default:
                     throw new NotSupportedException();
@@ -101,7 +89,10 @@ namespace Common.Extensions
         {
             message.WriteUInt8(9);  //System Message
             message.WriteUInt32(0); //Language: General
-            message.WriteUInt64(0);
+			message.WriteUInt64(0);
+			if (character.Build >= 4062)
+				message.WriteInt32(text.Length + 1);
+
             message.WriteString(text);
             message.WriteUInt8(0);
             return message;
@@ -120,6 +111,27 @@ namespace Common.Extensions
 		public static void Teleport(this ICharacter character, Location loc, ref IWorldManager manager)
 		{
 			character.Teleport(loc.X, loc.Y, loc.Z, loc.O, loc.Map, ref manager);
+		}
+
+		public static byte[] GetPackedGUID(this ICharacter character)
+		{
+			ulong guid = character.Guid;
+			byte[] packed = new byte[9];
+			int count = 0;
+
+			while(guid != 0)
+			{
+				byte bit = (byte)(guid & 0xFF);
+				if(bit != 0)
+				{
+					packed[0] |= (byte)(1 << count);
+					packed[++count] = bit;
+				}
+
+				guid >>= 8;
+			}
+
+			return packed;
 		}
 	}
 }

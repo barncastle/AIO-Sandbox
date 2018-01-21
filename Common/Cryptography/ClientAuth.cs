@@ -98,6 +98,9 @@ namespace Common.Cryptography
             byte[] rA = A.Reverse().ToArray();
             byte[] AB = A.Concat(B.GetBytes(32).Reverse()).ToArray();
 
+			if (new BigInteger(A) % new BigInteger(N) == 0)
+				return new byte[1];
+
             SHA1 sha = new SHA1CryptoServiceProvider();
             byte[] rU = sha.ComputeHash(AB).Reverse().ToArray();
 
