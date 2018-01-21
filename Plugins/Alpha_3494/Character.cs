@@ -40,7 +40,7 @@ namespace Alpha_3494
 		public uint Intellect { get; set; } = 10;
 		public uint Spirit { get; set; } = 10;
 		public byte PowerType { get; set; } = 1;
-		public byte ResetedState { get; set; } = 3;
+		public byte RestedState { get; set; } = 3;
 		public StandState StandState { get; set; } = StandState.STANDING;
 		public bool IsTeleporting { get; set; } = false;
 		public uint DisplayId { get; set; }
@@ -110,7 +110,7 @@ namespace Alpha_3494
 			SetField(Fields.UNIT_BYTES_1, BitConverter.ToUInt32(new byte[] { (byte)StandState, 0, 0, 0 }, 0));
 			SetField(Fields.PLAYER_SELECTION, (ulong)0);
 			SetField(Fields.PLAYER_BYTES_1, BitConverter.ToUInt32(new byte[] { Skin, Face, HairStyle, HairColor }, 0));
-			SetField(Fields.PLAYER_BYTES_2, BitConverter.ToUInt32(new byte[] { 0, FacialHair, 0, ResetedState }, 0));
+			SetField(Fields.PLAYER_BYTES_2, BitConverter.ToUInt32(new byte[] { 0, FacialHair, 0, RestedState }, 0));
 			SetField(Fields.PLAYER_XP, 47);
 			SetField(Fields.PLAYER_NEXTLEVEL_XP, 200);
 			SetField(Fields.DAMAGE, 0); // max_dmg << 16 | min_dmg

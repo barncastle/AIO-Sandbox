@@ -51,8 +51,8 @@ namespace Beta_3734.Handlers
 
 			//Tutorial Flags : REQUIRED
 			PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
-			for (int i = 0; i < 5; i++)
-				tutorial.WriteInt32(0);
+			for (int i = 0; i < 8; i++)
+				tutorial.WriteInt32(-1);
 			manager.Send(tutorial);
 
 			HandleQueryTime(ref packet, ref manager);

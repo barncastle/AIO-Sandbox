@@ -40,7 +40,7 @@ namespace Beta_3592.Handlers
 
             cha.Guid = (ulong)(manager.Account.Characters.Count + 1);
             cha.Location = new Location(-8949.95f, -132.493f, 83.5312f, 0, 0);
-            cha.ResetedState = (byte)new Random().Next(1, 5);
+            cha.RestedState = (byte)new Random().Next(1, 5);
             cha.SetPowerType(true);
 
             manager.Account.Characters.Add(cha);
@@ -99,7 +99,7 @@ namespace Beta_3592.Handlers
 
                 writer.WriteUInt32(0);
                 writer.WriteUInt32(0);
-                writer.WriteUInt8(c.ResetedState);
+                writer.WriteUInt8(c.RestedState);
                 writer.WriteUInt32(0);
                 writer.WriteUInt32(0);
                 writer.WriteUInt32(0);

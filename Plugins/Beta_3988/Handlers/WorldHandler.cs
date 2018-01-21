@@ -55,7 +55,9 @@ namespace Beta_3988.Handlers
             accountdata.WriteBytes(new byte[80]);
             manager.Send(accountdata);
 
-            manager.Send(character.BuildUpdate());
+			HandleQueryTime(ref packet, ref manager);
+
+			manager.Send(character.BuildUpdate());
         }
 
         public void HandleWorldTeleport(ref IPacketReader packet, ref IWorldManager manager)
