@@ -21,7 +21,7 @@ namespace WorldServer.Network
 
 		public void Recieve()
 		{
-			autosave = Environment.TickCount + 60000;
+			SetAutosave();
 
 			this.Send(WorldServer.Sandbox.AuthHandler.HandleAuthChallenge()); //SMSG_AUTH_CHALLENGE
 
@@ -53,13 +53,8 @@ namespace WorldServer.Network
 						buffer = buffer.Skip((int)pkt.Size).ToArray();
 					}
 				}
-
-				//Auto save
-				if (Environment.TickCount >= autosave || Environment.TickCount < (autosave - 60000))
-				{
-					autosave = Environment.TickCount + 60000;
-					Task.Run(() => Account?.Save());
-				}
+				
+				DoAutosave();
 			}
 
 			Account?.Save();
@@ -73,6 +68,24 @@ namespace WorldServer.Network
 		public void Send(IPacketWriter packet)
 		{
 			Socket.SendData(packet, packet.Name);
+		}
+
+
+		private void SetAutosave()
+		{
+			unchecked { autosave = Environment.TickCount + 60000; }				
+		}
+
+		private void DoAutosave()
+		{
+			unchecked
+			{
+				if (Environment.TickCount >= autosave || Environment.TickCount < (autosave - 60000))
+				{
+					SetAutosave();
+					Task.Run(() => Account?.Save());
+				}
+			}
 		}
 	}
 }
