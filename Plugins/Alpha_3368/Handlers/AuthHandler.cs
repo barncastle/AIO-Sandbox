@@ -46,8 +46,7 @@ namespace Alpha_3368.Handlers
 			byte[] data = packet.ReadToEnd().TakeWhile(x => x != 10 && x != 13).ToArray();
 			string name = Encoding.UTF8.GetString(data).ToUpper();
 
-			Account account = new Account();
-			account.Name = name;
+			Account account = new Account(name);
 			account.Load<Character>();
 			manager.Account = account;
 
@@ -69,7 +68,7 @@ namespace Alpha_3368.Handlers
 		public IPacketWriter HandleRedirect()
 		{
 			PacketWriter proxyWriter = new PacketWriter();
-			proxyWriter.WriteBytes(System.Text.Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
+			proxyWriter.WriteBytes(Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
 			proxyWriter.WriteUInt8(0);
 			return proxyWriter;
 		}

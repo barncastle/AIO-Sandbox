@@ -18,13 +18,12 @@ namespace Beta_3592.Handlers
 
         public void HandlePlayerLogin(ref IPacketReader packet, ref IWorldManager manager)
         {
-            ulong guid = packet.ReadUInt64();
-            Character character = (Character)manager.Account.Characters.Find(x => x.Guid == guid && x.Build == Sandbox.Instance.Build);
-            character.IsOnline = true;
-            character.DisplayId = character.GetDisplayId();
+			ulong guid = packet.ReadUInt64();
+			Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
+			character.DisplayId = character.GetDisplayId();
 
-            //Tutorial Flags : REQUIRED
-            PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
+			//Tutorial Flags : REQUIRED
+			PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
             for (int i = 0; i < 8; i++)
                 tutorial.WriteInt32(-1);
             manager.Send(tutorial);

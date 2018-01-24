@@ -24,6 +24,20 @@ namespace Common.Structs
             Name = name;
         }
 
+
+		public ICharacter SetActiveChar(ulong guid, int build)
+		{
+			Characters.ForEach(x => x.IsOnline = false);
+			var cha = Characters.Find(x => x.Guid == guid && x.Build == build);
+			cha.IsOnline = true;
+			return cha;
+		}
+		public ICharacter GetCharacter(ulong guid, int build)
+		{
+			return Characters.Find(x => x.Guid == guid && x.Build == build);
+		}
+
+
         public void Save()
         {
             if (_saving) return;

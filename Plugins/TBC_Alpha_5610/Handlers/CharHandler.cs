@@ -57,9 +57,9 @@ namespace TBC_Alpha_5610.Handlers
         public void HandleCharDelete(ref IPacketReader packet, ref IWorldManager manager)
         {
             ulong guid = packet.ReadUInt64();
-            var character = manager.Account.Characters.Find(x => x.Guid == guid && x.Build == Sandbox.Instance.Build);
+			var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
-            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
+			PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
             writer.WriteUInt8(0x34);
             manager.Send(writer);
 
@@ -158,9 +158,9 @@ namespace TBC_Alpha_5610.Handlers
         public void HandleNameCache(ref IPacketReader packet, ref IWorldManager manager)
         {
             ulong guid = packet.ReadUInt64();
-            Character character = (Character)manager.Account.Characters.Find(x => x.Guid == guid && x.Build == Sandbox.Instance.Build);
+			var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
-            PacketWriter nameCache = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NAME_QUERY_RESPONSE], "SMSG_NAME_QUERY_RESPONSE");
+			PacketWriter nameCache = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NAME_QUERY_RESPONSE], "SMSG_NAME_QUERY_RESPONSE");
             nameCache.WriteUInt64(guid);
             nameCache.WriteString(character.Name);
             nameCache.WriteUInt32(character.Race);

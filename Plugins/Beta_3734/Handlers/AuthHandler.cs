@@ -24,7 +24,7 @@ namespace Beta_3734.Handlers
         public IPacketWriter HandleRedirect()
         {
             PacketWriter proxyWriter = new PacketWriter();
-            proxyWriter.WriteBytes(System.Text.Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
+            proxyWriter.WriteBytes(Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
             proxyWriter.WriteUInt8(0);
             return proxyWriter;
         }

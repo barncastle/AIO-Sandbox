@@ -53,7 +53,7 @@ namespace Alpha_3368.Handlers
 		public void HandleCharDelete(ref IPacketReader packet, ref IWorldManager manager)
 		{
 			ulong guid = packet.ReadUInt64();
-			var character = manager.Account.Characters.Find(x => x.Guid == guid && x.Build == Sandbox.Instance.Build);
+			var character = manager.Account.GetCharacter(guid,Sandbox.Instance.Build);
 
 			PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
 			writer.WriteUInt8(0x2C);

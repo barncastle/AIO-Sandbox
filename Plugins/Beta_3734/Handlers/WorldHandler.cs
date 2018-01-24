@@ -31,8 +31,7 @@ namespace Beta_3734.Handlers
 		public void HandlePlayerLogin(ref IPacketReader packet, ref IWorldManager manager)
 		{
 			ulong guid = packet.ReadUInt64();
-			Character character = (Character)manager.Account.Characters.Find(x => x.Guid == guid && x.Build == Sandbox.Instance.Build);
-			character.IsOnline = true;
+			Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
 			character.DisplayId = character.GetDisplayId();
 
 			//Verify World : REQUIRED
