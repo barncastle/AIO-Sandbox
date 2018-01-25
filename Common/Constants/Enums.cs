@@ -18,7 +18,21 @@ namespace Common.Constants
         DRUID = 11
     }
 
-    public enum PowerTypes : uint
+	public enum Races : byte
+	{
+		HUMAN = 1,
+		ORC = 2,
+		DWARF = 3,
+		NIGHT_ELF = 4,
+		UNDEAD = 5,
+		TAUREN = 6,
+		GNOME = 7,
+		TROLL = 8,
+		BLOODELF = 10,
+		DRAENEI = 11
+	}
+
+	public enum PowerTypes : uint
     {
         MANA = 0,
         RAGE = 1,

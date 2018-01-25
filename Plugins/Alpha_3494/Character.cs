@@ -45,6 +45,7 @@ namespace Alpha_3494
 		public bool IsTeleporting { get; set; } = false;
 		public uint DisplayId { get; set; }
 		public uint MountDisplayId { get; set; }
+		public float Scale { get; set; }
 
 		public IPacketWriter BuildUpdate()
 		{
@@ -79,7 +80,7 @@ namespace Alpha_3494
 			SetField(Fields.GUID, this.Guid);
 			SetField(Fields.HIER_TYPE, (uint)0x19);
 			SetField(Fields.ENTRY, 0);
-			SetField(Fields.SCALE, 1f);
+			SetField(Fields.SCALE, this.Scale);
 			SetField(Fields.TARGET, (ulong)0);
 			SetField(Fields.HEALTH, this.Health);
 			SetField(Fields.MANA, this.Mana);
@@ -131,7 +132,7 @@ namespace Alpha_3494
 		public IPacketWriter BuildMessage(string text)
 		{
 			PacketWriter message = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
-			return this.BuildMessage(message, text);
+			return this.BuildMessage(message, text, Sandbox.Instance.Build);
 		}
 
 		public void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)
@@ -187,9 +188,6 @@ namespace Alpha_3494
 			PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
 			return this.BuildForceSpeed(writer, modifier);
 		}
-
-		public void Demorph() => DisplayId = this.GetDisplayId();
-
 
 		internal enum Fields
 		{

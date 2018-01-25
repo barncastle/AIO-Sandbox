@@ -44,8 +44,9 @@ namespace Beta_3592
         public bool IsTeleporting { get; set; } = false;
         public uint DisplayId { get; set; }
         public uint MountDisplayId { get; set; }
+		public float Scale { get; set; }
 
-        public IPacketWriter BuildUpdate()
+		public IPacketWriter BuildUpdate()
         {
             byte maskSize = ((int)Fields.MAX + 31) / 32;
             SortedDictionary<int, byte[]> fieldData = new SortedDictionary<int, byte[]>();
@@ -53,7 +54,7 @@ namespace Beta_3592
 
             Action<Fields, object> SetField = (place, value) => this.SetField((int)place, value, ref fieldData, ref maskArray);
 
-            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UPDATE_OBJECT], "SMSG_UPDATE_OBJECT");
+			PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UPDATE_OBJECT], "SMSG_UPDATE_OBJECT");
             writer.WriteUInt32(1); //Number of transactions
             writer.WriteUInt8(2); //UpdateType
             writer.WriteUInt64(this.Guid); //ObjectGuid
@@ -77,7 +78,7 @@ namespace Beta_3592
             SetField(Fields.GUID, this.Guid);
             SetField(Fields.HIER_TYPE, (uint)0x19);
             SetField(Fields.ENTRY, 0);
-            SetField(Fields.SCALE, 1f);
+            SetField(Fields.SCALE, this.Scale);
             SetField(Fields.TARGET, (ulong)0);
             SetField(Fields.HEALTH, this.Health);
             SetField(Fields.MANA, this.Mana);
@@ -129,7 +130,7 @@ namespace Beta_3592
         public IPacketWriter BuildMessage(string text)
         {
             PacketWriter message = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
-            return this.BuildMessage(message, text);
+            return this.BuildMessage(message, text, Sandbox.Instance.Build);
         }
 
         public void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)
@@ -179,9 +180,6 @@ namespace Beta_3592
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
             return this.BuildForceSpeed(writer, modifier);
         }
-
-        public void Demorph() => DisplayId = this.GetDisplayId();
-
 
         internal enum Fields
         {

@@ -37,8 +37,8 @@ namespace Common.Interfaces
         bool IsTeleporting { get; set; }
         uint DisplayId { get; set; }
         uint MountDisplayId { get; set; }
-
-        void Demorph();
+		float Scale { get; set; }
+		
         void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager);
         IPacketWriter BuildForceSpeed(float modifier, bool swim = false);
         IPacketWriter BuildMessage(string text);

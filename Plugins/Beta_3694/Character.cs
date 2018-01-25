@@ -27,7 +27,6 @@ namespace Beta_3694
         public byte FacialHair { get; set; }
         public uint Level { get; set; } = 11;
         public uint Zone { get; set; }
-
         public Location Location { get; set; }
         public bool IsOnline { get; set; } = false;
         public uint Health { get; set; } = 100;
@@ -46,8 +45,9 @@ namespace Beta_3694
         public bool IsTeleporting { get; set; } = false;
         public uint DisplayId { get; set; }
         public uint MountDisplayId { get; set; }
+		public float Scale { get; set; }
 
-        public IPacketWriter BuildUpdate()
+		public IPacketWriter BuildUpdate()
         {
             byte maskSize = ((int)Fields.MAX + 31) / 32;
             SortedDictionary<int, byte[]> fieldData = new SortedDictionary<int, byte[]>();
@@ -83,7 +83,7 @@ namespace Beta_3694
             SetField(Fields.OBJECT_FIELD_GUID, this.Guid);
             SetField(Fields.OBJECT_FIELD_TYPE, (uint)0x19);
             SetField(Fields.OBJECT_FIELD_ENTRY, 0);
-            SetField(Fields.OBJECT_FIELD_SCALE_X, 1f);
+           SetField(Fields.OBJECT_FIELD_SCALE_X, this.Scale);
             SetField(Fields.OBJECT_FIELD_PADDING, 0);
             SetField(Fields.UNIT_FIELD_TARGET, (ulong)0);
             SetField(Fields.UNIT_FIELD_HEALTH, this.Health);
@@ -134,7 +134,7 @@ namespace Beta_3694
         public IPacketWriter BuildMessage(string text)
         {
             PacketWriter message = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
-            return this.BuildMessage(message, text);
+            return this.BuildMessage(message, text, Sandbox.Instance.Build);
         }
 
         public void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)
@@ -185,9 +185,6 @@ namespace Beta_3694
             writer.WriteUInt64(this.Guid);
             return this.BuildForceSpeed(writer, modifier);
         }
-
-        public void Demorph() => DisplayId = this.GetDisplayId();
-
 
         internal enum Fields
         {
