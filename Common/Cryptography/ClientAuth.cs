@@ -59,8 +59,11 @@ namespace Common.Cryptography
 
         public static byte[] LogonChallenge(IPacketReader packet)
         {
-            packet.ReadBytes(32); //Skip to username
-            BUsername = packet.ReadBytes(packet.ReadByte()); //Read username
+			packet.Position = 11;
+			uint build = packet.ReadUInt16();
+
+			packet.Position = 33; //Skip to username
+			BUsername = packet.ReadBytes(packet.ReadByte()); //Read username
             string username = Encoding.ASCII.GetString(BUsername);
 
             byte[] x;
@@ -87,7 +90,7 @@ namespace Common.Cryptography
             result = result.Concat(new byte[] { 1, 7, 32 }); //1, G, 32
             result = result.Concat(N);
             result = result.Concat(Salt);
-            result = result.Concat(new byte[16]); //unknown, Security Flag
+            result = result.Concat(new byte[(build < 5875 ? 16 : 17)]); //unknown, Security Flag (version?)
             return result.ToArray();
         }
 

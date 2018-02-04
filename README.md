@@ -7,19 +7,24 @@ You'll need [.Net Core 4.6.1](https://www.microsoft.com/en-gb/download/details.a
 
 Clients for the below can be found [on this thread](http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-model-editing/406638-collection-exploration-patches-of-various-locations.html).
 
-| Build                   | Status         |
-| ----------------------- | :------------- |
-| Alpha (0.5.3)           | Working		   |
-| Alpha (0.5.5)           | Working        |
-| Beta 1 (0.6.0)          | Working		   |
-| Beta 2 (0.7.X)          | Usable		   |
-| Beta 3 (0.8.0)          | Usable		   |
-| Beta 3 (0.9.0)          | Usable		   |
-| Beta 3 (0.10.0 - 0.11.0)| Usable		   |
-| Beta 3 (0.12.0 - 1.0.X) | Usable		   |
-| TBC Alpha (2.0.0)		  | Can't login	   |
-
-\* Those marked 'Usable' have intermittent area triggers however the below commands negate this issue.
+| Build                      | Status        |
+| -------------------------- | :------------ |
+| Alpha (0.5.3)              | Working		 |
+| Alpha (0.5.5)              | Working       |
+| Beta 1 (0.6.0)             | Working		 |
+| Beta 2 (0.7.X)             | Working		 |
+| Beta 3 (0.8.0)             | Working		 |
+| Beta 3 (0.9.0)             | Working		 |
+| Beta 3 (0.10.0 - 0.11.0)   | Working		 |
+| Beta 3 (0.12.0 - 1.0.1)    | Working		 |
+| Vanilla (1.1.0 - 1.2.4)    | Working		 |
+| Vanilla (1.3.X)            | Working		 |
+| Vanilla (1.4.0 - 1.5.2)    | Working		 |
+| Vanilla (1.6.X)            | Working		 |
+| Vanilla (1.7.X)            | Working		 |
+| Vanilla (1.8.X)            | Working		 |
+| Vanilla (1.9.X)            | 		 |
+| TBC Alpha (2.0.0)		     | Can't login	 |
 
 ##### Commands: #####
 * **.demorph** : resets current morph state

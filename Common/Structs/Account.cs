@@ -68,6 +68,7 @@ namespace Common.Structs
                     bw.Write(c.Race);
                     bw.Write(c.Skin);
                     bw.Write(c.Zone);
+					bw.Write(c.Scale);
                 }
             }
             _saving = false;
@@ -112,6 +113,7 @@ namespace Common.Structs
                         c.Race = br.ReadByte();
                         c.Skin = br.ReadByte();
                         c.Zone = br.ReadUInt32();
+						c.Scale = br.ReadSingle();
 
                         Characters.Add(c);
                     }
