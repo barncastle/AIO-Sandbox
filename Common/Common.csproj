@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project ToolsVersion="12.0" DefaultTargets="Build" Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,15 +8,15 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Common</RootNamespace>
     <AssemblyName>Common</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <OutputPath>..\bin\$(Configuration)_$(Platform)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +25,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,47 +34,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Commands\CommandHelpAttribute.cs" />
-    <Compile Include="Commands\CommandManager.cs" />
-    <Compile Include="Commands\Commands.cs" />
-    <Compile Include="Constants\AreaTriggers.cs" />
-    <Compile Include="Constants\Enums.cs" />
-    <Compile Include="Constants\Extensions.cs" />
-    <Compile Include="Constants\Emotes.cs" />
-    <Compile Include="Constants\Worldports.cs" />
-    <Compile Include="Cryptography\BigInteger.cs" />
-    <Compile Include="Cryptography\ClientAuth.cs" />
-    <Compile Include="Extensions\CharacterExtensions.cs" />
-    <Compile Include="Extensions\WorldExtensions.cs" />
-    <Compile Include="Interfaces\IPacketReader.cs" />
-    <Compile Include="Interfaces\IPacketWriter.cs" />
-    <Compile Include="Structs\Account.cs" />
-    <Compile Include="Constants\Opcodes.cs" />
-    <Compile Include="Interfaces\Handlers\IAuthHandler.cs" />
-    <Compile Include="Interfaces\Handlers\ICharHandler.cs" />
-    <Compile Include="Interfaces\Handlers\IWorldHandler.cs" />
-    <Compile Include="Interfaces\ICharacter.cs" />
-    <Compile Include="Interfaces\IOpcodes.cs" />
-    <Compile Include="Interfaces\ISandbox.cs" />
-    <Compile Include="Interfaces\IWorldManager.cs" />
-    <Compile Include="Logging\Log.cs" />
-    <Compile Include="Network\PacketManager.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Structs\Location.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
