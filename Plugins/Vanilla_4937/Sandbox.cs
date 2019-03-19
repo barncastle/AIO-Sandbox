@@ -14,7 +14,7 @@ namespace Vanilla_4937
         public static Sandbox Instance => _instance;
         static readonly Sandbox _instance = new Sandbox();
 
-        public string RealmName { get; set; } = "Vanilla (1.9.X) Sandbox - DNU!";
+        public string RealmName { get; set; } = "|cFF00FFFFVanilla (1.9.X) Sandbox";
         public int Build { get; set; } = 4937;
         public int RealmPort { get; set; } = 3724;
         public int RedirectPort { get; set; } = 9002;

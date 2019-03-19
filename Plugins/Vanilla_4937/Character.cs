@@ -11,452 +11,1220 @@ using System.Collections;
 
 namespace Vanilla_4937
 {
-	[Serializable]
-	public class Character : ICharacter
-	{
-		public int Build { get; set; } = Sandbox.Instance.Build;
+    [Serializable]
+    public class Character : ICharacter
+    {
+        public int Build { get; set; } = Sandbox.Instance.Build;
 
-		public ulong Guid { get; set; }
-		public string Name { get; set; }
-		public byte Race { get; set; }
-		public byte Class { get; set; }
-		public byte Gender { get; set; }
-		public byte Skin { get; set; }
-		public byte Face { get; set; }
-		public byte HairStyle { get; set; }
-		public byte HairColor { get; set; }
-		public byte FacialHair { get; set; }
-		public uint Level { get; set; } = 11;
-		public uint Zone { get; set; }
-		public Location Location { get; set; }
-		public bool IsOnline { get; set; } = false;
-		public uint Health { get; set; } = 100;
-		public uint Mana { get; set; } = 100;
-		public uint Rage { get; set; } = 1000;
-		public uint Focus { get; set; } = 100;
-		public uint Energy { get; set; } = 100;
-		public uint Strength { get; set; } = 10;
-		public uint Agility { get; set; } = 10;
-		public uint Stamina { get; set; } = 10;
-		public uint Intellect { get; set; } = 10;
-		public uint Spirit { get; set; } = 10;
-		public byte PowerType { get; set; } = 1;
-		public byte RestedState { get; set; } = 3;
-		public StandState StandState { get; set; } = StandState.STANDING;
-		public bool IsTeleporting { get; set; } = false;
-		public uint DisplayId { get; set; }
-		public uint MountDisplayId { get; set; }
-		public float Scale { get; set; }
+        public ulong Guid { get; set; }
+        public string Name { get; set; }
+        public byte Race { get; set; }
+        public byte Class { get; set; }
+        public byte Gender { get; set; }
+        public byte Skin { get; set; }
+        public byte Face { get; set; }
+        public byte HairStyle { get; set; }
+        public byte HairColor { get; set; }
+        public byte FacialHair { get; set; }
+        public uint Level { get; set; } = 11;
+        public uint Zone { get; set; }
+        public Location Location { get; set; }
+        public bool IsOnline { get; set; } = false;
+        public uint Health { get; set; } = 100;
+        public uint Mana { get; set; } = 100;
+        public uint Rage { get; set; } = 1000;
+        public uint Focus { get; set; } = 100;
+        public uint Energy { get; set; } = 100;
+        public uint Strength { get; set; } = 10;
+        public uint Agility { get; set; } = 10;
+        public uint Stamina { get; set; } = 10;
+        public uint Intellect { get; set; } = 10;
+        public uint Spirit { get; set; } = 10;
+        public byte PowerType { get; set; } = 1;
+        public byte RestedState { get; set; } = 3;
+        public StandState StandState { get; set; } = StandState.STANDING;
+        public bool IsTeleporting { get; set; } = false;
+        public uint DisplayId { get; set; }
+        public uint MountDisplayId { get; set; }
+        public float Scale { get; set; }
 
-		public IPacketWriter BuildUpdate()
-		{
-			byte maskSize = (((int)Fields.MAX + 32) / 32);
-			SortedDictionary<int, byte[]> fieldData = new SortedDictionary<int, byte[]>();
-			byte[] maskArray = new byte[maskSize * 4];
+        public IPacketWriter BuildUpdate()
+        {
+            byte maskSize = (((int)Fields.MAX + 32) / 32);
+            SortedDictionary<int, byte[]> fieldData = new SortedDictionary<int, byte[]>();
+            byte[] maskArray = new byte[maskSize * 4];
 
-			Action<Fields, object> SetField = (place, value) => this.SetField((int)place, value, ref fieldData, ref maskArray);
+            Action<Fields, object> SetField = (place, value) => this.SetField((int)place, value, ref fieldData, ref maskArray);
 
-			PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UPDATE_OBJECT], "SMSG_UPDATE_OBJECT");
-			writer.WriteUInt32(1); //Number of transactions
-			writer.WriteUInt8(0);
+            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UPDATE_OBJECT], "SMSG_UPDATE_OBJECT");
+            writer.WriteUInt32(1); //Number of transactions
+            writer.WriteUInt8(0);
 
-			writer.WriteUInt8(3); //UpdateType <--- New Type for 1.9.0
-			writer.Write(this.GetPackedGUID());
-			writer.WriteUInt8(4); //ObjectType, 4 = Player
+            writer.WriteUInt8(3); //UpdateType <--- New Type for 1.9.0
+            writer.Write(this.GetPackedGUID());
+            writer.WriteUInt8(4); //ObjectType, 4 = Player
 
-			writer.WriteUInt8(0x71); // UpdateFlags
-			writer.WriteUInt32(0x2000);  //MovementFlagMask
-			writer.WriteUInt32((uint)Environment.TickCount);
+            writer.WriteUInt8(0x71); // UpdateFlags
+            writer.WriteUInt32(0x2000);  //MovementFlagMask
+            writer.WriteUInt32((uint)Environment.TickCount);
 
-			writer.WriteFloat(Location.X);  //x
-			writer.WriteFloat(Location.Y);  //y
-			writer.WriteFloat(Location.Z);  //z
-			writer.WriteFloat(Location.O);  //w (o)
-			writer.WriteInt32(0); // falltime
+            writer.WriteFloat(Location.X);  //x
+            writer.WriteFloat(Location.Y);  //y
+            writer.WriteFloat(Location.Z);  //z
+            writer.WriteFloat(Location.O);  //w (o)
+            writer.WriteInt32(0); // falltime
 
-			writer.WriteFloat(0);
-			writer.WriteFloat(1);
-			writer.WriteFloat(0);
-			writer.WriteFloat(0);
+            writer.WriteFloat(0);
+            writer.WriteFloat(1);
+            writer.WriteFloat(0);
+            writer.WriteFloat(0);
 
-			writer.WriteFloat(2.5f); // WalkSpeed
-			writer.WriteFloat(7.0f); // RunSpeed
-			writer.WriteFloat(2.5f); // Backwards WalkSpeed
-			writer.WriteFloat(4.7222f); // SwimSpeed
-			writer.WriteFloat(4.7222f); // Backwards SwimSpeed
-			writer.WriteFloat(3.14f); // TurnSpeed
+            writer.WriteFloat(2.5f); // WalkSpeed
+            writer.WriteFloat(7.0f); // RunSpeed
+            writer.WriteFloat(2.5f); // Backwards WalkSpeed
+            writer.WriteFloat(4.7222f); // SwimSpeed
+            writer.WriteFloat(4.7222f); // Backwards SwimSpeed
+            writer.WriteFloat(3.14f); // TurnSpeed
 
-			writer.Write(1);
-			
-			SetField(Fields.OBJECT_FIELD_GUID, this.Guid);
-			SetField(Fields.OBJECT_FIELD_TYPE, (uint)0x19);
-			SetField(Fields.OBJECT_FIELD_ENTRY, 0);
-			SetField(Fields.OBJECT_FIELD_SCALE_X, this.Scale);
-			SetField(Fields.OBJECT_FIELD_PADDING, 0);
-			SetField(Fields.UNIT_FIELD_TARGET, (ulong)0);
-			SetField(Fields.UNIT_FIELD_HEALTH, this.Health);
-			SetField(Fields.UNIT_FIELD_POWER2, 0);
-			SetField(Fields.UNIT_FIELD_MAXHEALTH, this.Health);
-			SetField(Fields.UNIT_FIELD_MAXPOWER2, this.Rage);
-			SetField(Fields.UNIT_FIELD_LEVEL, 0);// this.Level);
-			SetField(Fields.UNIT_FIELD_BYTES_0, BitConverter.ToUInt32(new byte[] { this.Race, this.Class, this.Gender, this.PowerType }, 0));
-			SetField(Fields.UNIT_FIELD_STAT0, this.Strength);
-			SetField(Fields.UNIT_FIELD_STAT1, this.Agility);
-			SetField(Fields.UNIT_FIELD_STAT2, this.Stamina);
-			SetField(Fields.UNIT_FIELD_STAT3, this.Intellect);
-			SetField(Fields.UNIT_FIELD_STAT4, this.Spirit);
-			SetField(Fields.UNIT_FIELD_FLAGS, 8);
-			SetField(Fields.UNIT_FIELD_BASE_MANA, this.Mana);
-			SetField(Fields.UNIT_FIELD_DISPLAYID, DisplayId);
-			SetField(Fields.UNIT_FIELD_MOUNTDISPLAYID, MountDisplayId);
-			SetField(Fields.UNIT_FIELD_BYTES_1, BitConverter.ToUInt32(new byte[] { (byte)StandState, 0, 0, 0 }, 0));
-			SetField(Fields.UNIT_FIELD_BYTES_2, 0);
-			SetField(Fields.PLAYER_BYTES, BitConverter.ToUInt32(new byte[] { Skin, Face, HairStyle, HairColor }, 0));
-			SetField(Fields.PLAYER_BYTES_2, BitConverter.ToUInt32(new byte[] { FacialHair, 0, 0, RestedState }, 0));
-			SetField(Fields.PLAYER_BYTES_3, (uint)this.Gender);
-			SetField(Fields.PLAYER_XP, 47);
-			SetField(Fields.PLAYER_NEXT_LEVEL_XP, 200);
-			SetField(Fields.PLAYER_FIELD_WATCHED_FACTION_INDEX, -1);
-			SetField(Fields.PLAYER_FLAGS, 0);
+            writer.Write(1);
 
-			SetField(Fields.UNIT_FIELD_ATTACK_POWER, 1);
-			SetField(Fields.UNIT_FIELD_ATTACK_POWER_MODS, 0);
-			SetField(Fields.UNIT_FIELD_RANGED_ATTACK_POWER, 1);
-			SetField(Fields.UNIT_FIELD_RANGED_ATTACK_POWER_MODS, 0);
+            SetField(Fields.OBJECT_FIELD_GUID, this.Guid);
+            SetField(Fields.OBJECT_FIELD_TYPE, (uint)0x19);
+            SetField(Fields.OBJECT_FIELD_ENTRY, 0);
+            SetField(Fields.OBJECT_FIELD_SCALE_X, this.Scale);
+            SetField(Fields.OBJECT_FIELD_PADDING, 0);
+            SetField(Fields.UNIT_FIELD_TARGET, (ulong)0);
+            SetField(Fields.UNIT_FIELD_HEALTH, this.Health);
+            SetField(Fields.UNIT_FIELD_POWER2, 0);
+            SetField(Fields.UNIT_FIELD_MAXHEALTH, this.Health);
+            SetField(Fields.UNIT_FIELD_MAXPOWER2, this.Rage);
+            SetField(Fields.UNIT_FIELD_LEVEL, 0);// this.Level);
+            SetField(Fields.UNIT_FIELD_BYTES_0, BitConverter.ToUInt32(new byte[] { this.Race, this.Class, this.Gender, this.PowerType }, 0));
+            SetField(Fields.UNIT_FIELD_STAT0, this.Strength);
+            SetField(Fields.UNIT_FIELD_STAT1, this.Agility);
+            SetField(Fields.UNIT_FIELD_STAT2, this.Stamina);
+            SetField(Fields.UNIT_FIELD_STAT3, this.Intellect);
+            SetField(Fields.UNIT_FIELD_STAT4, this.Spirit);
+            SetField(Fields.UNIT_FIELD_FLAGS, 8);
+            SetField(Fields.UNIT_FIELD_BASE_MANA, this.Mana);
+            SetField(Fields.UNIT_FIELD_DISPLAYID, DisplayId);
+            SetField(Fields.UNIT_FIELD_MOUNTDISPLAYID, MountDisplayId);
+            SetField(Fields.UNIT_FIELD_BYTES_1, BitConverter.ToUInt32(new byte[] { (byte)StandState, 0, 0, 0 }, 0));
+            SetField(Fields.UNIT_FIELD_BYTES_2, 0);
+            SetField(Fields.PLAYER_BYTES, BitConverter.ToUInt32(new byte[] { Skin, Face, HairStyle, HairColor }, 0));
+            SetField(Fields.PLAYER_BYTES_2, BitConverter.ToUInt32(new byte[] { FacialHair, 0, 0, RestedState }, 0));
+            SetField(Fields.PLAYER_BYTES_3, (uint)this.Gender);
+            SetField(Fields.PLAYER_XP, 47);
+            SetField(Fields.PLAYER_NEXT_LEVEL_XP, 200);
+            SetField(Fields.PLAYER_FLAGS, 0);
 
-			for (int i = 0; i < 32; i++)
-				SetField(Fields.PLAYER_EXPLORED_ZONES_1 + i, 0xFFFFFFFF);
+            SetField(Fields.UNIT_FIELD_ATTACK_POWER, 1);
+            SetField(Fields.UNIT_FIELD_ATTACK_POWER_MODS, 0);
+            SetField(Fields.UNIT_FIELD_RANGED_ATTACK_POWER, 1);
+            SetField(Fields.UNIT_FIELD_RANGED_ATTACK_POWER_MODS, 0);
 
-			//FillInPartialObjectData
-			writer.WriteUInt8(maskSize); //UpdateMaskBlocks
-			writer.WriteBytes(maskArray);
-			foreach (var kvp in fieldData)
-				writer.WriteBytes(kvp.Value); //Data
+            for (int i = 0; i < 32; i++)
+                SetField(Fields.PLAYER_EXPLORED_ZONES_1 + i, 0xFFFFFFFF);
 
-			return writer;
-		}
+            //FillInPartialObjectData
+            writer.WriteUInt8(maskSize); //UpdateMaskBlocks
+            writer.WriteBytes(maskArray);
+            foreach (var kvp in fieldData)
+                writer.WriteBytes(kvp.Value); //Data
 
-		public IPacketWriter BuildMessage(string text)
-		{
-			PacketWriter message = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
-			return this.BuildMessage(message, text, Sandbox.Instance.Build);
-		}
+            return writer;
+        }
 
-		public void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)
-		{
-			IsTeleporting = true;
+        public IPacketWriter BuildMessage(string text)
+        {
+            PacketWriter message = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
+            return this.BuildMessage(message, text, Sandbox.Instance.Build);
+        }
 
-			if (Location.Map == map)
-			{
-				PacketWriter movementStatus = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.MSG_MOVE_TELEPORT_ACK], "MSG_MOVE_TELEPORT_ACK");
-				movementStatus.WriteUInt64(this.Guid);
-				movementStatus.WriteUInt64(0); //Flags
-				movementStatus.WriteFloat(x);
-				movementStatus.WriteFloat(y);
-				movementStatus.WriteFloat(z);
-				movementStatus.WriteFloat(o);
-				movementStatus.WriteFloat(0);
-				manager.Send(movementStatus);
-			}
-			else
-			{
-				//Loading screen
-				PacketWriter transferPending = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TRANSFER_PENDING], "SMSG_TRANSFER_PENDING");
-				transferPending.WriteUInt32(map);
-				manager.Send(transferPending);
+        public void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)
+        {
+            IsTeleporting = true;
 
-				//New world transfer
-				PacketWriter newWorld = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NEW_WORLD], "SMSG_NEW_WORLD");
-				newWorld.WriteUInt32(map);
-				newWorld.WriteFloat(x);
-				newWorld.WriteFloat(y);
-				newWorld.WriteFloat(z);
-				newWorld.WriteFloat(o);
-				manager.Send(newWorld);
-			}
+            if (Location.Map == map)
+            {
+                PacketWriter movementStatus = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.MSG_MOVE_TELEPORT_ACK], "MSG_MOVE_TELEPORT_ACK");
+                movementStatus.WriteUInt64(this.Guid);
+                movementStatus.WriteUInt64(0); //Flags
+                movementStatus.WriteFloat(x);
+                movementStatus.WriteFloat(y);
+                movementStatus.WriteFloat(z);
+                movementStatus.WriteFloat(o);
+                movementStatus.WriteFloat(0);
+                manager.Send(movementStatus);
+            }
+            else
+            {
+                //Loading screen
+                PacketWriter transferPending = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TRANSFER_PENDING], "SMSG_TRANSFER_PENDING");
+                transferPending.WriteUInt32(map);
+                manager.Send(transferPending);
 
-			System.Threading.Thread.Sleep(150); //Pause to factor unsent packets
+                //New world transfer
+                PacketWriter newWorld = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NEW_WORLD], "SMSG_NEW_WORLD");
+                newWorld.WriteUInt32(map);
+                newWorld.WriteFloat(x);
+                newWorld.WriteFloat(y);
+                newWorld.WriteFloat(z);
+                newWorld.WriteFloat(o);
+                manager.Send(newWorld);
+            }
 
-			Location = new Location(x, y, z, o, map);
-			manager.Send(BuildUpdate());
+            System.Threading.Thread.Sleep(150); //Pause to factor unsent packets
 
-			IsTeleporting = false;
-		}
+            Location = new Location(x, y, z, o, map);
+            manager.Send(BuildUpdate());
 
-		public IPacketWriter BuildForceSpeed(float modifier, bool swim = false)
-		{
-			var opcode = swim ? global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE : global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
-			PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
-			writer.WriteUInt64(this.Guid);
-			writer.Write(0);
-			return this.BuildForceSpeed(writer, modifier);
-		}
+            IsTeleporting = false;
+        }
 
-		internal enum Fields
-		{
-			OBJECT_FIELD_GUID = 0,
-			OBJECT_FIELD_TYPE = 2,
-			OBJECT_FIELD_ENTRY = 3,
-			OBJECT_FIELD_SCALE_X = 4,
-			OBJECT_FIELD_PADDING = 5,
-			UNIT_FIELD_CHARM = 6,
-			UNIT_FIELD_SUMMON = 8,
-			UNIT_FIELD_CHARMEDBY = 10,
-			UNIT_FIELD_SUMMONEDBY = 12,
-			UNIT_FIELD_CREATEDBY = 14,
-			UNIT_FIELD_TARGET = 16,
-			UNIT_FIELD_PERSUADED = 18,
-			UNIT_FIELD_CHANNEL_OBJECT = 20,
-			UNIT_FIELD_HEALTH = 22,
-			UNIT_FIELD_POWER1 = 23,
-			UNIT_FIELD_POWER2 = 24,
-			UNIT_FIELD_POWER3 = 25,
-			UNIT_FIELD_POWER4 = 26,
-			UNIT_FIELD_POWER5 = 27,
-			UNIT_FIELD_MAXHEALTH = 28,
-			UNIT_FIELD_MAXPOWER1 = 29,
-			UNIT_FIELD_MAXPOWER2 = 30,
-			UNIT_FIELD_MAXPOWER3 = 31,
-			UNIT_FIELD_MAXPOWER4 = 32,
-			UNIT_FIELD_MAXPOWER5 = 33,
-			UNIT_FIELD_LEVEL = 34,
-			UNIT_FIELD_FACTIONTEMPLATE = 35,
-			UNIT_FIELD_BYTES_0 = 36,
-			UNIT_VIRTUAL_ITEM_SLOT_DISPLAY = 37,
-			UNIT_VIRTUAL_ITEM_INFO = 40,
-			UNIT_FIELD_FLAGS = 46,
-			UNIT_FIELD_AURA = 47,
-			UNIT_FIELD_AURAFLAGS = 95,
-			UNIT_FIELD_AURALEVELS = 101,
-			UNIT_FIELD_AURAAPPLICATIONS = 113,
-			UNIT_FIELD_AURASTATE = 125,
-			UNIT_FIELD_BASEATTACKTIME = 126,
-			UNIT_FIELD_RANGEDATTACKTIME = 128,
-			UNIT_FIELD_BOUNDINGRADIUS = 129,
-			UNIT_FIELD_COMBATREACH = 130,
-			UNIT_FIELD_DISPLAYID = 131,
-			UNIT_FIELD_NATIVEDISPLAYID = 132,
-			UNIT_FIELD_MOUNTDISPLAYID = 133,
-			UNIT_FIELD_MINDAMAGE = 134,
-			UNIT_FIELD_MAXDAMAGE = 135,
-			UNIT_FIELD_MINOFFHANDDAMAGE = 136,
-			UNIT_FIELD_MAXOFFHANDDAMAGE = 137,
-			UNIT_FIELD_BYTES_1 = 138,
-			UNIT_FIELD_PETNUMBER = 139,
-			UNIT_FIELD_PET_NAME_TIMESTAMP = 140,
-			UNIT_FIELD_PETEXPERIENCE = 141,
-			UNIT_FIELD_PETNEXTLEVELEXP = 142,
-			UNIT_DYNAMIC_FLAGS = 143,
-			UNIT_CHANNEL_SPELL = 144,
-			UNIT_MOD_CAST_SPEED = 145,
-			UNIT_CREATED_BY_SPELL = 146,
-			UNIT_NPC_FLAGS = 147,
-			UNIT_NPC_EMOTESTATE = 148,
-			UNIT_TRAINING_POINTS = 149,
-			UNIT_FIELD_STAT0 = 150,
-			UNIT_FIELD_STAT1 = 151,
-			UNIT_FIELD_STAT2 = 152,
-			UNIT_FIELD_STAT3 = 153,
-			UNIT_FIELD_STAT4 = 154,
-			UNIT_FIELD_RESISTANCES = 155,
-			UNIT_FIELD_BASE_MANA = 162,
-			UNIT_FIELD_BASE_HEALTH = 163,
-			UNIT_FIELD_BYTES_2 = 164,
-			UNIT_FIELD_ATTACK_POWER = 165,
-			UNIT_FIELD_ATTACK_POWER_MODS = 166,
-			UNIT_FIELD_ATTACK_POWER_MULTIPLIER = 167,
-			UNIT_FIELD_RANGED_ATTACK_POWER = 168,
-			UNIT_FIELD_RANGED_ATTACK_POWER_MODS = 169,
-			UNIT_FIELD_RANGED_ATTACK_POWER_MULTIPLIER = 170,
-			UNIT_FIELD_MINRANGEDDAMAGE = 171,
-			UNIT_FIELD_MAXRANGEDDAMAGE = 172,
-			UNIT_FIELD_POWER_COST_MODIFIER = 173,
-			UNIT_FIELD_POWER_COST_MULTIPLIER = 180,
-			UNIT_FIELD_PADDING = 187,
-			UNIT_END = 188,
-			PLAYER_DUEL_ARBITER = 188,
-			PLAYER_FLAGS = 190,
-			PLAYER_GUILDID = 191,
-			PLAYER_GUILDRANK = 192,
-			PLAYER_BYTES = 193,
-			PLAYER_BYTES_2 = 194,
-			PLAYER_BYTES_3 = 195,
-			PLAYER_DUEL_TEAM = 196,
-			PLAYER_GUILD_TIMESTAMP = 197,
-			PLAYER_QUEST_LOG_1_1 = 198,
-			PLAYER_QUEST_LOG_1_2 = 199,
-			PLAYER_QUEST_LOG_2_1 = 201,
-			PLAYER_QUEST_LOG_2_2 = 202,
-			PLAYER_QUEST_LOG_3_1 = 204,
-			PLAYER_QUEST_LOG_3_2 = 205,
-			PLAYER_QUEST_LOG_4_1 = 207,
-			PLAYER_QUEST_LOG_4_2 = 208,
-			PLAYER_QUEST_LOG_5_1 = 210,
-			PLAYER_QUEST_LOG_5_2 = 211,
-			PLAYER_QUEST_LOG_6_1 = 213,
-			PLAYER_QUEST_LOG_6_2 = 214,
-			PLAYER_QUEST_LOG_7_1 = 216,
-			PLAYER_QUEST_LOG_7_2 = 217,
-			PLAYER_QUEST_LOG_8_1 = 219,
-			PLAYER_QUEST_LOG_8_2 = 220,
-			PLAYER_QUEST_LOG_9_1 = 222,
-			PLAYER_QUEST_LOG_9_2 = 223,
-			PLAYER_QUEST_LOG_10_1 = 225,
-			PLAYER_QUEST_LOG_10_2 = 226,
-			PLAYER_QUEST_LOG_11_1 = 228,
-			PLAYER_QUEST_LOG_11_2 = 229,
-			PLAYER_QUEST_LOG_12_1 = 231,
-			PLAYER_QUEST_LOG_12_2 = 232,
-			PLAYER_QUEST_LOG_13_1 = 234,
-			PLAYER_QUEST_LOG_13_2 = 235,
-			PLAYER_QUEST_LOG_14_1 = 237,
-			PLAYER_QUEST_LOG_14_2 = 238,
-			PLAYER_QUEST_LOG_15_1 = 240,
-			PLAYER_QUEST_LOG_15_2 = 241,
-			PLAYER_QUEST_LOG_16_1 = 243,
-			PLAYER_QUEST_LOG_16_2 = 244,
-			PLAYER_QUEST_LOG_17_1 = 246,
-			PLAYER_QUEST_LOG_17_2 = 247,
-			PLAYER_QUEST_LOG_18_1 = 249,
-			PLAYER_QUEST_LOG_18_2 = 250,
-			PLAYER_QUEST_LOG_19_1 = 252,
-			PLAYER_QUEST_LOG_19_2 = 253,
-			PLAYER_QUEST_LOG_20_1 = 255,
-			PLAYER_QUEST_LOG_20_2 = 256,
-			PLAYER_VISIBLE_ITEM_1_CREATOR = 258,
-			PLAYER_VISIBLE_ITEM_1_0 = 260,
-			PLAYER_VISIBLE_ITEM_1_PROPERTIES = 268,
-			PLAYER_VISIBLE_ITEM_1_PAD = 269,
-			PLAYER_VISIBLE_ITEM_2_CREATOR = 270,
-			PLAYER_VISIBLE_ITEM_2_0 = 272,
-			PLAYER_VISIBLE_ITEM_2_PROPERTIES = 280,
-			PLAYER_VISIBLE_ITEM_2_PAD = 281,
-			PLAYER_VISIBLE_ITEM_3_CREATOR = 282,
-			PLAYER_VISIBLE_ITEM_3_0 = 284,
-			PLAYER_VISIBLE_ITEM_3_PROPERTIES = 292,
-			PLAYER_VISIBLE_ITEM_3_PAD = 293,
-			PLAYER_VISIBLE_ITEM_4_CREATOR = 294,
-			PLAYER_VISIBLE_ITEM_4_0 = 296,
-			PLAYER_VISIBLE_ITEM_4_PROPERTIES = 304,
-			PLAYER_VISIBLE_ITEM_4_PAD = 305,
-			PLAYER_VISIBLE_ITEM_5_CREATOR = 306,
-			PLAYER_VISIBLE_ITEM_5_0 = 308,
-			PLAYER_VISIBLE_ITEM_5_PROPERTIES = 316,
-			PLAYER_VISIBLE_ITEM_5_PAD = 317,
-			PLAYER_VISIBLE_ITEM_6_CREATOR = 318,
-			PLAYER_VISIBLE_ITEM_6_0 = 320,
-			PLAYER_VISIBLE_ITEM_6_PROPERTIES = 328,
-			PLAYER_VISIBLE_ITEM_6_PAD = 329,
-			PLAYER_VISIBLE_ITEM_7_CREATOR = 330,
-			PLAYER_VISIBLE_ITEM_7_0 = 332,
-			PLAYER_VISIBLE_ITEM_7_PROPERTIES = 340,
-			PLAYER_VISIBLE_ITEM_7_PAD = 341,
-			PLAYER_VISIBLE_ITEM_8_CREATOR = 342,
-			PLAYER_VISIBLE_ITEM_8_0 = 344,
-			PLAYER_VISIBLE_ITEM_8_PROPERTIES = 352,
-			PLAYER_VISIBLE_ITEM_8_PAD = 353,
-			PLAYER_VISIBLE_ITEM_9_CREATOR = 354,
-			PLAYER_VISIBLE_ITEM_9_0 = 356,
-			PLAYER_VISIBLE_ITEM_9_PROPERTIES = 364,
-			PLAYER_VISIBLE_ITEM_9_PAD = 365,
-			PLAYER_VISIBLE_ITEM_10_CREATOR = 366,
-			PLAYER_VISIBLE_ITEM_10_0 = 368,
-			PLAYER_VISIBLE_ITEM_10_PROPERTIES = 376,
-			PLAYER_VISIBLE_ITEM_10_PAD = 377,
-			PLAYER_VISIBLE_ITEM_11_CREATOR = 378,
-			PLAYER_VISIBLE_ITEM_11_0 = 380,
-			PLAYER_VISIBLE_ITEM_11_PROPERTIES = 388,
-			PLAYER_VISIBLE_ITEM_11_PAD = 389,
-			PLAYER_VISIBLE_ITEM_12_CREATOR = 390,
-			PLAYER_VISIBLE_ITEM_12_0 = 392,
-			PLAYER_VISIBLE_ITEM_12_PROPERTIES = 400,
-			PLAYER_VISIBLE_ITEM_12_PAD = 401,
-			PLAYER_VISIBLE_ITEM_13_CREATOR = 402,
-			PLAYER_VISIBLE_ITEM_13_0 = 404,
-			PLAYER_VISIBLE_ITEM_13_PROPERTIES = 412,
-			PLAYER_VISIBLE_ITEM_13_PAD = 413,
-			PLAYER_VISIBLE_ITEM_14_CREATOR = 414,
-			PLAYER_VISIBLE_ITEM_14_0 = 416,
-			PLAYER_VISIBLE_ITEM_14_PROPERTIES = 424,
-			PLAYER_VISIBLE_ITEM_14_PAD = 425,
-			PLAYER_VISIBLE_ITEM_15_CREATOR = 426,
-			PLAYER_VISIBLE_ITEM_15_0 = 428,
-			PLAYER_VISIBLE_ITEM_15_PROPERTIES = 436,
-			PLAYER_VISIBLE_ITEM_15_PAD = 437,
-			PLAYER_VISIBLE_ITEM_16_CREATOR = 438,
-			PLAYER_VISIBLE_ITEM_16_0 = 440,
-			PLAYER_VISIBLE_ITEM_16_PROPERTIES = 448,
-			PLAYER_VISIBLE_ITEM_16_PAD = 449,
-			PLAYER_VISIBLE_ITEM_17_CREATOR = 450,
-			PLAYER_VISIBLE_ITEM_17_0 = 452,
-			PLAYER_VISIBLE_ITEM_17_PROPERTIES = 460,
-			PLAYER_VISIBLE_ITEM_17_PAD = 461,
-			PLAYER_VISIBLE_ITEM_18_CREATOR = 462,
-			PLAYER_VISIBLE_ITEM_18_0 = 464,
-			PLAYER_VISIBLE_ITEM_18_PROPERTIES = 472,
-			PLAYER_VISIBLE_ITEM_18_PAD = 473,
-			PLAYER_VISIBLE_ITEM_19_CREATOR = 474,
-			PLAYER_VISIBLE_ITEM_19_0 = 476,
-			PLAYER_VISIBLE_ITEM_19_PROPERTIES = 484,
-			PLAYER_VISIBLE_ITEM_19_PAD = 485,
-			PLAYER_FIELD_INV_SLOT_HEAD = 486,
-			PLAYER_FIELD_PACK_SLOT_1 = 532,
-			PLAYER_FIELD_BANK_SLOT_1 = 564,
-			PLAYER_FIELD_BANKBAG_SLOT_1 = 612,
-			PLAYER_FIELD_VENDORBUYBACK_SLOT_1 = 624,
-			PLAYER_FIELD_KEYRING_SLOT_1 = 648,
-			PLAYER_FARSIGHT = 712,
-			PLAYER__FIELD_COMBO_TARGET = 714,
-			PLAYER_XP = 716,
-			PLAYER_NEXT_LEVEL_XP = 717,
-			PLAYER_SKILL_INFO_1_1 = 718,
-			PLAYER_CHARACTER_POINTS1 = 1102,
-			PLAYER_CHARACTER_POINTS2 = 1103,
-			PLAYER_TRACK_CREATURES = 1104,
-			PLAYER_TRACK_RESOURCES = 1105,
-			PLAYER_BLOCK_PERCENTAGE = 1106,
-			PLAYER_DODGE_PERCENTAGE = 1107,
-			PLAYER_PARRY_PERCENTAGE = 1108,
-			PLAYER_CRIT_PERCENTAGE = 1109,
-			PLAYER_RANGED_CRIT_PERCENTAGE = 1110,
-			PLAYER_EXPLORED_ZONES_1 = 1111,
-			PLAYER_REST_STATE_EXPERIENCE = 1175,
-			PLAYER_FIELD_COINAGE = 1176,
-			PLAYER_FIELD_POSSTAT0 = 1177,
-			PLAYER_FIELD_POSSTAT1 = 1178,
-			PLAYER_FIELD_POSSTAT2 = 1179,
-			PLAYER_FIELD_POSSTAT3 = 191,
-			PLAYER_FIELD_POSSTAT4 = 236,
-			PLAYER_FIELD_NEGSTAT0 = 956,
-			PLAYER_FIELD_NEGSTAT1 = 12476,
-			PLAYER_FIELD_NEGSTAT2 = 196796,
-			PLAYER_FIELD_NEGSTAT3 = 3145916,
-			PLAYER_FIELD_NEGSTAT4 = 50331836,
-			PLAYER_FIELD_RESISTANCEBUFFMODSPOSITIVE = 805306556,
-			PLAYER_FIELD_RESISTANCEBUFFMODSNEGATIVE = 1194,
-			PLAYER_FIELD_MOD_DAMAGE_DONE_POS = 1201,
-			PLAYER_FIELD_MOD_DAMAGE_DONE_NEG = 1208,
-			PLAYER_FIELD_MOD_DAMAGE_DONE_PCT = 1215,
-			PLAYER_FIELD_BYTES = 1222,
-			PLAYER_AMMO_ID = 1223,
-			PLAYER_SELF_RES_SPELL = 1224,
-			PLAYER_FIELD_PVP_MEDALS = 1225,
-			PLAYER_FIELD_BUYBACK_PRICE_1 = 1226,
-			PLAYER_FIELD_BUYBACK_TIMESTAMP_1 = 1238,
-			PLAYER_FIELD_SESSION_KILLS = 1250,
-			PLAYER_FIELD_YESTERDAY_KILLS = 1251,
-			PLAYER_FIELD_LAST_WEEK_KILLS = 1252,
-			PLAYER_FIELD_THIS_WEEK_KILLS = 1253,
-			PLAYER_FIELD_THIS_WEEK_CONTRIBUTION = 1254,
-			PLAYER_FIELD_LIFETIME_HONORBALE_KILLS = 1255,
-			PLAYER_FIELD_LIFETIME_DISHONORBALE_KILLS = 1256,
-			PLAYER_FIELD_YESTERDAY_CONTRIBUTION = 1257,
-			PLAYER_FIELD_LAST_WEEK_CONTRIBUTION = 1258,
-			PLAYER_FIELD_LAST_WEEK_RANK = 1259,
-			PLAYER_FIELD_BYTES2 = 1260,
-			PLAYER_FIELD_WATCHED_FACTION_INDEX = 1261,
-			PLAYER_FIELD_COMBAT_RATING_1 = 1262,
-			MAX = 1282 - 4,
-		}
-	}
+        public IPacketWriter BuildForceSpeed(float modifier, bool swim = false)
+        {
+            var opcode = swim ? global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE : global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
+            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
+            writer.WriteUInt64(this.Guid);
+            writer.Write(0);
+            return this.BuildForceSpeed(writer, modifier);
+        }
+
+        internal enum Fields
+        {
+            OBJECT_FIELD_GUID = 0x000,
+            OBJECT_FIELD_TYPE = 0x002,
+            OBJECT_FIELD_ENTRY = 0x003,
+            OBJECT_FIELD_SCALE_X = 0x004,
+            OBJECT_FIELD_PADDING = 0x005,
+            OBJECT_END = 0x006,
+            UNIT_FIELD_CHARM = OBJECT_END + 0x000,
+            UNIT_FIELD_SUMMON = OBJECT_END + 0x002,
+            UNIT_FIELD_CHARMEDBY = OBJECT_END + 0x004,
+            UNIT_FIELD_SUMMONEDBY = OBJECT_END + 0x006,
+            UNIT_FIELD_CREATEDBY = OBJECT_END + 0x008,
+            UNIT_FIELD_TARGET = OBJECT_END + 0x00A,
+            UNIT_FIELD_PERSUADED = OBJECT_END + 0x00C,
+            UNIT_FIELD_CHANNEL_OBJECT = OBJECT_END + 0x00E,
+            UNIT_FIELD_HEALTH = OBJECT_END + 0x010,
+            UNIT_FIELD_POWER1 = OBJECT_END + 0x011,
+            UNIT_FIELD_POWER2 = OBJECT_END + 0x012,
+            UNIT_FIELD_POWER3 = OBJECT_END + 0x013,
+            UNIT_FIELD_POWER4 = OBJECT_END + 0x014,
+            UNIT_FIELD_POWER5 = OBJECT_END + 0x015,
+            UNIT_FIELD_MAXHEALTH = OBJECT_END + 0x016,
+            UNIT_FIELD_MAXPOWER1 = OBJECT_END + 0x017,
+            UNIT_FIELD_MAXPOWER2 = OBJECT_END + 0x018,
+            UNIT_FIELD_MAXPOWER3 = OBJECT_END + 0x019,
+            UNIT_FIELD_MAXPOWER4 = OBJECT_END + 0x01A,
+            UNIT_FIELD_MAXPOWER5 = OBJECT_END + 0x01B,
+            UNIT_FIELD_LEVEL = OBJECT_END + 0x01C,
+            UNIT_FIELD_FACTIONTEMPLATE = OBJECT_END + 0x01D,
+            UNIT_FIELD_BYTES_0 = OBJECT_END + 0x01E,
+            UNIT_VIRTUAL_ITEM_SLOT_DISPLAY = OBJECT_END + 0x01F,
+            UNIT_VIRTUAL_ITEM_SLOT_DISPLAY_01 = OBJECT_END + 0x020,
+            UNIT_VIRTUAL_ITEM_SLOT_DISPLAY_02 = OBJECT_END + 0x021,
+            UNIT_VIRTUAL_ITEM_INFO = OBJECT_END + 0x022,
+            UNIT_VIRTUAL_ITEM_INFO_01 = OBJECT_END + 0x023,
+            UNIT_VIRTUAL_ITEM_INFO_02 = OBJECT_END + 0x024,
+            UNIT_VIRTUAL_ITEM_INFO_03 = OBJECT_END + 0x025,
+            UNIT_VIRTUAL_ITEM_INFO_04 = OBJECT_END + 0x026,
+            UNIT_VIRTUAL_ITEM_INFO_05 = OBJECT_END + 0x027,
+            UNIT_FIELD_FLAGS = OBJECT_END + 0x028,
+            UNIT_FIELD_AURA = OBJECT_END + 0x029,
+            UNIT_FIELD_AURA_01 = OBJECT_END + 0x02A,
+            UNIT_FIELD_AURA_02 = OBJECT_END + 0x02B,
+            UNIT_FIELD_AURA_03 = OBJECT_END + 0x02C,
+            UNIT_FIELD_AURA_04 = OBJECT_END + 0x02D,
+            UNIT_FIELD_AURA_05 = OBJECT_END + 0x02E,
+            UNIT_FIELD_AURA_06 = OBJECT_END + 0x02F,
+            UNIT_FIELD_AURA_07 = OBJECT_END + 0x030,
+            UNIT_FIELD_AURA_08 = OBJECT_END + 0x031,
+            UNIT_FIELD_AURA_09 = OBJECT_END + 0x032,
+            UNIT_FIELD_AURA_10 = OBJECT_END + 0x033,
+            UNIT_FIELD_AURA_11 = OBJECT_END + 0x034,
+            UNIT_FIELD_AURA_12 = OBJECT_END + 0x035,
+            UNIT_FIELD_AURA_13 = OBJECT_END + 0x036,
+            UNIT_FIELD_AURA_14 = OBJECT_END + 0x037,
+            UNIT_FIELD_AURA_15 = OBJECT_END + 0x038,
+            UNIT_FIELD_AURA_16 = OBJECT_END + 0x039,
+            UNIT_FIELD_AURA_17 = OBJECT_END + 0x03A,
+            UNIT_FIELD_AURA_18 = OBJECT_END + 0x03B,
+            UNIT_FIELD_AURA_19 = OBJECT_END + 0x03C,
+            UNIT_FIELD_AURA_20 = OBJECT_END + 0x03D,
+            UNIT_FIELD_AURA_21 = OBJECT_END + 0x03E,
+            UNIT_FIELD_AURA_22 = OBJECT_END + 0x03F,
+            UNIT_FIELD_AURA_23 = OBJECT_END + 0x040,
+            UNIT_FIELD_AURA_24 = OBJECT_END + 0x041,
+            UNIT_FIELD_AURA_25 = OBJECT_END + 0x042,
+            UNIT_FIELD_AURA_26 = OBJECT_END + 0x043,
+            UNIT_FIELD_AURA_27 = OBJECT_END + 0x044,
+            UNIT_FIELD_AURA_28 = OBJECT_END + 0x045,
+            UNIT_FIELD_AURA_29 = OBJECT_END + 0x046,
+            UNIT_FIELD_AURA_30 = OBJECT_END + 0x047,
+            UNIT_FIELD_AURA_31 = OBJECT_END + 0x048,
+            UNIT_FIELD_AURA_32 = OBJECT_END + 0x049,
+            UNIT_FIELD_AURA_33 = OBJECT_END + 0x04A,
+            UNIT_FIELD_AURA_34 = OBJECT_END + 0x04B,
+            UNIT_FIELD_AURA_35 = OBJECT_END + 0x04C,
+            UNIT_FIELD_AURA_36 = OBJECT_END + 0x04D,
+            UNIT_FIELD_AURA_37 = OBJECT_END + 0x04E,
+            UNIT_FIELD_AURA_38 = OBJECT_END + 0x04F,
+            UNIT_FIELD_AURA_39 = OBJECT_END + 0x050,
+            UNIT_FIELD_AURA_40 = OBJECT_END + 0x051,
+            UNIT_FIELD_AURA_41 = OBJECT_END + 0x052,
+            UNIT_FIELD_AURA_42 = OBJECT_END + 0x053,
+            UNIT_FIELD_AURA_43 = OBJECT_END + 0x054,
+            UNIT_FIELD_AURA_44 = OBJECT_END + 0x055,
+            UNIT_FIELD_AURA_45 = OBJECT_END + 0x056,
+            UNIT_FIELD_AURA_46 = OBJECT_END + 0x057,
+            UNIT_FIELD_AURA_47 = OBJECT_END + 0x058,
+            UNIT_FIELD_AURA_48 = OBJECT_END + 0x059,
+            UNIT_FIELD_AURA_49 = OBJECT_END + 0x05A,
+            UNIT_FIELD_AURA_50 = OBJECT_END + 0x05B,
+            UNIT_FIELD_AURA_51 = OBJECT_END + 0x05C,
+            UNIT_FIELD_AURA_52 = OBJECT_END + 0x05D,
+            UNIT_FIELD_AURA_53 = OBJECT_END + 0x05E,
+            UNIT_FIELD_AURA_54 = OBJECT_END + 0x05F,
+            UNIT_FIELD_AURA_55 = OBJECT_END + 0x060,
+            UNIT_FIELD_AURA_56 = OBJECT_END + 0x061,
+            UNIT_FIELD_AURA_57 = OBJECT_END + 0x062,
+            UNIT_FIELD_AURA_58 = OBJECT_END + 0x063,
+            UNIT_FIELD_AURA_59 = OBJECT_END + 0x064,
+            UNIT_FIELD_AURA_60 = OBJECT_END + 0x065,
+            UNIT_FIELD_AURA_61 = OBJECT_END + 0x066,
+            UNIT_FIELD_AURA_62 = OBJECT_END + 0x067,
+            UNIT_FIELD_AURA_63 = OBJECT_END + 0x068,
+            UNIT_FIELD_AURAFLAGS = OBJECT_END + 0x069,
+            UNIT_FIELD_AURAFLAGS_01 = OBJECT_END + 0x06A,
+            UNIT_FIELD_AURAFLAGS_02 = OBJECT_END + 0x06B,
+            UNIT_FIELD_AURAFLAGS_03 = OBJECT_END + 0x06C,
+            UNIT_FIELD_AURAFLAGS_04 = OBJECT_END + 0x06D,
+            UNIT_FIELD_AURAFLAGS_05 = OBJECT_END + 0x06E,
+            UNIT_FIELD_AURAFLAGS_06 = OBJECT_END + 0x06F,
+            UNIT_FIELD_AURAFLAGS_07 = OBJECT_END + 0x070,
+            UNIT_FIELD_AURALEVELS = OBJECT_END + 0x071,
+            UNIT_FIELD_AURALEVELS_01 = OBJECT_END + 0x072,
+            UNIT_FIELD_AURALEVELS_02 = OBJECT_END + 0x073,
+            UNIT_FIELD_AURALEVELS_03 = OBJECT_END + 0x074,
+            UNIT_FIELD_AURALEVELS_04 = OBJECT_END + 0x075,
+            UNIT_FIELD_AURALEVELS_05 = OBJECT_END + 0x076,
+            UNIT_FIELD_AURALEVELS_06 = OBJECT_END + 0x077,
+            UNIT_FIELD_AURALEVELS_07 = OBJECT_END + 0x078,
+            UNIT_FIELD_AURALEVELS_08 = OBJECT_END + 0x079,
+            UNIT_FIELD_AURALEVELS_09 = OBJECT_END + 0x07A,
+            UNIT_FIELD_AURALEVELS_10 = OBJECT_END + 0x07B,
+            UNIT_FIELD_AURALEVELS_11 = OBJECT_END + 0x07C,
+            UNIT_FIELD_AURAAPPLICATIONS = OBJECT_END + 0x07D,
+            UNIT_FIELD_AURAAPPLICATIONS_01 = OBJECT_END + 0x07E,
+            UNIT_FIELD_AURAAPPLICATIONS_02 = OBJECT_END + 0x07F,
+            UNIT_FIELD_AURAAPPLICATIONS_03 = OBJECT_END + 0x080,
+            UNIT_FIELD_AURAAPPLICATIONS_04 = OBJECT_END + 0x081,
+            UNIT_FIELD_AURAAPPLICATIONS_05 = OBJECT_END + 0x082,
+            UNIT_FIELD_AURAAPPLICATIONS_06 = OBJECT_END + 0x083,
+            UNIT_FIELD_AURAAPPLICATIONS_07 = OBJECT_END + 0x084,
+            UNIT_FIELD_AURAAPPLICATIONS_08 = OBJECT_END + 0x085,
+            UNIT_FIELD_AURAAPPLICATIONS_09 = OBJECT_END + 0x086,
+            UNIT_FIELD_AURAAPPLICATIONS_10 = OBJECT_END + 0x087,
+            UNIT_FIELD_AURAAPPLICATIONS_11 = OBJECT_END + 0x088,
+            UNIT_FIELD_AURASTATE = OBJECT_END + 0x089,
+            UNIT_FIELD_BASEATTACKTIME = OBJECT_END + 0x08A,
+            UNIT_FIELD_BASEATTACKTIME_01 = OBJECT_END + 0x08B,
+            UNIT_FIELD_RANGEDATTACKTIME = OBJECT_END + 0x08C,
+            UNIT_FIELD_BOUNDINGRADIUS = OBJECT_END + 0x08D,
+            UNIT_FIELD_COMBATREACH = OBJECT_END + 0x08E,
+            UNIT_FIELD_DISPLAYID = OBJECT_END + 0x08F,
+            UNIT_FIELD_NATIVEDISPLAYID = OBJECT_END + 0x090,
+            UNIT_FIELD_MOUNTDISPLAYID = OBJECT_END + 0x091,
+            UNIT_FIELD_MINDAMAGE = OBJECT_END + 0x092,
+            UNIT_FIELD_MAXDAMAGE = OBJECT_END + 0x093,
+            UNIT_FIELD_MINOFFHANDDAMAGE = OBJECT_END + 0x094,
+            UNIT_FIELD_MAXOFFHANDDAMAGE = OBJECT_END + 0x095,
+            UNIT_FIELD_BYTES_1 = OBJECT_END + 0x096,
+            UNIT_FIELD_PETNUMBER = OBJECT_END + 0x097,
+            UNIT_FIELD_PET_NAME_TIMESTAMP = OBJECT_END + 0x098,
+            UNIT_FIELD_PETEXPERIENCE = OBJECT_END + 0x099,
+            UNIT_FIELD_PETNEXTLEVELEXP = OBJECT_END + 0x09A,
+            UNIT_DYNAMIC_FLAGS = OBJECT_END + 0x09B,
+            UNIT_CHANNEL_SPELL = OBJECT_END + 0x09C,
+            UNIT_MOD_CAST_SPEED = OBJECT_END + 0x09D,
+            UNIT_CREATED_BY_SPELL = OBJECT_END + 0x09E,
+            UNIT_NPC_FLAGS = OBJECT_END + 0x09F,
+            UNIT_NPC_EMOTESTATE = OBJECT_END + 0x0A0,
+            UNIT_TRAINING_POINTS = OBJECT_END + 0x0A1,
+            UNIT_FIELD_STAT0 = OBJECT_END + 0x0A2,
+            UNIT_FIELD_STAT1 = OBJECT_END + 0x0A3,
+            UNIT_FIELD_STAT2 = OBJECT_END + 0x0A4,
+            UNIT_FIELD_STAT3 = OBJECT_END + 0x0A5,
+            UNIT_FIELD_STAT4 = OBJECT_END + 0x0A6,
+            UNIT_FIELD_RESISTANCES = OBJECT_END + 0x0A7,
+            UNIT_FIELD_RESISTANCES_01 = OBJECT_END + 0x0A8,
+            UNIT_FIELD_RESISTANCES_02 = OBJECT_END + 0x0A9,
+            UNIT_FIELD_RESISTANCES_03 = OBJECT_END + 0x0AA,
+            UNIT_FIELD_RESISTANCES_04 = OBJECT_END + 0x0AB,
+            UNIT_FIELD_RESISTANCES_05 = OBJECT_END + 0x0AC,
+            UNIT_FIELD_RESISTANCES_06 = OBJECT_END + 0x0AD,
+            UNIT_FIELD_BASE_MANA = OBJECT_END + 0x0AE,
+            UNIT_FIELD_BASE_HEALTH = OBJECT_END + 0x0AF,
+            UNIT_FIELD_BYTES_2 = OBJECT_END + 0x0B0,
+            UNIT_FIELD_ATTACK_POWER = OBJECT_END + 0x0B1,
+            UNIT_FIELD_ATTACK_POWER_MODS = OBJECT_END + 0x0B2,
+            UNIT_FIELD_ATTACK_POWER_MULTIPLIER = OBJECT_END + 0x0B3,
+            UNIT_FIELD_RANGED_ATTACK_POWER = OBJECT_END + 0x0B4,
+            UNIT_FIELD_RANGED_ATTACK_POWER_MODS = OBJECT_END + 0x0B5,
+            UNIT_FIELD_RANGED_ATTACK_POWER_MULTIPLIER = OBJECT_END + 0x0B6,
+            UNIT_FIELD_MINRANGEDDAMAGE = OBJECT_END + 0x0B7,
+            UNIT_FIELD_MAXRANGEDDAMAGE = OBJECT_END + 0x0B8,
+            UNIT_FIELD_POWER_COST_MODIFIER = OBJECT_END + 0x0B9,
+            UNIT_FIELD_POWER_COST_MODIFIER_01 = OBJECT_END + 0x0BA,
+            UNIT_FIELD_POWER_COST_MODIFIER_02 = OBJECT_END + 0x0BB,
+            UNIT_FIELD_POWER_COST_MODIFIER_03 = OBJECT_END + 0x0BC,
+            UNIT_FIELD_POWER_COST_MODIFIER_04 = OBJECT_END + 0x0BD,
+            UNIT_FIELD_POWER_COST_MODIFIER_05 = OBJECT_END + 0x0BE,
+            UNIT_FIELD_POWER_COST_MODIFIER_06 = OBJECT_END + 0x0BF,
+            UNIT_FIELD_POWER_COST_MULTIPLIER = OBJECT_END + 0x0C0,
+            UNIT_FIELD_POWER_COST_MULTIPLIER_01 = OBJECT_END + 0x0C1,
+            UNIT_FIELD_POWER_COST_MULTIPLIER_02 = OBJECT_END + 0x0C2,
+            UNIT_FIELD_POWER_COST_MULTIPLIER_03 = OBJECT_END + 0x0C3,
+            UNIT_FIELD_POWER_COST_MULTIPLIER_04 = OBJECT_END + 0x0C4,
+            UNIT_FIELD_POWER_COST_MULTIPLIER_05 = OBJECT_END + 0x0C5,
+            UNIT_FIELD_POWER_COST_MULTIPLIER_06 = OBJECT_END + 0x0C6,
+            UNIT_FIELD_PADDING = OBJECT_END + 0x0C7,
+            UNIT_END = OBJECT_END + 0x0C8,
+            PLAYER_SELECTION = UNIT_END + 0x000,
+            PLAYER_DUEL_ARBITER = UNIT_END + 0x002,
+            PLAYER_FLAGS = UNIT_END + 0x004,
+            PLAYER_GUILDID = UNIT_END + 0x005,
+            PLAYER_GUILDRANK = UNIT_END + 0x006,
+            PLAYER_BYTES = UNIT_END + 0x007,
+            PLAYER_BYTES_2 = UNIT_END + 0x008,
+            PLAYER_BYTES_3 = UNIT_END + 0x009,
+            PLAYER_DUEL_TEAM = UNIT_END + 0x00A,
+            PLAYER_GUILD_TIMESTAMP = UNIT_END + 0x00B,
+            PLAYER_QUEST_LOG_1_1 = UNIT_END + 0x00C,
+            PLAYER_QUEST_LOG_1_2 = UNIT_END + 0x00D,
+            PLAYER_QUEST_LOG_1_01 = UNIT_END + 0x00E,
+            PLAYER_QUEST_LOG_2_1 = UNIT_END + 0x00F,
+            PLAYER_QUEST_LOG_2_2 = UNIT_END + 0x010,
+            PLAYER_QUEST_LOG_2_01 = UNIT_END + 0x011,
+            PLAYER_QUEST_LOG_3_1 = UNIT_END + 0x012,
+            PLAYER_QUEST_LOG_3_2 = UNIT_END + 0x013,
+            PLAYER_QUEST_LOG_3_01 = UNIT_END + 0x014,
+            PLAYER_QUEST_LOG_4_1 = UNIT_END + 0x015,
+            PLAYER_QUEST_LOG_4_2 = UNIT_END + 0x016,
+            PLAYER_QUEST_LOG_4_01 = UNIT_END + 0x017,
+            PLAYER_QUEST_LOG_5_1 = UNIT_END + 0x018,
+            PLAYER_QUEST_LOG_5_2 = UNIT_END + 0x019,
+            PLAYER_QUEST_LOG_5_01 = UNIT_END + 0x01A,
+            PLAYER_QUEST_LOG_6_1 = UNIT_END + 0x01B,
+            PLAYER_QUEST_LOG_6_2 = UNIT_END + 0x01C,
+            PLAYER_QUEST_LOG_6_01 = UNIT_END + 0x01D,
+            PLAYER_QUEST_LOG_7_1 = UNIT_END + 0x01E,
+            PLAYER_QUEST_LOG_7_2 = UNIT_END + 0x01F,
+            PLAYER_QUEST_LOG_7_01 = UNIT_END + 0x020,
+            PLAYER_QUEST_LOG_8_1 = UNIT_END + 0x021,
+            PLAYER_QUEST_LOG_8_2 = UNIT_END + 0x022,
+            PLAYER_QUEST_LOG_8_01 = UNIT_END + 0x023,
+            PLAYER_QUEST_LOG_9_1 = UNIT_END + 0x024,
+            PLAYER_QUEST_LOG_9_2 = UNIT_END + 0x025,
+            PLAYER_QUEST_LOG_9_01 = UNIT_END + 0x026,
+            PLAYER_QUEST_LOG_10_1 = UNIT_END + 0x027,
+            PLAYER_QUEST_LOG_10_2 = UNIT_END + 0x028,
+            PLAYER_QUEST_LOG_10_01 = UNIT_END + 0x029,
+            PLAYER_QUEST_LOG_11_1 = UNIT_END + 0x02A,
+            PLAYER_QUEST_LOG_11_2 = UNIT_END + 0x02B,
+            PLAYER_QUEST_LOG_11_01 = UNIT_END + 0x02C,
+            PLAYER_QUEST_LOG_12_1 = UNIT_END + 0x02D,
+            PLAYER_QUEST_LOG_12_2 = UNIT_END + 0x02E,
+            PLAYER_QUEST_LOG_12_01 = UNIT_END + 0x02F,
+            PLAYER_QUEST_LOG_13_1 = UNIT_END + 0x030,
+            PLAYER_QUEST_LOG_13_2 = UNIT_END + 0x031,
+            PLAYER_QUEST_LOG_13_01 = UNIT_END + 0x032,
+            PLAYER_QUEST_LOG_14_1 = UNIT_END + 0x033,
+            PLAYER_QUEST_LOG_14_2 = UNIT_END + 0x034,
+            PLAYER_QUEST_LOG_14_01 = UNIT_END + 0x035,
+            PLAYER_QUEST_LOG_15_1 = UNIT_END + 0x036,
+            PLAYER_QUEST_LOG_15_2 = UNIT_END + 0x037,
+            PLAYER_QUEST_LOG_15_01 = UNIT_END + 0x038,
+            PLAYER_QUEST_LOG_16_1 = UNIT_END + 0x039,
+            PLAYER_QUEST_LOG_16_2 = UNIT_END + 0x03A,
+            PLAYER_QUEST_LOG_16_01 = UNIT_END + 0x03B,
+            PLAYER_QUEST_LOG_17_1 = UNIT_END + 0x03C,
+            PLAYER_QUEST_LOG_17_2 = UNIT_END + 0x03D,
+            PLAYER_QUEST_LOG_17_01 = UNIT_END + 0x03E,
+            PLAYER_QUEST_LOG_18_1 = UNIT_END + 0x03F,
+            PLAYER_QUEST_LOG_18_2 = UNIT_END + 0x040,
+            PLAYER_QUEST_LOG_18_01 = UNIT_END + 0x041,
+            PLAYER_QUEST_LOG_19_1 = UNIT_END + 0x042,
+            PLAYER_QUEST_LOG_19_2 = UNIT_END + 0x043,
+            PLAYER_QUEST_LOG_19_01 = UNIT_END + 0x044,
+            PLAYER_QUEST_LOG_20_1 = UNIT_END + 0x045,
+            PLAYER_QUEST_LOG_20_2 = UNIT_END + 0x046,
+            PLAYER_QUEST_LOG_20_01 = UNIT_END + 0x047,
+            PLAYER_VISIBLE_ITEM_1_CREATOR = UNIT_END + 0x048,
+            PLAYER_VISIBLE_ITEM_1_0 = UNIT_END + 0x04A,
+            PLAYER_VISIBLE_ITEM_1_01 = UNIT_END + 0x04B,
+            PLAYER_VISIBLE_ITEM_1_02 = UNIT_END + 0x04C,
+            PLAYER_VISIBLE_ITEM_1_03 = UNIT_END + 0x04D,
+            PLAYER_VISIBLE_ITEM_1_04 = UNIT_END + 0x04E,
+            PLAYER_VISIBLE_ITEM_1_05 = UNIT_END + 0x04F,
+            PLAYER_VISIBLE_ITEM_1_06 = UNIT_END + 0x050,
+            PLAYER_VISIBLE_ITEM_1_07 = UNIT_END + 0x051,
+            PLAYER_VISIBLE_ITEM_1_PROPERTIES = UNIT_END + 0x052,
+            PLAYER_VISIBLE_ITEM_1_PAD = UNIT_END + 0x053,
+            PLAYER_VISIBLE_ITEM_2_CREATOR = UNIT_END + 0x054,
+            PLAYER_VISIBLE_ITEM_2_0 = UNIT_END + 0x056,
+            PLAYER_VISIBLE_ITEM_2_01 = UNIT_END + 0x057,
+            PLAYER_VISIBLE_ITEM_2_02 = UNIT_END + 0x058,
+            PLAYER_VISIBLE_ITEM_2_03 = UNIT_END + 0x059,
+            PLAYER_VISIBLE_ITEM_2_04 = UNIT_END + 0x05A,
+            PLAYER_VISIBLE_ITEM_2_05 = UNIT_END + 0x05B,
+            PLAYER_VISIBLE_ITEM_2_06 = UNIT_END + 0x05C,
+            PLAYER_VISIBLE_ITEM_2_07 = UNIT_END + 0x05D,
+            PLAYER_VISIBLE_ITEM_2_PROPERTIES = UNIT_END + 0x05E,
+            PLAYER_VISIBLE_ITEM_2_PAD = UNIT_END + 0x05F,
+            PLAYER_VISIBLE_ITEM_3_CREATOR = UNIT_END + 0x060,
+            PLAYER_VISIBLE_ITEM_3_0 = UNIT_END + 0x062,
+            PLAYER_VISIBLE_ITEM_3_01 = UNIT_END + 0x063,
+            PLAYER_VISIBLE_ITEM_3_02 = UNIT_END + 0x064,
+            PLAYER_VISIBLE_ITEM_3_03 = UNIT_END + 0x065,
+            PLAYER_VISIBLE_ITEM_3_04 = UNIT_END + 0x066,
+            PLAYER_VISIBLE_ITEM_3_05 = UNIT_END + 0x067,
+            PLAYER_VISIBLE_ITEM_3_06 = UNIT_END + 0x068,
+            PLAYER_VISIBLE_ITEM_3_07 = UNIT_END + 0x069,
+            PLAYER_VISIBLE_ITEM_3_PROPERTIES = UNIT_END + 0x06A,
+            PLAYER_VISIBLE_ITEM_3_PAD = UNIT_END + 0x06B,
+            PLAYER_VISIBLE_ITEM_4_CREATOR = UNIT_END + 0x06C,
+            PLAYER_VISIBLE_ITEM_4_0 = UNIT_END + 0x06E,
+            PLAYER_VISIBLE_ITEM_4_01 = UNIT_END + 0x06F,
+            PLAYER_VISIBLE_ITEM_4_02 = UNIT_END + 0x070,
+            PLAYER_VISIBLE_ITEM_4_03 = UNIT_END + 0x071,
+            PLAYER_VISIBLE_ITEM_4_04 = UNIT_END + 0x072,
+            PLAYER_VISIBLE_ITEM_4_05 = UNIT_END + 0x073,
+            PLAYER_VISIBLE_ITEM_4_06 = UNIT_END + 0x074,
+            PLAYER_VISIBLE_ITEM_4_07 = UNIT_END + 0x075,
+            PLAYER_VISIBLE_ITEM_4_PROPERTIES = UNIT_END + 0x076,
+            PLAYER_VISIBLE_ITEM_4_PAD = UNIT_END + 0x077,
+            PLAYER_VISIBLE_ITEM_5_CREATOR = UNIT_END + 0x078,
+            PLAYER_VISIBLE_ITEM_5_0 = UNIT_END + 0x07A,
+            PLAYER_VISIBLE_ITEM_5_01 = UNIT_END + 0x07B,
+            PLAYER_VISIBLE_ITEM_5_02 = UNIT_END + 0x07C,
+            PLAYER_VISIBLE_ITEM_5_03 = UNIT_END + 0x07D,
+            PLAYER_VISIBLE_ITEM_5_04 = UNIT_END + 0x07E,
+            PLAYER_VISIBLE_ITEM_5_05 = UNIT_END + 0x07F,
+            PLAYER_VISIBLE_ITEM_5_06 = UNIT_END + 0x080,
+            PLAYER_VISIBLE_ITEM_5_07 = UNIT_END + 0x081,
+            PLAYER_VISIBLE_ITEM_5_PROPERTIES = UNIT_END + 0x082,
+            PLAYER_VISIBLE_ITEM_5_PAD = UNIT_END + 0x083,
+            PLAYER_VISIBLE_ITEM_6_CREATOR = UNIT_END + 0x084,
+            PLAYER_VISIBLE_ITEM_6_0 = UNIT_END + 0x086,
+            PLAYER_VISIBLE_ITEM_6_01 = UNIT_END + 0x087,
+            PLAYER_VISIBLE_ITEM_6_02 = UNIT_END + 0x088,
+            PLAYER_VISIBLE_ITEM_6_03 = UNIT_END + 0x089,
+            PLAYER_VISIBLE_ITEM_6_04 = UNIT_END + 0x08A,
+            PLAYER_VISIBLE_ITEM_6_05 = UNIT_END + 0x08B,
+            PLAYER_VISIBLE_ITEM_6_06 = UNIT_END + 0x08C,
+            PLAYER_VISIBLE_ITEM_6_07 = UNIT_END + 0x08D,
+            PLAYER_VISIBLE_ITEM_6_PROPERTIES = UNIT_END + 0x08E,
+            PLAYER_VISIBLE_ITEM_6_PAD = UNIT_END + 0x08F,
+            PLAYER_VISIBLE_ITEM_7_CREATOR = UNIT_END + 0x090,
+            PLAYER_VISIBLE_ITEM_7_0 = UNIT_END + 0x092,
+            PLAYER_VISIBLE_ITEM_7_01 = UNIT_END + 0x093,
+            PLAYER_VISIBLE_ITEM_7_02 = UNIT_END + 0x094,
+            PLAYER_VISIBLE_ITEM_7_03 = UNIT_END + 0x095,
+            PLAYER_VISIBLE_ITEM_7_04 = UNIT_END + 0x096,
+            PLAYER_VISIBLE_ITEM_7_05 = UNIT_END + 0x097,
+            PLAYER_VISIBLE_ITEM_7_06 = UNIT_END + 0x098,
+            PLAYER_VISIBLE_ITEM_7_07 = UNIT_END + 0x099,
+            PLAYER_VISIBLE_ITEM_7_PROPERTIES = UNIT_END + 0x09A,
+            PLAYER_VISIBLE_ITEM_7_PAD = UNIT_END + 0x09B,
+            PLAYER_VISIBLE_ITEM_8_CREATOR = UNIT_END + 0x09C,
+            PLAYER_VISIBLE_ITEM_8_0 = UNIT_END + 0x09E,
+            PLAYER_VISIBLE_ITEM_8_01 = UNIT_END + 0x09F,
+            PLAYER_VISIBLE_ITEM_8_02 = UNIT_END + 0x0A0,
+            PLAYER_VISIBLE_ITEM_8_03 = UNIT_END + 0x0A1,
+            PLAYER_VISIBLE_ITEM_8_04 = UNIT_END + 0x0A2,
+            PLAYER_VISIBLE_ITEM_8_05 = UNIT_END + 0x0A3,
+            PLAYER_VISIBLE_ITEM_8_06 = UNIT_END + 0x0A4,
+            PLAYER_VISIBLE_ITEM_8_07 = UNIT_END + 0x0A5,
+            PLAYER_VISIBLE_ITEM_8_PROPERTIES = UNIT_END + 0x0A6,
+            PLAYER_VISIBLE_ITEM_8_PAD = UNIT_END + 0x0A7,
+            PLAYER_VISIBLE_ITEM_9_CREATOR = UNIT_END + 0x0A8,
+            PLAYER_VISIBLE_ITEM_9_0 = UNIT_END + 0x0AA,
+            PLAYER_VISIBLE_ITEM_9_01 = UNIT_END + 0x0AB,
+            PLAYER_VISIBLE_ITEM_9_02 = UNIT_END + 0x0AC,
+            PLAYER_VISIBLE_ITEM_9_03 = UNIT_END + 0x0AD,
+            PLAYER_VISIBLE_ITEM_9_04 = UNIT_END + 0x0AE,
+            PLAYER_VISIBLE_ITEM_9_05 = UNIT_END + 0x0AF,
+            PLAYER_VISIBLE_ITEM_9_06 = UNIT_END + 0x0B0,
+            PLAYER_VISIBLE_ITEM_9_07 = UNIT_END + 0x0B1,
+            PLAYER_VISIBLE_ITEM_9_PROPERTIES = UNIT_END + 0x0B2,
+            PLAYER_VISIBLE_ITEM_9_PAD = UNIT_END + 0x0B3,
+            PLAYER_VISIBLE_ITEM_10_CREATOR = UNIT_END + 0x0B4,
+            PLAYER_VISIBLE_ITEM_10_0 = UNIT_END + 0x0B6,
+            PLAYER_VISIBLE_ITEM_10_01 = UNIT_END + 0x0B7,
+            PLAYER_VISIBLE_ITEM_10_02 = UNIT_END + 0x0B8,
+            PLAYER_VISIBLE_ITEM_10_03 = UNIT_END + 0x0B9,
+            PLAYER_VISIBLE_ITEM_10_04 = UNIT_END + 0x0BA,
+            PLAYER_VISIBLE_ITEM_10_05 = UNIT_END + 0x0BB,
+            PLAYER_VISIBLE_ITEM_10_06 = UNIT_END + 0x0BC,
+            PLAYER_VISIBLE_ITEM_10_07 = UNIT_END + 0x0BD,
+            PLAYER_VISIBLE_ITEM_10_PROPERTIES = UNIT_END + 0x0BE,
+            PLAYER_VISIBLE_ITEM_10_PAD = UNIT_END + 0x0BF,
+            PLAYER_VISIBLE_ITEM_11_CREATOR = UNIT_END + 0x0C0,
+            PLAYER_VISIBLE_ITEM_11_0 = UNIT_END + 0x0C2,
+            PLAYER_VISIBLE_ITEM_11_01 = UNIT_END + 0x0C3,
+            PLAYER_VISIBLE_ITEM_11_02 = UNIT_END + 0x0C4,
+            PLAYER_VISIBLE_ITEM_11_03 = UNIT_END + 0x0C5,
+            PLAYER_VISIBLE_ITEM_11_04 = UNIT_END + 0x0C6,
+            PLAYER_VISIBLE_ITEM_11_05 = UNIT_END + 0x0C7,
+            PLAYER_VISIBLE_ITEM_11_06 = UNIT_END + 0x0C8,
+            PLAYER_VISIBLE_ITEM_11_07 = UNIT_END + 0x0C9,
+            PLAYER_VISIBLE_ITEM_11_PROPERTIES = UNIT_END + 0x0CA,
+            PLAYER_VISIBLE_ITEM_11_PAD = UNIT_END + 0x0CB,
+            PLAYER_VISIBLE_ITEM_12_CREATOR = UNIT_END + 0x0CC,
+            PLAYER_VISIBLE_ITEM_12_0 = UNIT_END + 0x0CE,
+            PLAYER_VISIBLE_ITEM_12_01 = UNIT_END + 0x0CF,
+            PLAYER_VISIBLE_ITEM_12_02 = UNIT_END + 0x0D0,
+            PLAYER_VISIBLE_ITEM_12_03 = UNIT_END + 0x0D1,
+            PLAYER_VISIBLE_ITEM_12_04 = UNIT_END + 0x0D2,
+            PLAYER_VISIBLE_ITEM_12_05 = UNIT_END + 0x0D3,
+            PLAYER_VISIBLE_ITEM_12_06 = UNIT_END + 0x0D4,
+            PLAYER_VISIBLE_ITEM_12_07 = UNIT_END + 0x0D5,
+            PLAYER_VISIBLE_ITEM_12_PROPERTIES = UNIT_END + 0x0D6,
+            PLAYER_VISIBLE_ITEM_12_PAD = UNIT_END + 0x0D7,
+            PLAYER_VISIBLE_ITEM_13_CREATOR = UNIT_END + 0x0D8,
+            PLAYER_VISIBLE_ITEM_13_0 = UNIT_END + 0x0DA,
+            PLAYER_VISIBLE_ITEM_13_01 = UNIT_END + 0x0DB,
+            PLAYER_VISIBLE_ITEM_13_02 = UNIT_END + 0x0DC,
+            PLAYER_VISIBLE_ITEM_13_03 = UNIT_END + 0x0DD,
+            PLAYER_VISIBLE_ITEM_13_04 = UNIT_END + 0x0DE,
+            PLAYER_VISIBLE_ITEM_13_05 = UNIT_END + 0x0DF,
+            PLAYER_VISIBLE_ITEM_13_06 = UNIT_END + 0x0E0,
+            PLAYER_VISIBLE_ITEM_13_07 = UNIT_END + 0x0E1,
+            PLAYER_VISIBLE_ITEM_13_PROPERTIES = UNIT_END + 0x0E2,
+            PLAYER_VISIBLE_ITEM_13_PAD = UNIT_END + 0x0E3,
+            PLAYER_VISIBLE_ITEM_14_CREATOR = UNIT_END + 0x0E4,
+            PLAYER_VISIBLE_ITEM_14_0 = UNIT_END + 0x0E6,
+            PLAYER_VISIBLE_ITEM_14_01 = UNIT_END + 0x0E7,
+            PLAYER_VISIBLE_ITEM_14_02 = UNIT_END + 0x0E8,
+            PLAYER_VISIBLE_ITEM_14_03 = UNIT_END + 0x0E9,
+            PLAYER_VISIBLE_ITEM_14_04 = UNIT_END + 0x0EA,
+            PLAYER_VISIBLE_ITEM_14_05 = UNIT_END + 0x0EB,
+            PLAYER_VISIBLE_ITEM_14_06 = UNIT_END + 0x0EC,
+            PLAYER_VISIBLE_ITEM_14_07 = UNIT_END + 0x0ED,
+            PLAYER_VISIBLE_ITEM_14_PROPERTIES = UNIT_END + 0x0EE,
+            PLAYER_VISIBLE_ITEM_14_PAD = UNIT_END + 0x0EF,
+            PLAYER_VISIBLE_ITEM_15_CREATOR = UNIT_END + 0x0F0,
+            PLAYER_VISIBLE_ITEM_15_0 = UNIT_END + 0x0F2,
+            PLAYER_VISIBLE_ITEM_15_01 = UNIT_END + 0x0F3,
+            PLAYER_VISIBLE_ITEM_15_02 = UNIT_END + 0x0F4,
+            PLAYER_VISIBLE_ITEM_15_03 = UNIT_END + 0x0F5,
+            PLAYER_VISIBLE_ITEM_15_04 = UNIT_END + 0x0F6,
+            PLAYER_VISIBLE_ITEM_15_05 = UNIT_END + 0x0F7,
+            PLAYER_VISIBLE_ITEM_15_06 = UNIT_END + 0x0F8,
+            PLAYER_VISIBLE_ITEM_15_07 = UNIT_END + 0x0F9,
+            PLAYER_VISIBLE_ITEM_15_PROPERTIES = UNIT_END + 0x0FA,
+            PLAYER_VISIBLE_ITEM_15_PAD = UNIT_END + 0x0FB,
+            PLAYER_VISIBLE_ITEM_16_CREATOR = UNIT_END + 0x0FC,
+            PLAYER_VISIBLE_ITEM_16_0 = UNIT_END + 0x0FE,
+            PLAYER_VISIBLE_ITEM_16_01 = UNIT_END + 0x0FF,
+            PLAYER_VISIBLE_ITEM_16_02 = UNIT_END + 0x100,
+            PLAYER_VISIBLE_ITEM_16_03 = UNIT_END + 0x101,
+            PLAYER_VISIBLE_ITEM_16_04 = UNIT_END + 0x102,
+            PLAYER_VISIBLE_ITEM_16_05 = UNIT_END + 0x103,
+            PLAYER_VISIBLE_ITEM_16_06 = UNIT_END + 0x104,
+            PLAYER_VISIBLE_ITEM_16_07 = UNIT_END + 0x105,
+            PLAYER_VISIBLE_ITEM_16_PROPERTIES = UNIT_END + 0x106,
+            PLAYER_VISIBLE_ITEM_16_PAD = UNIT_END + 0x107,
+            PLAYER_VISIBLE_ITEM_17_CREATOR = UNIT_END + 0x108,
+            PLAYER_VISIBLE_ITEM_17_0 = UNIT_END + 0x10A,
+            PLAYER_VISIBLE_ITEM_17_01 = UNIT_END + 0x10B,
+            PLAYER_VISIBLE_ITEM_17_02 = UNIT_END + 0x10C,
+            PLAYER_VISIBLE_ITEM_17_03 = UNIT_END + 0x10D,
+            PLAYER_VISIBLE_ITEM_17_04 = UNIT_END + 0x10E,
+            PLAYER_VISIBLE_ITEM_17_05 = UNIT_END + 0x10F,
+            PLAYER_VISIBLE_ITEM_17_06 = UNIT_END + 0x110,
+            PLAYER_VISIBLE_ITEM_17_07 = UNIT_END + 0x111,
+            PLAYER_VISIBLE_ITEM_17_PROPERTIES = UNIT_END + 0x112,
+            PLAYER_VISIBLE_ITEM_17_PAD = UNIT_END + 0x113,
+            PLAYER_VISIBLE_ITEM_18_CREATOR = UNIT_END + 0x114,
+            PLAYER_VISIBLE_ITEM_18_0 = UNIT_END + 0x116,
+            PLAYER_VISIBLE_ITEM_18_01 = UNIT_END + 0x117,
+            PLAYER_VISIBLE_ITEM_18_02 = UNIT_END + 0x118,
+            PLAYER_VISIBLE_ITEM_18_03 = UNIT_END + 0x119,
+            PLAYER_VISIBLE_ITEM_18_04 = UNIT_END + 0x11A,
+            PLAYER_VISIBLE_ITEM_18_05 = UNIT_END + 0x11B,
+            PLAYER_VISIBLE_ITEM_18_06 = UNIT_END + 0x11C,
+            PLAYER_VISIBLE_ITEM_18_07 = UNIT_END + 0x11D,
+            PLAYER_VISIBLE_ITEM_18_PROPERTIES = UNIT_END + 0x11E,
+            PLAYER_VISIBLE_ITEM_18_PAD = UNIT_END + 0x11F,
+            PLAYER_VISIBLE_ITEM_19_CREATOR = UNIT_END + 0x120,
+            PLAYER_VISIBLE_ITEM_19_0 = UNIT_END + 0x122,
+            PLAYER_VISIBLE_ITEM_19_01 = UNIT_END + 0x123,
+            PLAYER_VISIBLE_ITEM_19_02 = UNIT_END + 0x124,
+            PLAYER_VISIBLE_ITEM_19_03 = UNIT_END + 0x125,
+            PLAYER_VISIBLE_ITEM_19_04 = UNIT_END + 0x126,
+            PLAYER_VISIBLE_ITEM_19_05 = UNIT_END + 0x127,
+            PLAYER_VISIBLE_ITEM_19_06 = UNIT_END + 0x128,
+            PLAYER_VISIBLE_ITEM_19_07 = UNIT_END + 0x129,
+            PLAYER_VISIBLE_ITEM_19_PROPERTIES = UNIT_END + 0x12A,
+            PLAYER_VISIBLE_ITEM_19_PAD = UNIT_END + 0x12B,
+            PLAYER_FIELD_INV_SLOT_HEAD = UNIT_END + 0x12C,
+            PLAYER_FIELD_PACK_SLOT_1 = UNIT_END + 0x15A,
+            PLAYER_FIELD_BANK_SLOT_1 = UNIT_END + 0x17A,
+            PLAYER_FIELD_BANKBAG_SLOT_1 = UNIT_END + 0x1AA,
+            PLAYER_FIELD_VENDORBUYBACK_SLOT_1 = UNIT_END + 0x1B6,
+            PLAYER_FARSIGHT = UNIT_END + 0x1CE,
+            PLAYER__FIELD_COMBO_TARGET = UNIT_END + 0x1D0,
+            PLAYER_XP = UNIT_END + 0x1D2,
+            PLAYER_NEXT_LEVEL_XP = UNIT_END + 0x1D3,
+            PLAYER_SKILL_INFO_1_1 = UNIT_END + 0x1D4,
+            PLAYER_SKILL_INFO_1_01 = UNIT_END + 0x1D5,
+            PLAYER_SKILL_INFO_1_02 = UNIT_END + 0x1D6,
+            PLAYER_SKILL_INFO_1_03 = UNIT_END + 0x1D7,
+            PLAYER_SKILL_INFO_1_04 = UNIT_END + 0x1D8,
+            PLAYER_SKILL_INFO_1_05 = UNIT_END + 0x1D9,
+            PLAYER_SKILL_INFO_1_06 = UNIT_END + 0x1DA,
+            PLAYER_SKILL_INFO_1_07 = UNIT_END + 0x1DB,
+            PLAYER_SKILL_INFO_1_08 = UNIT_END + 0x1DC,
+            PLAYER_SKILL_INFO_1_09 = UNIT_END + 0x1DD,
+            PLAYER_SKILL_INFO_1_10 = UNIT_END + 0x1DE,
+            PLAYER_SKILL_INFO_1_11 = UNIT_END + 0x1DF,
+            PLAYER_SKILL_INFO_1_12 = UNIT_END + 0x1E0,
+            PLAYER_SKILL_INFO_1_13 = UNIT_END + 0x1E1,
+            PLAYER_SKILL_INFO_1_14 = UNIT_END + 0x1E2,
+            PLAYER_SKILL_INFO_1_15 = UNIT_END + 0x1E3,
+            PLAYER_SKILL_INFO_1_16 = UNIT_END + 0x1E4,
+            PLAYER_SKILL_INFO_1_17 = UNIT_END + 0x1E5,
+            PLAYER_SKILL_INFO_1_18 = UNIT_END + 0x1E6,
+            PLAYER_SKILL_INFO_1_19 = UNIT_END + 0x1E7,
+            PLAYER_SKILL_INFO_1_20 = UNIT_END + 0x1E8,
+            PLAYER_SKILL_INFO_1_21 = UNIT_END + 0x1E9,
+            PLAYER_SKILL_INFO_1_22 = UNIT_END + 0x1EA,
+            PLAYER_SKILL_INFO_1_23 = UNIT_END + 0x1EB,
+            PLAYER_SKILL_INFO_1_24 = UNIT_END + 0x1EC,
+            PLAYER_SKILL_INFO_1_25 = UNIT_END + 0x1ED,
+            PLAYER_SKILL_INFO_1_26 = UNIT_END + 0x1EE,
+            PLAYER_SKILL_INFO_1_27 = UNIT_END + 0x1EF,
+            PLAYER_SKILL_INFO_1_28 = UNIT_END + 0x1F0,
+            PLAYER_SKILL_INFO_1_29 = UNIT_END + 0x1F1,
+            PLAYER_SKILL_INFO_1_30 = UNIT_END + 0x1F2,
+            PLAYER_SKILL_INFO_1_31 = UNIT_END + 0x1F3,
+            PLAYER_SKILL_INFO_1_32 = UNIT_END + 0x1F4,
+            PLAYER_SKILL_INFO_1_33 = UNIT_END + 0x1F5,
+            PLAYER_SKILL_INFO_1_34 = UNIT_END + 0x1F6,
+            PLAYER_SKILL_INFO_1_35 = UNIT_END + 0x1F7,
+            PLAYER_SKILL_INFO_1_36 = UNIT_END + 0x1F8,
+            PLAYER_SKILL_INFO_1_37 = UNIT_END + 0x1F9,
+            PLAYER_SKILL_INFO_1_38 = UNIT_END + 0x1FA,
+            PLAYER_SKILL_INFO_1_39 = UNIT_END + 0x1FB,
+            PLAYER_SKILL_INFO_1_40 = UNIT_END + 0x1FC,
+            PLAYER_SKILL_INFO_1_41 = UNIT_END + 0x1FD,
+            PLAYER_SKILL_INFO_1_42 = UNIT_END + 0x1FE,
+            PLAYER_SKILL_INFO_1_43 = UNIT_END + 0x1FF,
+            PLAYER_SKILL_INFO_1_44 = UNIT_END + 0x200,
+            PLAYER_SKILL_INFO_1_45 = UNIT_END + 0x201,
+            PLAYER_SKILL_INFO_1_46 = UNIT_END + 0x202,
+            PLAYER_SKILL_INFO_1_47 = UNIT_END + 0x203,
+            PLAYER_SKILL_INFO_1_48 = UNIT_END + 0x204,
+            PLAYER_SKILL_INFO_1_49 = UNIT_END + 0x205,
+            PLAYER_SKILL_INFO_1_50 = UNIT_END + 0x206,
+            PLAYER_SKILL_INFO_1_51 = UNIT_END + 0x207,
+            PLAYER_SKILL_INFO_1_52 = UNIT_END + 0x208,
+            PLAYER_SKILL_INFO_1_53 = UNIT_END + 0x209,
+            PLAYER_SKILL_INFO_1_54 = UNIT_END + 0x20A,
+            PLAYER_SKILL_INFO_1_55 = UNIT_END + 0x20B,
+            PLAYER_SKILL_INFO_1_56 = UNIT_END + 0x20C,
+            PLAYER_SKILL_INFO_1_57 = UNIT_END + 0x20D,
+            PLAYER_SKILL_INFO_1_58 = UNIT_END + 0x20E,
+            PLAYER_SKILL_INFO_1_59 = UNIT_END + 0x20F,
+            PLAYER_SKILL_INFO_1_60 = UNIT_END + 0x210,
+            PLAYER_SKILL_INFO_1_61 = UNIT_END + 0x211,
+            PLAYER_SKILL_INFO_1_62 = UNIT_END + 0x212,
+            PLAYER_SKILL_INFO_1_63 = UNIT_END + 0x213,
+            PLAYER_SKILL_INFO_1_64 = UNIT_END + 0x214,
+            PLAYER_SKILL_INFO_1_65 = UNIT_END + 0x215,
+            PLAYER_SKILL_INFO_1_66 = UNIT_END + 0x216,
+            PLAYER_SKILL_INFO_1_67 = UNIT_END + 0x217,
+            PLAYER_SKILL_INFO_1_68 = UNIT_END + 0x218,
+            PLAYER_SKILL_INFO_1_69 = UNIT_END + 0x219,
+            PLAYER_SKILL_INFO_1_70 = UNIT_END + 0x21A,
+            PLAYER_SKILL_INFO_1_71 = UNIT_END + 0x21B,
+            PLAYER_SKILL_INFO_1_72 = UNIT_END + 0x21C,
+            PLAYER_SKILL_INFO_1_73 = UNIT_END + 0x21D,
+            PLAYER_SKILL_INFO_1_74 = UNIT_END + 0x21E,
+            PLAYER_SKILL_INFO_1_75 = UNIT_END + 0x21F,
+            PLAYER_SKILL_INFO_1_76 = UNIT_END + 0x220,
+            PLAYER_SKILL_INFO_1_77 = UNIT_END + 0x221,
+            PLAYER_SKILL_INFO_1_78 = UNIT_END + 0x222,
+            PLAYER_SKILL_INFO_1_79 = UNIT_END + 0x223,
+            PLAYER_SKILL_INFO_1_80 = UNIT_END + 0x224,
+            PLAYER_SKILL_INFO_1_81 = UNIT_END + 0x225,
+            PLAYER_SKILL_INFO_1_82 = UNIT_END + 0x226,
+            PLAYER_SKILL_INFO_1_83 = UNIT_END + 0x227,
+            PLAYER_SKILL_INFO_1_84 = UNIT_END + 0x228,
+            PLAYER_SKILL_INFO_1_85 = UNIT_END + 0x229,
+            PLAYER_SKILL_INFO_1_86 = UNIT_END + 0x22A,
+            PLAYER_SKILL_INFO_1_87 = UNIT_END + 0x22B,
+            PLAYER_SKILL_INFO_1_88 = UNIT_END + 0x22C,
+            PLAYER_SKILL_INFO_1_89 = UNIT_END + 0x22D,
+            PLAYER_SKILL_INFO_1_90 = UNIT_END + 0x22E,
+            PLAYER_SKILL_INFO_1_91 = UNIT_END + 0x22F,
+            PLAYER_SKILL_INFO_1_92 = UNIT_END + 0x230,
+            PLAYER_SKILL_INFO_1_93 = UNIT_END + 0x231,
+            PLAYER_SKILL_INFO_1_94 = UNIT_END + 0x232,
+            PLAYER_SKILL_INFO_1_95 = UNIT_END + 0x233,
+            PLAYER_SKILL_INFO_1_96 = UNIT_END + 0x234,
+            PLAYER_SKILL_INFO_1_97 = UNIT_END + 0x235,
+            PLAYER_SKILL_INFO_1_98 = UNIT_END + 0x236,
+            PLAYER_SKILL_INFO_1_99 = UNIT_END + 0x237,
+            PLAYER_SKILL_INFO_1_100 = UNIT_END + 0x238,
+            PLAYER_SKILL_INFO_1_101 = UNIT_END + 0x239,
+            PLAYER_SKILL_INFO_1_102 = UNIT_END + 0x23A,
+            PLAYER_SKILL_INFO_1_103 = UNIT_END + 0x23B,
+            PLAYER_SKILL_INFO_1_104 = UNIT_END + 0x23C,
+            PLAYER_SKILL_INFO_1_105 = UNIT_END + 0x23D,
+            PLAYER_SKILL_INFO_1_106 = UNIT_END + 0x23E,
+            PLAYER_SKILL_INFO_1_107 = UNIT_END + 0x23F,
+            PLAYER_SKILL_INFO_1_108 = UNIT_END + 0x240,
+            PLAYER_SKILL_INFO_1_109 = UNIT_END + 0x241,
+            PLAYER_SKILL_INFO_1_110 = UNIT_END + 0x242,
+            PLAYER_SKILL_INFO_1_111 = UNIT_END + 0x243,
+            PLAYER_SKILL_INFO_1_112 = UNIT_END + 0x244,
+            PLAYER_SKILL_INFO_1_113 = UNIT_END + 0x245,
+            PLAYER_SKILL_INFO_1_114 = UNIT_END + 0x246,
+            PLAYER_SKILL_INFO_1_115 = UNIT_END + 0x247,
+            PLAYER_SKILL_INFO_1_116 = UNIT_END + 0x248,
+            PLAYER_SKILL_INFO_1_117 = UNIT_END + 0x249,
+            PLAYER_SKILL_INFO_1_118 = UNIT_END + 0x24A,
+            PLAYER_SKILL_INFO_1_119 = UNIT_END + 0x24B,
+            PLAYER_SKILL_INFO_1_120 = UNIT_END + 0x24C,
+            PLAYER_SKILL_INFO_1_121 = UNIT_END + 0x24D,
+            PLAYER_SKILL_INFO_1_122 = UNIT_END + 0x24E,
+            PLAYER_SKILL_INFO_1_123 = UNIT_END + 0x24F,
+            PLAYER_SKILL_INFO_1_124 = UNIT_END + 0x250,
+            PLAYER_SKILL_INFO_1_125 = UNIT_END + 0x251,
+            PLAYER_SKILL_INFO_1_126 = UNIT_END + 0x252,
+            PLAYER_SKILL_INFO_1_127 = UNIT_END + 0x253,
+            PLAYER_SKILL_INFO_1_128 = UNIT_END + 0x254,
+            PLAYER_SKILL_INFO_1_129 = UNIT_END + 0x255,
+            PLAYER_SKILL_INFO_1_130 = UNIT_END + 0x256,
+            PLAYER_SKILL_INFO_1_131 = UNIT_END + 0x257,
+            PLAYER_SKILL_INFO_1_132 = UNIT_END + 0x258,
+            PLAYER_SKILL_INFO_1_133 = UNIT_END + 0x259,
+            PLAYER_SKILL_INFO_1_134 = UNIT_END + 0x25A,
+            PLAYER_SKILL_INFO_1_135 = UNIT_END + 0x25B,
+            PLAYER_SKILL_INFO_1_136 = UNIT_END + 0x25C,
+            PLAYER_SKILL_INFO_1_137 = UNIT_END + 0x25D,
+            PLAYER_SKILL_INFO_1_138 = UNIT_END + 0x25E,
+            PLAYER_SKILL_INFO_1_139 = UNIT_END + 0x25F,
+            PLAYER_SKILL_INFO_1_140 = UNIT_END + 0x260,
+            PLAYER_SKILL_INFO_1_141 = UNIT_END + 0x261,
+            PLAYER_SKILL_INFO_1_142 = UNIT_END + 0x262,
+            PLAYER_SKILL_INFO_1_143 = UNIT_END + 0x263,
+            PLAYER_SKILL_INFO_1_144 = UNIT_END + 0x264,
+            PLAYER_SKILL_INFO_1_145 = UNIT_END + 0x265,
+            PLAYER_SKILL_INFO_1_146 = UNIT_END + 0x266,
+            PLAYER_SKILL_INFO_1_147 = UNIT_END + 0x267,
+            PLAYER_SKILL_INFO_1_148 = UNIT_END + 0x268,
+            PLAYER_SKILL_INFO_1_149 = UNIT_END + 0x269,
+            PLAYER_SKILL_INFO_1_150 = UNIT_END + 0x26A,
+            PLAYER_SKILL_INFO_1_151 = UNIT_END + 0x26B,
+            PLAYER_SKILL_INFO_1_152 = UNIT_END + 0x26C,
+            PLAYER_SKILL_INFO_1_153 = UNIT_END + 0x26D,
+            PLAYER_SKILL_INFO_1_154 = UNIT_END + 0x26E,
+            PLAYER_SKILL_INFO_1_155 = UNIT_END + 0x26F,
+            PLAYER_SKILL_INFO_1_156 = UNIT_END + 0x270,
+            PLAYER_SKILL_INFO_1_157 = UNIT_END + 0x271,
+            PLAYER_SKILL_INFO_1_158 = UNIT_END + 0x272,
+            PLAYER_SKILL_INFO_1_159 = UNIT_END + 0x273,
+            PLAYER_SKILL_INFO_1_160 = UNIT_END + 0x274,
+            PLAYER_SKILL_INFO_1_161 = UNIT_END + 0x275,
+            PLAYER_SKILL_INFO_1_162 = UNIT_END + 0x276,
+            PLAYER_SKILL_INFO_1_163 = UNIT_END + 0x277,
+            PLAYER_SKILL_INFO_1_164 = UNIT_END + 0x278,
+            PLAYER_SKILL_INFO_1_165 = UNIT_END + 0x279,
+            PLAYER_SKILL_INFO_1_166 = UNIT_END + 0x27A,
+            PLAYER_SKILL_INFO_1_167 = UNIT_END + 0x27B,
+            PLAYER_SKILL_INFO_1_168 = UNIT_END + 0x27C,
+            PLAYER_SKILL_INFO_1_169 = UNIT_END + 0x27D,
+            PLAYER_SKILL_INFO_1_170 = UNIT_END + 0x27E,
+            PLAYER_SKILL_INFO_1_171 = UNIT_END + 0x27F,
+            PLAYER_SKILL_INFO_1_172 = UNIT_END + 0x280,
+            PLAYER_SKILL_INFO_1_173 = UNIT_END + 0x281,
+            PLAYER_SKILL_INFO_1_174 = UNIT_END + 0x282,
+            PLAYER_SKILL_INFO_1_175 = UNIT_END + 0x283,
+            PLAYER_SKILL_INFO_1_176 = UNIT_END + 0x284,
+            PLAYER_SKILL_INFO_1_177 = UNIT_END + 0x285,
+            PLAYER_SKILL_INFO_1_178 = UNIT_END + 0x286,
+            PLAYER_SKILL_INFO_1_179 = UNIT_END + 0x287,
+            PLAYER_SKILL_INFO_1_180 = UNIT_END + 0x288,
+            PLAYER_SKILL_INFO_1_181 = UNIT_END + 0x289,
+            PLAYER_SKILL_INFO_1_182 = UNIT_END + 0x28A,
+            PLAYER_SKILL_INFO_1_183 = UNIT_END + 0x28B,
+            PLAYER_SKILL_INFO_1_184 = UNIT_END + 0x28C,
+            PLAYER_SKILL_INFO_1_185 = UNIT_END + 0x28D,
+            PLAYER_SKILL_INFO_1_186 = UNIT_END + 0x28E,
+            PLAYER_SKILL_INFO_1_187 = UNIT_END + 0x28F,
+            PLAYER_SKILL_INFO_1_188 = UNIT_END + 0x290,
+            PLAYER_SKILL_INFO_1_189 = UNIT_END + 0x291,
+            PLAYER_SKILL_INFO_1_190 = UNIT_END + 0x292,
+            PLAYER_SKILL_INFO_1_191 = UNIT_END + 0x293,
+            PLAYER_SKILL_INFO_1_192 = UNIT_END + 0x294,
+            PLAYER_SKILL_INFO_1_193 = UNIT_END + 0x295,
+            PLAYER_SKILL_INFO_1_194 = UNIT_END + 0x296,
+            PLAYER_SKILL_INFO_1_195 = UNIT_END + 0x297,
+            PLAYER_SKILL_INFO_1_196 = UNIT_END + 0x298,
+            PLAYER_SKILL_INFO_1_197 = UNIT_END + 0x299,
+            PLAYER_SKILL_INFO_1_198 = UNIT_END + 0x29A,
+            PLAYER_SKILL_INFO_1_199 = UNIT_END + 0x29B,
+            PLAYER_SKILL_INFO_1_200 = UNIT_END + 0x29C,
+            PLAYER_SKILL_INFO_1_201 = UNIT_END + 0x29D,
+            PLAYER_SKILL_INFO_1_202 = UNIT_END + 0x29E,
+            PLAYER_SKILL_INFO_1_203 = UNIT_END + 0x29F,
+            PLAYER_SKILL_INFO_1_204 = UNIT_END + 0x2A0,
+            PLAYER_SKILL_INFO_1_205 = UNIT_END + 0x2A1,
+            PLAYER_SKILL_INFO_1_206 = UNIT_END + 0x2A2,
+            PLAYER_SKILL_INFO_1_207 = UNIT_END + 0x2A3,
+            PLAYER_SKILL_INFO_1_208 = UNIT_END + 0x2A4,
+            PLAYER_SKILL_INFO_1_209 = UNIT_END + 0x2A5,
+            PLAYER_SKILL_INFO_1_210 = UNIT_END + 0x2A6,
+            PLAYER_SKILL_INFO_1_211 = UNIT_END + 0x2A7,
+            PLAYER_SKILL_INFO_1_212 = UNIT_END + 0x2A8,
+            PLAYER_SKILL_INFO_1_213 = UNIT_END + 0x2A9,
+            PLAYER_SKILL_INFO_1_214 = UNIT_END + 0x2AA,
+            PLAYER_SKILL_INFO_1_215 = UNIT_END + 0x2AB,
+            PLAYER_SKILL_INFO_1_216 = UNIT_END + 0x2AC,
+            PLAYER_SKILL_INFO_1_217 = UNIT_END + 0x2AD,
+            PLAYER_SKILL_INFO_1_218 = UNIT_END + 0x2AE,
+            PLAYER_SKILL_INFO_1_219 = UNIT_END + 0x2AF,
+            PLAYER_SKILL_INFO_1_220 = UNIT_END + 0x2B0,
+            PLAYER_SKILL_INFO_1_221 = UNIT_END + 0x2B1,
+            PLAYER_SKILL_INFO_1_222 = UNIT_END + 0x2B2,
+            PLAYER_SKILL_INFO_1_223 = UNIT_END + 0x2B3,
+            PLAYER_SKILL_INFO_1_224 = UNIT_END + 0x2B4,
+            PLAYER_SKILL_INFO_1_225 = UNIT_END + 0x2B5,
+            PLAYER_SKILL_INFO_1_226 = UNIT_END + 0x2B6,
+            PLAYER_SKILL_INFO_1_227 = UNIT_END + 0x2B7,
+            PLAYER_SKILL_INFO_1_228 = UNIT_END + 0x2B8,
+            PLAYER_SKILL_INFO_1_229 = UNIT_END + 0x2B9,
+            PLAYER_SKILL_INFO_1_230 = UNIT_END + 0x2BA,
+            PLAYER_SKILL_INFO_1_231 = UNIT_END + 0x2BB,
+            PLAYER_SKILL_INFO_1_232 = UNIT_END + 0x2BC,
+            PLAYER_SKILL_INFO_1_233 = UNIT_END + 0x2BD,
+            PLAYER_SKILL_INFO_1_234 = UNIT_END + 0x2BE,
+            PLAYER_SKILL_INFO_1_235 = UNIT_END + 0x2BF,
+            PLAYER_SKILL_INFO_1_236 = UNIT_END + 0x2C0,
+            PLAYER_SKILL_INFO_1_237 = UNIT_END + 0x2C1,
+            PLAYER_SKILL_INFO_1_238 = UNIT_END + 0x2C2,
+            PLAYER_SKILL_INFO_1_239 = UNIT_END + 0x2C3,
+            PLAYER_SKILL_INFO_1_240 = UNIT_END + 0x2C4,
+            PLAYER_SKILL_INFO_1_241 = UNIT_END + 0x2C5,
+            PLAYER_SKILL_INFO_1_242 = UNIT_END + 0x2C6,
+            PLAYER_SKILL_INFO_1_243 = UNIT_END + 0x2C7,
+            PLAYER_SKILL_INFO_1_244 = UNIT_END + 0x2C8,
+            PLAYER_SKILL_INFO_1_245 = UNIT_END + 0x2C9,
+            PLAYER_SKILL_INFO_1_246 = UNIT_END + 0x2CA,
+            PLAYER_SKILL_INFO_1_247 = UNIT_END + 0x2CB,
+            PLAYER_SKILL_INFO_1_248 = UNIT_END + 0x2CC,
+            PLAYER_SKILL_INFO_1_249 = UNIT_END + 0x2CD,
+            PLAYER_SKILL_INFO_1_250 = UNIT_END + 0x2CE,
+            PLAYER_SKILL_INFO_1_251 = UNIT_END + 0x2CF,
+            PLAYER_SKILL_INFO_1_252 = UNIT_END + 0x2D0,
+            PLAYER_SKILL_INFO_1_253 = UNIT_END + 0x2D1,
+            PLAYER_SKILL_INFO_1_254 = UNIT_END + 0x2D2,
+            PLAYER_SKILL_INFO_1_255 = UNIT_END + 0x2D3,
+            PLAYER_SKILL_INFO_1_256 = UNIT_END + 0x2D4,
+            PLAYER_SKILL_INFO_1_257 = UNIT_END + 0x2D5,
+            PLAYER_SKILL_INFO_1_258 = UNIT_END + 0x2D6,
+            PLAYER_SKILL_INFO_1_259 = UNIT_END + 0x2D7,
+            PLAYER_SKILL_INFO_1_260 = UNIT_END + 0x2D8,
+            PLAYER_SKILL_INFO_1_261 = UNIT_END + 0x2D9,
+            PLAYER_SKILL_INFO_1_262 = UNIT_END + 0x2DA,
+            PLAYER_SKILL_INFO_1_263 = UNIT_END + 0x2DB,
+            PLAYER_SKILL_INFO_1_264 = UNIT_END + 0x2DC,
+            PLAYER_SKILL_INFO_1_265 = UNIT_END + 0x2DD,
+            PLAYER_SKILL_INFO_1_266 = UNIT_END + 0x2DE,
+            PLAYER_SKILL_INFO_1_267 = UNIT_END + 0x2DF,
+            PLAYER_SKILL_INFO_1_268 = UNIT_END + 0x2E0,
+            PLAYER_SKILL_INFO_1_269 = UNIT_END + 0x2E1,
+            PLAYER_SKILL_INFO_1_270 = UNIT_END + 0x2E2,
+            PLAYER_SKILL_INFO_1_271 = UNIT_END + 0x2E3,
+            PLAYER_SKILL_INFO_1_272 = UNIT_END + 0x2E4,
+            PLAYER_SKILL_INFO_1_273 = UNIT_END + 0x2E5,
+            PLAYER_SKILL_INFO_1_274 = UNIT_END + 0x2E6,
+            PLAYER_SKILL_INFO_1_275 = UNIT_END + 0x2E7,
+            PLAYER_SKILL_INFO_1_276 = UNIT_END + 0x2E8,
+            PLAYER_SKILL_INFO_1_277 = UNIT_END + 0x2E9,
+            PLAYER_SKILL_INFO_1_278 = UNIT_END + 0x2EA,
+            PLAYER_SKILL_INFO_1_279 = UNIT_END + 0x2EB,
+            PLAYER_SKILL_INFO_1_280 = UNIT_END + 0x2EC,
+            PLAYER_SKILL_INFO_1_281 = UNIT_END + 0x2ED,
+            PLAYER_SKILL_INFO_1_282 = UNIT_END + 0x2EE,
+            PLAYER_SKILL_INFO_1_283 = UNIT_END + 0x2EF,
+            PLAYER_SKILL_INFO_1_284 = UNIT_END + 0x2F0,
+            PLAYER_SKILL_INFO_1_285 = UNIT_END + 0x2F1,
+            PLAYER_SKILL_INFO_1_286 = UNIT_END + 0x2F2,
+            PLAYER_SKILL_INFO_1_287 = UNIT_END + 0x2F3,
+            PLAYER_SKILL_INFO_1_288 = UNIT_END + 0x2F4,
+            PLAYER_SKILL_INFO_1_289 = UNIT_END + 0x2F5,
+            PLAYER_SKILL_INFO_1_290 = UNIT_END + 0x2F6,
+            PLAYER_SKILL_INFO_1_291 = UNIT_END + 0x2F7,
+            PLAYER_SKILL_INFO_1_292 = UNIT_END + 0x2F8,
+            PLAYER_SKILL_INFO_1_293 = UNIT_END + 0x2F9,
+            PLAYER_SKILL_INFO_1_294 = UNIT_END + 0x2FA,
+            PLAYER_SKILL_INFO_1_295 = UNIT_END + 0x2FB,
+            PLAYER_SKILL_INFO_1_296 = UNIT_END + 0x2FC,
+            PLAYER_SKILL_INFO_1_297 = UNIT_END + 0x2FD,
+            PLAYER_SKILL_INFO_1_298 = UNIT_END + 0x2FE,
+            PLAYER_SKILL_INFO_1_299 = UNIT_END + 0x2FF,
+            PLAYER_SKILL_INFO_1_300 = UNIT_END + 0x300,
+            PLAYER_SKILL_INFO_1_301 = UNIT_END + 0x301,
+            PLAYER_SKILL_INFO_1_302 = UNIT_END + 0x302,
+            PLAYER_SKILL_INFO_1_303 = UNIT_END + 0x303,
+            PLAYER_SKILL_INFO_1_304 = UNIT_END + 0x304,
+            PLAYER_SKILL_INFO_1_305 = UNIT_END + 0x305,
+            PLAYER_SKILL_INFO_1_306 = UNIT_END + 0x306,
+            PLAYER_SKILL_INFO_1_307 = UNIT_END + 0x307,
+            PLAYER_SKILL_INFO_1_308 = UNIT_END + 0x308,
+            PLAYER_SKILL_INFO_1_309 = UNIT_END + 0x309,
+            PLAYER_SKILL_INFO_1_310 = UNIT_END + 0x30A,
+            PLAYER_SKILL_INFO_1_311 = UNIT_END + 0x30B,
+            PLAYER_SKILL_INFO_1_312 = UNIT_END + 0x30C,
+            PLAYER_SKILL_INFO_1_313 = UNIT_END + 0x30D,
+            PLAYER_SKILL_INFO_1_314 = UNIT_END + 0x30E,
+            PLAYER_SKILL_INFO_1_315 = UNIT_END + 0x30F,
+            PLAYER_SKILL_INFO_1_316 = UNIT_END + 0x310,
+            PLAYER_SKILL_INFO_1_317 = UNIT_END + 0x311,
+            PLAYER_SKILL_INFO_1_318 = UNIT_END + 0x312,
+            PLAYER_SKILL_INFO_1_319 = UNIT_END + 0x313,
+            PLAYER_SKILL_INFO_1_320 = UNIT_END + 0x314,
+            PLAYER_SKILL_INFO_1_321 = UNIT_END + 0x315,
+            PLAYER_SKILL_INFO_1_322 = UNIT_END + 0x316,
+            PLAYER_SKILL_INFO_1_323 = UNIT_END + 0x317,
+            PLAYER_SKILL_INFO_1_324 = UNIT_END + 0x318,
+            PLAYER_SKILL_INFO_1_325 = UNIT_END + 0x319,
+            PLAYER_SKILL_INFO_1_326 = UNIT_END + 0x31A,
+            PLAYER_SKILL_INFO_1_327 = UNIT_END + 0x31B,
+            PLAYER_SKILL_INFO_1_328 = UNIT_END + 0x31C,
+            PLAYER_SKILL_INFO_1_329 = UNIT_END + 0x31D,
+            PLAYER_SKILL_INFO_1_330 = UNIT_END + 0x31E,
+            PLAYER_SKILL_INFO_1_331 = UNIT_END + 0x31F,
+            PLAYER_SKILL_INFO_1_332 = UNIT_END + 0x320,
+            PLAYER_SKILL_INFO_1_333 = UNIT_END + 0x321,
+            PLAYER_SKILL_INFO_1_334 = UNIT_END + 0x322,
+            PLAYER_SKILL_INFO_1_335 = UNIT_END + 0x323,
+            PLAYER_SKILL_INFO_1_336 = UNIT_END + 0x324,
+            PLAYER_SKILL_INFO_1_337 = UNIT_END + 0x325,
+            PLAYER_SKILL_INFO_1_338 = UNIT_END + 0x326,
+            PLAYER_SKILL_INFO_1_339 = UNIT_END + 0x327,
+            PLAYER_SKILL_INFO_1_340 = UNIT_END + 0x328,
+            PLAYER_SKILL_INFO_1_341 = UNIT_END + 0x329,
+            PLAYER_SKILL_INFO_1_342 = UNIT_END + 0x32A,
+            PLAYER_SKILL_INFO_1_343 = UNIT_END + 0x32B,
+            PLAYER_SKILL_INFO_1_344 = UNIT_END + 0x32C,
+            PLAYER_SKILL_INFO_1_345 = UNIT_END + 0x32D,
+            PLAYER_SKILL_INFO_1_346 = UNIT_END + 0x32E,
+            PLAYER_SKILL_INFO_1_347 = UNIT_END + 0x32F,
+            PLAYER_SKILL_INFO_1_348 = UNIT_END + 0x330,
+            PLAYER_SKILL_INFO_1_349 = UNIT_END + 0x331,
+            PLAYER_SKILL_INFO_1_350 = UNIT_END + 0x332,
+            PLAYER_SKILL_INFO_1_351 = UNIT_END + 0x333,
+            PLAYER_SKILL_INFO_1_352 = UNIT_END + 0x334,
+            PLAYER_SKILL_INFO_1_353 = UNIT_END + 0x335,
+            PLAYER_SKILL_INFO_1_354 = UNIT_END + 0x336,
+            PLAYER_SKILL_INFO_1_355 = UNIT_END + 0x337,
+            PLAYER_SKILL_INFO_1_356 = UNIT_END + 0x338,
+            PLAYER_SKILL_INFO_1_357 = UNIT_END + 0x339,
+            PLAYER_SKILL_INFO_1_358 = UNIT_END + 0x33A,
+            PLAYER_SKILL_INFO_1_359 = UNIT_END + 0x33B,
+            PLAYER_SKILL_INFO_1_360 = UNIT_END + 0x33C,
+            PLAYER_SKILL_INFO_1_361 = UNIT_END + 0x33D,
+            PLAYER_SKILL_INFO_1_362 = UNIT_END + 0x33E,
+            PLAYER_SKILL_INFO_1_363 = UNIT_END + 0x33F,
+            PLAYER_SKILL_INFO_1_364 = UNIT_END + 0x340,
+            PLAYER_SKILL_INFO_1_365 = UNIT_END + 0x341,
+            PLAYER_SKILL_INFO_1_366 = UNIT_END + 0x342,
+            PLAYER_SKILL_INFO_1_367 = UNIT_END + 0x343,
+            PLAYER_SKILL_INFO_1_368 = UNIT_END + 0x344,
+            PLAYER_SKILL_INFO_1_369 = UNIT_END + 0x345,
+            PLAYER_SKILL_INFO_1_370 = UNIT_END + 0x346,
+            PLAYER_SKILL_INFO_1_371 = UNIT_END + 0x347,
+            PLAYER_SKILL_INFO_1_372 = UNIT_END + 0x348,
+            PLAYER_SKILL_INFO_1_373 = UNIT_END + 0x349,
+            PLAYER_SKILL_INFO_1_374 = UNIT_END + 0x34A,
+            PLAYER_SKILL_INFO_1_375 = UNIT_END + 0x34B,
+            PLAYER_SKILL_INFO_1_376 = UNIT_END + 0x34C,
+            PLAYER_SKILL_INFO_1_377 = UNIT_END + 0x34D,
+            PLAYER_SKILL_INFO_1_378 = UNIT_END + 0x34E,
+            PLAYER_SKILL_INFO_1_379 = UNIT_END + 0x34F,
+            PLAYER_SKILL_INFO_1_380 = UNIT_END + 0x350,
+            PLAYER_SKILL_INFO_1_381 = UNIT_END + 0x351,
+            PLAYER_SKILL_INFO_1_382 = UNIT_END + 0x352,
+            PLAYER_SKILL_INFO_1_383 = UNIT_END + 0x353,
+            PLAYER_CHARACTER_POINTS1 = UNIT_END + 0x354,
+            PLAYER_CHARACTER_POINTS2 = UNIT_END + 0x355,
+            PLAYER_TRACK_CREATURES = UNIT_END + 0x356,
+            PLAYER_TRACK_RESOURCES = UNIT_END + 0x357,
+            PLAYER_BLOCK_PERCENTAGE = UNIT_END + 0x358,
+            PLAYER_DODGE_PERCENTAGE = UNIT_END + 0x359,
+            PLAYER_PARRY_PERCENTAGE = UNIT_END + 0x35A,
+            PLAYER_CRIT_PERCENTAGE = UNIT_END + 0x35B,
+            PLAYER_RANGED_CRIT_PERCENTAGE = UNIT_END + 0x35C,
+            PLAYER_EXPLORED_ZONES_1 = UNIT_END + 0x35D,
+            PLAYER_EXPLORED_ZONES_01 = UNIT_END + 0x35E,
+            PLAYER_EXPLORED_ZONES_02 = UNIT_END + 0x35F,
+            PLAYER_EXPLORED_ZONES_03 = UNIT_END + 0x360,
+            PLAYER_EXPLORED_ZONES_04 = UNIT_END + 0x361,
+            PLAYER_EXPLORED_ZONES_05 = UNIT_END + 0x362,
+            PLAYER_EXPLORED_ZONES_06 = UNIT_END + 0x363,
+            PLAYER_EXPLORED_ZONES_07 = UNIT_END + 0x364,
+            PLAYER_EXPLORED_ZONES_08 = UNIT_END + 0x365,
+            PLAYER_EXPLORED_ZONES_09 = UNIT_END + 0x366,
+            PLAYER_EXPLORED_ZONES_10 = UNIT_END + 0x367,
+            PLAYER_EXPLORED_ZONES_11 = UNIT_END + 0x368,
+            PLAYER_EXPLORED_ZONES_12 = UNIT_END + 0x369,
+            PLAYER_EXPLORED_ZONES_13 = UNIT_END + 0x36A,
+            PLAYER_EXPLORED_ZONES_14 = UNIT_END + 0x36B,
+            PLAYER_EXPLORED_ZONES_15 = UNIT_END + 0x36C,
+            PLAYER_EXPLORED_ZONES_16 = UNIT_END + 0x36D,
+            PLAYER_EXPLORED_ZONES_17 = UNIT_END + 0x36E,
+            PLAYER_EXPLORED_ZONES_18 = UNIT_END + 0x36F,
+            PLAYER_EXPLORED_ZONES_19 = UNIT_END + 0x370,
+            PLAYER_EXPLORED_ZONES_20 = UNIT_END + 0x371,
+            PLAYER_EXPLORED_ZONES_21 = UNIT_END + 0x372,
+            PLAYER_EXPLORED_ZONES_22 = UNIT_END + 0x373,
+            PLAYER_EXPLORED_ZONES_23 = UNIT_END + 0x374,
+            PLAYER_EXPLORED_ZONES_24 = UNIT_END + 0x375,
+            PLAYER_EXPLORED_ZONES_25 = UNIT_END + 0x376,
+            PLAYER_EXPLORED_ZONES_26 = UNIT_END + 0x377,
+            PLAYER_EXPLORED_ZONES_27 = UNIT_END + 0x378,
+            PLAYER_EXPLORED_ZONES_28 = UNIT_END + 0x379,
+            PLAYER_EXPLORED_ZONES_29 = UNIT_END + 0x37A,
+            PLAYER_EXPLORED_ZONES_30 = UNIT_END + 0x37B,
+            PLAYER_EXPLORED_ZONES_31 = UNIT_END + 0x37C,
+            PLAYER_EXPLORED_ZONES_32 = UNIT_END + 0x37D,
+            PLAYER_EXPLORED_ZONES_33 = UNIT_END + 0x37E,
+            PLAYER_EXPLORED_ZONES_34 = UNIT_END + 0x37F,
+            PLAYER_EXPLORED_ZONES_35 = UNIT_END + 0x380,
+            PLAYER_EXPLORED_ZONES_36 = UNIT_END + 0x381,
+            PLAYER_EXPLORED_ZONES_37 = UNIT_END + 0x382,
+            PLAYER_EXPLORED_ZONES_38 = UNIT_END + 0x383,
+            PLAYER_EXPLORED_ZONES_39 = UNIT_END + 0x384,
+            PLAYER_EXPLORED_ZONES_40 = UNIT_END + 0x385,
+            PLAYER_EXPLORED_ZONES_41 = UNIT_END + 0x386,
+            PLAYER_EXPLORED_ZONES_42 = UNIT_END + 0x387,
+            PLAYER_EXPLORED_ZONES_43 = UNIT_END + 0x388,
+            PLAYER_EXPLORED_ZONES_44 = UNIT_END + 0x389,
+            PLAYER_EXPLORED_ZONES_45 = UNIT_END + 0x38A,
+            PLAYER_EXPLORED_ZONES_46 = UNIT_END + 0x38B,
+            PLAYER_EXPLORED_ZONES_47 = UNIT_END + 0x38C,
+            PLAYER_EXPLORED_ZONES_48 = UNIT_END + 0x38D,
+            PLAYER_EXPLORED_ZONES_49 = UNIT_END + 0x38E,
+            PLAYER_EXPLORED_ZONES_50 = UNIT_END + 0x38F,
+            PLAYER_EXPLORED_ZONES_51 = UNIT_END + 0x390,
+            PLAYER_EXPLORED_ZONES_52 = UNIT_END + 0x391,
+            PLAYER_EXPLORED_ZONES_53 = UNIT_END + 0x392,
+            PLAYER_EXPLORED_ZONES_54 = UNIT_END + 0x393,
+            PLAYER_EXPLORED_ZONES_55 = UNIT_END + 0x394,
+            PLAYER_EXPLORED_ZONES_56 = UNIT_END + 0x395,
+            PLAYER_EXPLORED_ZONES_57 = UNIT_END + 0x396,
+            PLAYER_EXPLORED_ZONES_58 = UNIT_END + 0x397,
+            PLAYER_EXPLORED_ZONES_59 = UNIT_END + 0x398,
+            PLAYER_EXPLORED_ZONES_60 = UNIT_END + 0x399,
+            PLAYER_EXPLORED_ZONES_61 = UNIT_END + 0x39A,
+            PLAYER_EXPLORED_ZONES_62 = UNIT_END + 0x39B,
+            PLAYER_EXPLORED_ZONES_63 = UNIT_END + 0x39C,
+            PLAYER_REST_STATE_EXPERIENCE = UNIT_END + 0x39D,
+            PLAYER_FIELD_COINAGE = UNIT_END + 0x39E,
+            PLAYER_FIELD_POSSTAT0 = UNIT_END + 0x39F,
+            PLAYER_FIELD_POSSTAT1 = UNIT_END + 0x3A0,
+            PLAYER_FIELD_POSSTAT2 = UNIT_END + 0x3A1,
+            PLAYER_FIELD_POSSTAT3 = UNIT_END + 0x3A2,
+            PLAYER_FIELD_POSSTAT4 = UNIT_END + 0x3A3,
+            PLAYER_FIELD_NEGSTAT0 = UNIT_END + 0x3A4,
+            PLAYER_FIELD_NEGSTAT1 = UNIT_END + 0x3A5,
+            PLAYER_FIELD_NEGSTAT2 = UNIT_END + 0x3A6,
+            PLAYER_FIELD_NEGSTAT3 = UNIT_END + 0x3A7,
+            PLAYER_FIELD_NEGSTAT4 = UNIT_END + 0x3A8,
+            PLAYER_FIELD_RESISTANCEBUFFMODSPOSITIVE = UNIT_END + 0x3A9,
+            PLAYER_FIELD_RESISTANCEBUFFMODSPOSITIVE_01 = UNIT_END + 0x3AA,
+            PLAYER_FIELD_RESISTANCEBUFFMODSPOSITIVE_02 = UNIT_END + 0x3AB,
+            PLAYER_FIELD_RESISTANCEBUFFMODSPOSITIVE_03 = UNIT_END + 0x3AC,
+            PLAYER_FIELD_RESISTANCEBUFFMODSPOSITIVE_04 = UNIT_END + 0x3AD,
+            PLAYER_FIELD_RESISTANCEBUFFMODSPOSITIVE_05 = UNIT_END + 0x3AE,
+            PLAYER_FIELD_RESISTANCEBUFFMODSPOSITIVE_06 = UNIT_END + 0x3AF,
+            PLAYER_FIELD_RESISTANCEBUFFMODSNEGATIVE = UNIT_END + 0x3B0,
+            PLAYER_FIELD_RESISTANCEBUFFMODSNEGATIVE_01 = UNIT_END + 0x3B1,
+            PLAYER_FIELD_RESISTANCEBUFFMODSNEGATIVE_02 = UNIT_END + 0x3B2,
+            PLAYER_FIELD_RESISTANCEBUFFMODSNEGATIVE_03 = UNIT_END + 0x3B3,
+            PLAYER_FIELD_RESISTANCEBUFFMODSNEGATIVE_04 = UNIT_END + 0x3B4,
+            PLAYER_FIELD_RESISTANCEBUFFMODSNEGATIVE_05 = UNIT_END + 0x3B5,
+            PLAYER_FIELD_RESISTANCEBUFFMODSNEGATIVE_06 = UNIT_END + 0x3B6,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_POS = UNIT_END + 0x3B7,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_POS_01 = UNIT_END + 0x3B8,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_POS_02 = UNIT_END + 0x3B9,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_POS_03 = UNIT_END + 0x3BA,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_POS_04 = UNIT_END + 0x3BB,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_POS_05 = UNIT_END + 0x3BC,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_POS_06 = UNIT_END + 0x3BD,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_NEG = UNIT_END + 0x3BE,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_NEG_01 = UNIT_END + 0x3BF,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_NEG_02 = UNIT_END + 0x3C0,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_NEG_03 = UNIT_END + 0x3C1,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_NEG_04 = UNIT_END + 0x3C2,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_NEG_05 = UNIT_END + 0x3C3,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_NEG_06 = UNIT_END + 0x3C4,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_PCT = UNIT_END + 0x3C5,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_PCT_01 = UNIT_END + 0x3C6,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_PCT_02 = UNIT_END + 0x3C7,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_PCT_03 = UNIT_END + 0x3C8,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_PCT_04 = UNIT_END + 0x3C9,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_PCT_05 = UNIT_END + 0x3CA,
+            PLAYER_FIELD_MOD_DAMAGE_DONE_PCT_06 = UNIT_END + 0x3CB,
+            PLAYER_FIELD_BYTES = UNIT_END + 0x3CC,
+            PLAYER_AMMO_ID = UNIT_END + 0x3CD,
+            PLAYER_SELF_RES_SPELL = UNIT_END + 0x3CE,
+            PLAYER_FIELD_PVP_MEDALS = UNIT_END + 0x3CF,
+            PLAYER_FIELD_BUYBACK_PRICE_1 = UNIT_END + 0x3D0,
+            PLAYER_FIELD_BUYBACK_PRICE_01 = UNIT_END + 0x3D1,
+            PLAYER_FIELD_BUYBACK_PRICE_02 = UNIT_END + 0x3D2,
+            PLAYER_FIELD_BUYBACK_PRICE_03 = UNIT_END + 0x3D3,
+            PLAYER_FIELD_BUYBACK_PRICE_04 = UNIT_END + 0x3D4,
+            PLAYER_FIELD_BUYBACK_PRICE_05 = UNIT_END + 0x3D5,
+            PLAYER_FIELD_BUYBACK_PRICE_06 = UNIT_END + 0x3D6,
+            PLAYER_FIELD_BUYBACK_PRICE_07 = UNIT_END + 0x3D7,
+            PLAYER_FIELD_BUYBACK_PRICE_08 = UNIT_END + 0x3D8,
+            PLAYER_FIELD_BUYBACK_PRICE_09 = UNIT_END + 0x3D9,
+            PLAYER_FIELD_BUYBACK_PRICE_10 = UNIT_END + 0x3DA,
+            PLAYER_FIELD_BUYBACK_PRICE_11 = UNIT_END + 0x3DB,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_1 = UNIT_END + 0x3DC,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_01 = UNIT_END + 0x3DD,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_02 = UNIT_END + 0x3DE,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_03 = UNIT_END + 0x3DF,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_04 = UNIT_END + 0x3E0,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_05 = UNIT_END + 0x3E1,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_06 = UNIT_END + 0x3E2,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_07 = UNIT_END + 0x3E3,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_08 = UNIT_END + 0x3E4,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_09 = UNIT_END + 0x3E5,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_10 = UNIT_END + 0x3E6,
+            PLAYER_FIELD_BUYBACK_TIMESTAMP_11 = UNIT_END + 0x3E7,
+            PLAYER_FIELD_SESSION_KILLS = UNIT_END + 0x3E8,
+            PLAYER_FIELD_YESTERDAY_KILLS = UNIT_END + 0x3E9,
+            PLAYER_FIELD_LAST_WEEK_KILLS = UNIT_END + 0x3EA,
+            PLAYER_FIELD_THIS_WEEK_KILLS = UNIT_END + 0x3EB,
+            PLAYER_FIELD_THIS_WEEK_CONTRIBUTION = UNIT_END + 0x3EC,
+            PLAYER_FIELD_LIFETIME_HONORBALE_KILLS = UNIT_END + 0x3ED,
+            PLAYER_FIELD_LIFETIME_DISHONORBALE_KILLS = UNIT_END + 0x3EE,
+            PLAYER_FIELD_YESTERDAY_CONTRIBUTION = UNIT_END + 0x3EF,
+            PLAYER_FIELD_LAST_WEEK_CONTRIBUTION = UNIT_END + 0x3F0,
+            PLAYER_FIELD_LAST_WEEK_RANK = UNIT_END + 0x3F1,
+            PLAYER_FIELD_BYTES2 = UNIT_END + 0x3F2,
+            PLAYER_FIELD_PADDING = UNIT_END + 0x3F3,
+            MAX = UNIT_END + 0x3F4,
+        }
+    }
 }
