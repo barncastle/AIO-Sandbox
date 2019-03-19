@@ -1,12 +1,9 @@
-﻿using Common.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using Common.Constants;
+using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Common.Constants;
 
 namespace Beta_3988
 {
@@ -45,9 +42,9 @@ namespace Beta_3988
         public bool IsTeleporting { get; set; } = false;
         public uint DisplayId { get; set; }
         public uint MountDisplayId { get; set; }
-		public float Scale { get; set; }
+        public float Scale { get; set; }
 
-		public IPacketWriter BuildUpdate()
+        public IPacketWriter BuildUpdate()
         {
             byte maskSize = ((int)Fields.MAX + 31) / 32;
             SortedDictionary<int, byte[]> fieldData = new SortedDictionary<int, byte[]>();
@@ -83,7 +80,7 @@ namespace Beta_3988
             SetField(Fields.OBJECT_FIELD_GUID, this.Guid);
             SetField(Fields.OBJECT_FIELD_TYPE, (uint)0x19);
             SetField(Fields.OBJECT_FIELD_ENTRY, 0);
-           SetField(Fields.OBJECT_FIELD_SCALE_X, this.Scale);
+            SetField(Fields.OBJECT_FIELD_SCALE_X, this.Scale);
             SetField(Fields.OBJECT_FIELD_PADDING, 0);
             SetField(Fields.UNIT_FIELD_TARGET, (ulong)0);
             SetField(Fields.UNIT_FIELD_HEALTH, this.Health);

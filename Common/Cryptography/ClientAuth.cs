@@ -1,10 +1,9 @@
-﻿using Common.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using Common.Interfaces;
 
 namespace Common.Cryptography
 {
@@ -59,11 +58,11 @@ namespace Common.Cryptography
 
         public static byte[] LogonChallenge(IPacketReader packet)
         {
-			packet.Position = 11;
-			uint build = packet.ReadUInt16();
+            packet.Position = 11;
+            uint build = packet.ReadUInt16();
 
-			packet.Position = 33; //Skip to username
-			BUsername = packet.ReadBytes(packet.ReadByte()); //Read username
+            packet.Position = 33; //Skip to username
+            BUsername = packet.ReadBytes(packet.ReadByte()); //Read username
             string username = Encoding.ASCII.GetString(BUsername);
 
             byte[] x;
@@ -101,8 +100,8 @@ namespace Common.Cryptography
             byte[] rA = A.Reverse().ToArray();
             byte[] AB = A.Concat(B.GetBytes(32).Reverse()).ToArray();
 
-			if (new BigInteger(A) % new BigInteger(N) == 0)
-				return new byte[1];
+            if (new BigInteger(A) % new BigInteger(N) == 0)
+                return new byte[1];
 
             SHA1 sha = new SHA1CryptoServiceProvider();
             byte[] rU = sha.ComputeHash(AB).Reverse().ToArray();

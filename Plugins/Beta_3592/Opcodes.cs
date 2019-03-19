@@ -1,9 +1,6 @@
-﻿using Common.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Common.Interfaces;
 
 namespace Beta_3592
 {
@@ -74,7 +71,7 @@ namespace Beta_3592
         };
 
         public uint this[global::Opcodes opcode] => opcodes[opcode];
-        
+
         public global::Opcodes this[uint opcode] => opcodes.First(x => x.Value == opcode).Key;
 
         public bool OpcodeExists(uint opcode) => opcodes.Any(x => x.Value == opcode);

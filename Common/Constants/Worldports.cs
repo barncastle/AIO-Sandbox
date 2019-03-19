@@ -1,9 +1,7 @@
-﻿using Common.Interfaces;
-using Common.Structs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Common.Structs;
 
 namespace Common.Constants
 {

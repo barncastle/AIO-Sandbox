@@ -1,11 +1,10 @@
-﻿using Common.Constants;
+﻿using System.Net.Sockets;
+using System.Text;
+using Common.Constants;
 using Common.Cryptography;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Structs;
-using System;
-using System.Net.Sockets;
-using System.Text;
 
 namespace Vanilla_4500.Handlers
 {
@@ -29,7 +28,7 @@ namespace Vanilla_4500.Handlers
 
         public void HandleAuthSession(ref IPacketReader packet, ref IWorldManager manager)
         {
-			ClientAuth.Encode = true;
+            ClientAuth.Encode = true;
 
             packet.ReadUInt64();
             string name = packet.ReadString().ToUpper();

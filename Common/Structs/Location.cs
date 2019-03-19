@@ -1,9 +1,5 @@
-﻿using Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Common.Interfaces;
 
 namespace Common.Structs
 {
@@ -37,7 +33,7 @@ namespace Common.Structs
             this.Map = map;
             this.Description = description;
         }
-        
+
 
         public void Update(float x, float y, float z)
         {
@@ -70,9 +66,9 @@ namespace Common.Structs
             return $"X: {X}, Y: {Y}, Z: {Z}, O: {O}, Map: {Map}";
         }
 
-		public object Clone()
-		{
-			return this.MemberwiseClone();
-		}
-	}
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+    }
 }

@@ -296,7 +296,7 @@ public class BigInteger
 
         for (int i = value.Length - 1; i >= limit; i--)
         {
-            int posVal = (int)value[i];
+            int posVal = value[i];
 
             if (posVal >= '0' && posVal <= '9')
                 posVal -= '0';
@@ -377,7 +377,7 @@ public class BigInteger
         }
 
         if (leftOver == 1)
-            data[dataLength - 1] = (uint)inData[0];
+            data[dataLength - 1] = inData[0];
         else if (leftOver == 2)
             data[dataLength - 1] = (uint)((inData[0] << 8) + inData[1]);
         else if (leftOver == 3)
@@ -417,7 +417,7 @@ public class BigInteger
         }
 
         if (leftOver == 1)
-            data[dataLength - 1] = (uint)inData[0];
+            data[dataLength - 1] = inData[0];
         else if (leftOver == 2)
             data[dataLength - 1] = (uint)((inData[0] << 8) + inData[1]);
         else if (leftOver == 3)
@@ -474,7 +474,7 @@ public class BigInteger
 
     public static implicit operator BigInteger(int value)
     {
-        return (new BigInteger((long)value));
+        return (new BigInteger(value));
     }
 
     public static implicit operator BigInteger(uint value)
@@ -496,7 +496,7 @@ public class BigInteger
         long carry = 0;
         for (int i = 0; i < result.dataLength; i++)
         {
-            long sum = (long)bi1.data[i] + (long)bi2.data[i] + carry;
+            long sum = bi1.data[i] + (long)bi2.data[i] + carry;
             carry = sum >> 32;
             result.data[i] = (uint)(sum & 0xFFFFFFFF);
         }
@@ -536,7 +536,7 @@ public class BigInteger
 
         while (carry != 0 && index < maxLength)
         {
-            val = (long)(result.data[index]);
+            val = result.data[index];
             val++;
 
             result.data[index] = (uint)(val & 0xFFFFFFFF);
@@ -583,7 +583,7 @@ public class BigInteger
         {
             long diff;
 
-            diff = (long)bi1.data[i] - (long)bi2.data[i] - carryIn;
+            diff = bi1.data[i] - (long)bi2.data[i] - carryIn;
             result.data[i] = (uint)(diff & 0xFFFFFFFF);
 
             if (diff < 0)
@@ -631,7 +631,7 @@ public class BigInteger
 
         while (carryIn && index < maxLength)
         {
-            val = (long)(result.data[index]);
+            val = result.data[index];
             val--;
 
             result.data[index] = (uint)(val & 0xFFFFFFFF);
@@ -700,8 +700,8 @@ public class BigInteger
                 for (int j = 0, k = i; j < bi2.dataLength; j++, k++)
                 {
                     // k = i + j
-                    ulong val = ((ulong)bi1.data[i] * (ulong)bi2.data[j]) +
-                        (ulong)result.data[k] + mcarry;
+                    ulong val = (bi1.data[i] * (ulong)bi2.data[j]) +
+                        result.data[k] + mcarry;
 
                     result.data[k] = (uint)(val & 0xFFFFFFFF);
                     mcarry = (val >> 32);
@@ -895,7 +895,7 @@ public class BigInteger
         BigInteger result = new BigInteger(bi1);
 
         for (int i = 0; i < maxLength; i++)
-            result.data[i] = (uint)(~(bi1.data[i]));
+            result.data[i] = ~(bi1.data[i]);
 
         result.dataLength = maxLength;
 
@@ -922,7 +922,7 @@ public class BigInteger
 
         // 1's complement
         for (int i = 0; i < maxLength; i++)
-            result.data[i] = (uint)(~(bi1.data[i]));
+            result.data[i] = ~(bi1.data[i]);
 
         // add one to result of 1's complement
         long val, carry = 1;
@@ -930,7 +930,7 @@ public class BigInteger
 
         while (carry != 0 && index < maxLength)
         {
-            val = (long)(result.data[index]);
+            val = result.data[index];
             val++;
 
             result.data[index] = (uint)(val & 0xFFFFFFFF);
@@ -1107,7 +1107,7 @@ public class BigInteger
 
         while (j > 0)
         {
-            ulong dividend = ((ulong)remainder[pos] << 32) + (ulong)remainder[pos - 1];
+            ulong dividend = ((ulong)remainder[pos] << 32) + remainder[pos - 1];
             //Console.WriteLine("dividend = {0}", dividend);
 
             ulong q_hat = dividend / firstDivisorByte;
@@ -1207,9 +1207,9 @@ public class BigInteger
         while (outRemainder.dataLength > 1 && outRemainder.data[outRemainder.dataLength - 1] == 0)
             outRemainder.dataLength--;
 
-        ulong divisor = (ulong)bi2.data[0];
+        ulong divisor = bi2.data[0];
         int pos = outRemainder.dataLength - 1;
-        ulong dividend = (ulong)outRemainder.data[pos];
+        ulong dividend = outRemainder.data[pos];
 
         //Console.WriteLine("divisor = " + divisor + " dividend = " + dividend);
         //Console.WriteLine("divisor = " + bi2 + "\ndividend = " + bi1);
@@ -1227,7 +1227,7 @@ public class BigInteger
         {
             //Console.WriteLine(pos);
 
-            dividend = ((ulong)outRemainder.data[pos + 1] << 32) + (ulong)outRemainder.data[pos];
+            dividend = ((ulong)outRemainder.data[pos + 1] << 32) + outRemainder.data[pos];
             ulong quotient = dividend / divisor;
             result[resultPos++] = (uint)quotient;
 
@@ -1349,7 +1349,7 @@ public class BigInteger
 
         for (int i = 0; i < len; i++)
         {
-            uint sum = (uint)(bi1.data[i] & bi2.data[i]);
+            uint sum = bi1.data[i] & bi2.data[i];
             result.data[i] = sum;
         }
 
@@ -1374,7 +1374,7 @@ public class BigInteger
 
         for (int i = 0; i < len; i++)
         {
-            uint sum = (uint)(bi1.data[i] | bi2.data[i]);
+            uint sum = bi1.data[i] | bi2.data[i];
             result.data[i] = sum;
         }
 
@@ -1399,7 +1399,7 @@ public class BigInteger
 
         for (int i = 0; i < len; i++)
         {
-            uint sum = (uint)(bi1.data[i] ^ bi2.data[i]);
+            uint sum = bi1.data[i] ^ bi2.data[i];
             result.data[i] = sum;
         }
 
@@ -1677,8 +1677,8 @@ public class BigInteger
             for (int j = 0; j < n.dataLength && t < kPlusOne; j++, t++)
             {
                 // t = i + j
-                ulong val = ((ulong)q3.data[i] * (ulong)n.data[j]) +
-                    (ulong)r2.data[t] + mcarry;
+                ulong val = (q3.data[i] * (ulong)n.data[j]) +
+                    r2.data[t] + mcarry;
 
                 r2.data[t] = (uint)(val & 0xFFFFFFFF);
                 mcarry = (val >> 32);
@@ -1765,7 +1765,7 @@ public class BigInteger
             uint mask = (uint)(0x01 << (remBits - 1));
             data[dwords - 1] |= mask;
 
-            mask = (uint)(0xFFFFFFFF >> (32 - remBits));
+            mask = 0xFFFFFFFF >> (32 - remBits);
             data[dwords - 1] &= mask;
         }
         else
@@ -2465,7 +2465,7 @@ public class BigInteger
     {
         long val = 0;
 
-        val = (long)data[0];
+        val = data[0];
         try
         {       // exception if maxLength = 1
             val |= (long)data[1] << 32;

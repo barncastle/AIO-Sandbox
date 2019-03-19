@@ -1,14 +1,11 @@
-﻿using Common.Commands;
+﻿using System;
+using System.Linq;
+using Common.Commands;
 using Common.Constants;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Beta_3892.Handlers
 {
@@ -40,7 +37,7 @@ namespace Beta_3892.Handlers
                 manager.Send(writer);
                 return;
             }
-            
+
             cha.Guid = (ulong)(manager.Account.Characters.Count + 1);
             cha.Location = new Location(-8949.95f, -132.493f, 83.5312f, 0, 0);
             cha.RestedState = (byte)new Random().Next(1, 2);
@@ -57,9 +54,9 @@ namespace Beta_3892.Handlers
         public void HandleCharDelete(ref IPacketReader packet, ref IWorldManager manager)
         {
             ulong guid = packet.ReadUInt64();
-			var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
+            var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
-			PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
+            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
             writer.WriteUInt8(0x2C);
             manager.Send(writer);
 
@@ -148,9 +145,9 @@ namespace Beta_3892.Handlers
         public void HandleNameCache(ref IPacketReader packet, ref IWorldManager manager)
         {
             ulong guid = packet.ReadUInt64();
-			var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
+            var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
-			PacketWriter nameCache = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NAME_QUERY_RESPONSE], "SMSG_NAME_QUERY_RESPONSE");
+            PacketWriter nameCache = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NAME_QUERY_RESPONSE], "SMSG_NAME_QUERY_RESPONSE");
             nameCache.WriteUInt64(guid);
             nameCache.WriteString(character.Name);
             nameCache.WriteUInt32(character.Race);

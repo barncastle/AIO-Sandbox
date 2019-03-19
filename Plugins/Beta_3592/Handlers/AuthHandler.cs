@@ -1,11 +1,10 @@
-﻿using Common.Interfaces.Handlers;
-using System;
+﻿using System.Net.Sockets;
 using System.Text;
-using Common.Interfaces;
-using System.Net.Sockets;
 using Common.Constants;
-using Common.Structs;
 using Common.Cryptography;
+using Common.Interfaces;
+using Common.Interfaces.Handlers;
+using Common.Structs;
 
 namespace Beta_3592.Handlers
 {

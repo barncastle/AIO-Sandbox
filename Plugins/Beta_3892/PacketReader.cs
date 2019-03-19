@@ -1,10 +1,7 @@
-﻿using Common.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Common.Interfaces;
 
 namespace Beta_3892
 {

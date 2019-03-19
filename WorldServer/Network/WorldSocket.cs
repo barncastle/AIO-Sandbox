@@ -2,9 +2,8 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using Common.Logging;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
+using Common.Logging;
 
 namespace WorldServer.Network
 {

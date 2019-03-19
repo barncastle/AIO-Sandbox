@@ -1,11 +1,10 @@
-﻿using Common.Constants;
+﻿using System.Net.Sockets;
+using System.Text;
+using Common.Constants;
 using Common.Cryptography;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Structs;
-using System;
-using System.Net.Sockets;
-using System.Text;
 
 namespace Beta_3988.Handlers
 {

@@ -1,14 +1,10 @@
-﻿using Common.Interfaces.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-using Common.Interfaces;
-using System.Net.Sockets;
 using Common.Constants;
-using Common.Structs;
 using Common.Cryptography;
+using Common.Interfaces;
+using Common.Interfaces.Handlers;
+using Common.Structs;
 
 namespace Beta_3734.Handlers
 {

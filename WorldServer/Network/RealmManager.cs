@@ -1,7 +1,6 @@
-﻿using System;
-using System.Net.Sockets;
-using Common.Logging;
+﻿using System.Net.Sockets;
 using Common.Constants;
+using Common.Logging;
 
 namespace WorldServer.Network
 {

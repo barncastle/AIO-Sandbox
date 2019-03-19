@@ -1,6 +1,5 @@
-﻿using Common.Structs;
-using System;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
+using Common.Structs;
 
 namespace Common.Interfaces
 {
@@ -8,7 +7,7 @@ namespace Common.Interfaces
     {
         Account Account { get; set; }
         Socket Socket { get; set; }
-        
+
         void Recieve();
         void Send(IPacketWriter packet);
     }

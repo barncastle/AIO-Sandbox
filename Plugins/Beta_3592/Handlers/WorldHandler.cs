@@ -1,9 +1,8 @@
-﻿using Common.Interfaces.Handlers;
-using System;
-using Common.Interfaces;
-using Common.Constants;
-using Common.Logging;
+﻿using Common.Constants;
 using Common.Extensions;
+using Common.Interfaces;
+using Common.Interfaces.Handlers;
+using Common.Logging;
 
 namespace Beta_3592.Handlers
 {
@@ -18,16 +17,16 @@ namespace Beta_3592.Handlers
 
         public void HandlePlayerLogin(ref IPacketReader packet, ref IWorldManager manager)
         {
-			ulong guid = packet.ReadUInt64();
-			Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
-			character.DisplayId = character.GetDisplayId();
+            ulong guid = packet.ReadUInt64();
+            Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
+            character.DisplayId = character.GetDisplayId();
 
-			//Tutorial Flags : REQUIRED
-			PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
+            //Tutorial Flags : REQUIRED
+            PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
             for (int i = 0; i < 8; i++)
                 tutorial.WriteInt32(-1);
             manager.Send(tutorial);
-            
+
             //Enable UI : REQUIRED
             PacketWriter uiconfig = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UI_CONFIG_MD5], "SMSG_UI_CONFIG_MD5");
             uiconfig.Write(new byte[80]);

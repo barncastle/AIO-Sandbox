@@ -1,120 +1,116 @@
-﻿using Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
+using Common.Interfaces;
 
 namespace Alpha_3494
 {
-	public class PacketWriter : BinaryWriter, IPacketWriter
-	{
-		public string Name { get; set; }
-		public uint Opcode { get; set; }
-		public uint Size { get; set; }
-		public bool PreAuth { get; set; } = false;
+    public class PacketWriter : BinaryWriter, IPacketWriter
+    {
+        public string Name { get; set; }
+        public uint Opcode { get; set; }
+        public uint Size { get; set; }
+        public bool PreAuth { get; set; } = false;
 
 
-		public PacketWriter() : base(new MemoryStream())
-		{
-			PreAuth = true;
-		}
+        public PacketWriter() : base(new MemoryStream())
+        {
+            PreAuth = true;
+        }
 
-		public PacketWriter(uint opcode, string name) : base(new MemoryStream())
-		{
-			Name = name;
-			Opcode = opcode;
-			WritePacketHeader(opcode);
-		}
-
-
-		public void WritePacketHeader(uint opcode)
-		{
-			WriteUInt16(0);
-			WriteUInt32(opcode);
-		}
-
-		public byte[] ReadDataToSend()
-		{
-			byte[] data = new byte[BaseStream.Length];
-			Seek(0, SeekOrigin.Begin);
-
-			BaseStream.Read(data, 0, (int)BaseStream.Length);
-
-			Size = (ushort)(data.Length - 2);
-
-			if (!PreAuth)
-			{
-				Size = (ushort)((Size >> 8) + ((Size & 0xFF) << 8));
-				data[0] = (byte)(Size & 0xFF);
-				data[1] = (byte)(Size >> 8);
-			}
-
-			return data;
-		}
+        public PacketWriter(uint opcode, string name) : base(new MemoryStream())
+        {
+            Name = name;
+            Opcode = opcode;
+            WritePacketHeader(opcode);
+        }
 
 
-		public void WriteInt8(sbyte data)
-		{
-			base.Write(data);
-		}
+        public void WritePacketHeader(uint opcode)
+        {
+            WriteUInt16(0);
+            WriteUInt32(opcode);
+        }
 
-		public void WriteInt16(short data)
-		{
-			base.Write(data);
-		}
+        public byte[] ReadDataToSend()
+        {
+            byte[] data = new byte[BaseStream.Length];
+            Seek(0, SeekOrigin.Begin);
 
-		public void WriteInt32(int data)
-		{
-			base.Write(data);
-		}
+            BaseStream.Read(data, 0, (int)BaseStream.Length);
 
-		public void WriteInt64(long data)
-		{
-			base.Write(data);
-		}
+            Size = (ushort)(data.Length - 2);
 
-		public void WriteUInt8(byte data)
-		{
-			base.Write(data);
-		}
+            if (!PreAuth)
+            {
+                Size = (ushort)((Size >> 8) + ((Size & 0xFF) << 8));
+                data[0] = (byte)(Size & 0xFF);
+                data[1] = (byte)(Size >> 8);
+            }
 
-		public void WriteUInt16(ushort data)
-		{
-			base.Write(data);
-		}
+            return data;
+        }
 
-		public void WriteUInt32(uint data)
-		{
-			base.Write(data);
-		}
 
-		public void WriteUInt64(ulong data)
-		{
-			base.Write(data);
-		}
+        public void WriteInt8(sbyte data)
+        {
+            base.Write(data);
+        }
 
-		public void WriteFloat(float data)
-		{
-			base.Write(data);
-		}
+        public void WriteInt16(short data)
+        {
+            base.Write(data);
+        }
 
-		public void WriteDouble(double data)
-		{
-			base.Write(data);
-		}
+        public void WriteInt32(int data)
+        {
+            base.Write(data);
+        }
 
-		public void WriteString(string data)
-		{
-			byte[] sBytes = Encoding.ASCII.GetBytes(data);
-			this.WriteBytes(sBytes);
-			base.Write((byte)0);    //String null terminated
-		}
+        public void WriteInt64(long data)
+        {
+            base.Write(data);
+        }
 
-		public void WriteBytes(byte[] data)
-		{
-			base.Write(data);
-		}
-	}
+        public void WriteUInt8(byte data)
+        {
+            base.Write(data);
+        }
+
+        public void WriteUInt16(ushort data)
+        {
+            base.Write(data);
+        }
+
+        public void WriteUInt32(uint data)
+        {
+            base.Write(data);
+        }
+
+        public void WriteUInt64(ulong data)
+        {
+            base.Write(data);
+        }
+
+        public void WriteFloat(float data)
+        {
+            base.Write(data);
+        }
+
+        public void WriteDouble(double data)
+        {
+            base.Write(data);
+        }
+
+        public void WriteString(string data)
+        {
+            byte[] sBytes = Encoding.ASCII.GetBytes(data);
+            this.WriteBytes(sBytes);
+            base.Write((byte)0);    //String null terminated
+        }
+
+        public void WriteBytes(byte[] data)
+        {
+            base.Write(data);
+        }
+    }
 }

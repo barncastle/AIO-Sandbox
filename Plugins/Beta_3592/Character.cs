@@ -1,11 +1,9 @@
-﻿using Common.Constants;
+﻿using System;
+using System.Collections.Generic;
+using Common.Constants;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Beta_3592
 {
@@ -44,9 +42,9 @@ namespace Beta_3592
         public bool IsTeleporting { get; set; } = false;
         public uint DisplayId { get; set; }
         public uint MountDisplayId { get; set; }
-		public float Scale { get; set; }
+        public float Scale { get; set; }
 
-		public IPacketWriter BuildUpdate()
+        public IPacketWriter BuildUpdate()
         {
             byte maskSize = ((int)Fields.MAX + 31) / 32;
             SortedDictionary<int, byte[]> fieldData = new SortedDictionary<int, byte[]>();
@@ -54,7 +52,7 @@ namespace Beta_3592
 
             Action<Fields, object> SetField = (place, value) => this.SetField((int)place, value, ref fieldData, ref maskArray);
 
-			PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UPDATE_OBJECT], "SMSG_UPDATE_OBJECT");
+            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UPDATE_OBJECT], "SMSG_UPDATE_OBJECT");
             writer.WriteUInt32(1); //Number of transactions
             writer.WriteUInt8(2); //UpdateType
             writer.WriteUInt64(this.Guid); //ObjectGuid

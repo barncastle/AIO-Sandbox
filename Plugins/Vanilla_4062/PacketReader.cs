@@ -1,11 +1,8 @@
-﻿using Common.Cryptography;
-using Common.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Common.Cryptography;
+using Common.Interfaces;
 
 namespace Vanilla_4062
 {
@@ -26,8 +23,8 @@ namespace Vanilla_4062
                 Size = (ushort)((size >> 8) + ((size & 0xFF) << 8) + 2);
                 Opcode = BitConverter.ToUInt32(data, 2);
 
-				Position = 6;
-			}
+                Position = 6;
+            }
         }
 
         private void Decode(ref byte[] data)

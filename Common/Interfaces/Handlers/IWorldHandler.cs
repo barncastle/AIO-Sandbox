@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Common.Interfaces.Handlers
+﻿namespace Common.Interfaces.Handlers
 {
     public interface IWorldHandler
     {

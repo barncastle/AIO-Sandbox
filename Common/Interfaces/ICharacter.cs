@@ -1,6 +1,5 @@
 ﻿using Common.Constants;
 using Common.Structs;
-using System;
 
 namespace Common.Interfaces
 {
@@ -37,8 +36,8 @@ namespace Common.Interfaces
         bool IsTeleporting { get; set; }
         uint DisplayId { get; set; }
         uint MountDisplayId { get; set; }
-		float Scale { get; set; }
-		
+        float Scale { get; set; }
+
         void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager);
         IPacketWriter BuildForceSpeed(float modifier, bool swim = false);
         IPacketWriter BuildMessage(string text);

@@ -1,13 +1,9 @@
-﻿using Common.Constants;
+﻿using System;
+using Common.Constants;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TBC_Alpha_5610.Handlers
 {
@@ -30,12 +26,12 @@ namespace TBC_Alpha_5610.Handlers
 
         public void HandlePlayerLogin(ref IPacketReader packet, ref IWorldManager manager)
         {
-			ulong guid = packet.ReadUInt64();
-			Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
-			character.DisplayId = character.GetDisplayId();
+            ulong guid = packet.ReadUInt64();
+            Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
+            character.DisplayId = character.GetDisplayId();
 
-			//Verify World : REQUIRED
-			PacketWriter verify = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_LOGIN_VERIFY_WORLD], "SMSG_LOGIN_VERIFY_WORLD");
+            //Verify World : REQUIRED
+            PacketWriter verify = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_LOGIN_VERIFY_WORLD], "SMSG_LOGIN_VERIFY_WORLD");
             verify.WriteUInt32(character.Location.Map);
             verify.WriteFloat(character.Location.X);
             verify.WriteFloat(character.Location.Y);

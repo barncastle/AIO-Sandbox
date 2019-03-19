@@ -1,9 +1,5 @@
 ﻿using Common.Interfaces;
 using Common.Interfaces.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace WorldServer
 {
@@ -23,7 +19,7 @@ namespace WorldServer
         public int RealmPort => _instance.RealmPort;
         public int RedirectPort => _instance.RedirectPort;
         public int WorldPort => _instance.WorldPort;
-        
+
         public IOpcodes Opcodes => _instance.Opcodes;
 
         public IAuthHandler AuthHandler => _instance.AuthHandler;

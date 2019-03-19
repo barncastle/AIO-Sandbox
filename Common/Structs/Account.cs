@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common.Interfaces;
-using Common.Cryptography;
-using System.Runtime.Serialization;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using Common.Interfaces;
 
 namespace Common.Structs
 {
@@ -25,17 +22,17 @@ namespace Common.Structs
         }
 
 
-		public ICharacter SetActiveChar(ulong guid, int build)
-		{
-			Characters.ForEach(x => x.IsOnline = false);
-			var cha = Characters.Find(x => x.Guid == guid && x.Build == build);
-			cha.IsOnline = true;
-			return cha;
-		}
-		public ICharacter GetCharacter(ulong guid, int build)
-		{
-			return Characters.Find(x => x.Guid == guid && x.Build == build);
-		}
+        public ICharacter SetActiveChar(ulong guid, int build)
+        {
+            Characters.ForEach(x => x.IsOnline = false);
+            var cha = Characters.Find(x => x.Guid == guid && x.Build == build);
+            cha.IsOnline = true;
+            return cha;
+        }
+        public ICharacter GetCharacter(ulong guid, int build)
+        {
+            return Characters.Find(x => x.Guid == guid && x.Build == build);
+        }
 
 
         public void Save()
@@ -68,7 +65,7 @@ namespace Common.Structs
                     bw.Write(c.Race);
                     bw.Write(c.Skin);
                     bw.Write(c.Zone);
-					bw.Write(c.Scale);
+                    bw.Write(c.Scale);
                 }
             }
             _saving = false;
@@ -113,7 +110,7 @@ namespace Common.Structs
                         c.Race = br.ReadByte();
                         c.Skin = br.ReadByte();
                         c.Zone = br.ReadUInt32();
-						c.Scale = br.ReadSingle();
+                        c.Scale = br.ReadSingle();
 
                         Characters.Add(c);
                     }

@@ -1,13 +1,9 @@
-﻿using Common.Constants;
+﻿using System;
+using Common.Constants;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Beta_3892.Handlers
 {
@@ -30,12 +26,12 @@ namespace Beta_3892.Handlers
 
         public void HandlePlayerLogin(ref IPacketReader packet, ref IWorldManager manager)
         {
-			ulong guid = packet.ReadUInt64();
-			Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
-			character.DisplayId = character.GetDisplayId();
+            ulong guid = packet.ReadUInt64();
+            Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
+            character.DisplayId = character.GetDisplayId();
 
-			//Verify World : REQUIRED
-			PacketWriter verify = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_LOGIN_VERIFY_WORLD], "SMSG_LOGIN_VERIFY_WORLD");
+            //Verify World : REQUIRED
+            PacketWriter verify = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_LOGIN_VERIFY_WORLD], "SMSG_LOGIN_VERIFY_WORLD");
             verify.WriteUInt32(character.Location.Map);
             verify.WriteFloat(character.Location.X);
             verify.WriteFloat(character.Location.Y);
@@ -52,10 +48,10 @@ namespace Beta_3892.Handlers
             PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
             for (int i = 0; i < 8; i++)
                 tutorial.WriteInt32(-1);
-            manager.Send(tutorial);                 
+            manager.Send(tutorial);
 
             HandleQueryTime(ref packet, ref manager);
-            
+
             manager.Send(character.BuildUpdate());
         }
 
@@ -74,8 +70,8 @@ namespace Beta_3892.Handlers
             if (AreaTriggers.Triggers.ContainsKey(id))
             {
                 var loc = AreaTriggers.Triggers[id];
-				manager.Account.ActiveCharacter.Teleport(loc, ref manager);
-			}
+                manager.Account.ActiveCharacter.Teleport(loc, ref manager);
+            }
             else
                 Log.Message(LogType.ERROR, "AreaTrigger for {0} missing.", id);
         }

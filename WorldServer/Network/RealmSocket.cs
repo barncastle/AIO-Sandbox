@@ -2,16 +2,15 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using Common.Logging;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Common.Logging;
 
 namespace WorldServer.Network
 {
     public class RealmSocket
     {
         public bool Started { get; private set; } = false;
-        
+
         private CancellationTokenSource token = new CancellationTokenSource();
         private TcpListener realmListener;
         private TcpListener proxyListener;

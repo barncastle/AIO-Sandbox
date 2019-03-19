@@ -1,11 +1,11 @@
-﻿using Common.Interfaces.Handlers;
-using System;
-using Common.Interfaces;
+﻿using System;
+using System.Linq;
 using Common.Commands;
 using Common.Constants;
-using Common.Structs;
 using Common.Extensions;
-using System.Linq;
+using Common.Interfaces;
+using Common.Interfaces.Handlers;
+using Common.Structs;
 
 namespace Beta_3592.Handlers
 {
@@ -54,9 +54,9 @@ namespace Beta_3592.Handlers
         public void HandleCharDelete(ref IPacketReader packet, ref IWorldManager manager)
         {
             ulong guid = packet.ReadUInt64();
-			var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
+            var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
-			PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
+            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
             writer.WriteUInt8(0x2C);
             manager.Send(writer);
 
@@ -147,7 +147,7 @@ namespace Beta_3592.Handlers
             ulong guid = packet.ReadUInt64();
             var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
-			PacketWriter nameCache = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NAME_QUERY_RESPONSE], "SMSG_NAME_QUERY_RESPONSE");
+            PacketWriter nameCache = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NAME_QUERY_RESPONSE], "SMSG_NAME_QUERY_RESPONSE");
             nameCache.WriteUInt64(guid);
             nameCache.WriteString(character.Name);
             nameCache.WriteUInt32(character.Race);
