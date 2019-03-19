@@ -9,10 +9,7 @@ namespace Common.Network
 
         public delegate void HandlePacket(ref IPacketReader packet, ref IWorldManager manager);
 
-        static PacketManager()
-        {
-            OpcodeHandlers = new Dictionary<Opcodes, HandlePacket>();
-        }
+        static PacketManager() => OpcodeHandlers = new Dictionary<Opcodes, HandlePacket>();
 
         public static void DefineOpcodeHandler(Opcodes opcode, HandlePacket handler)
         {
@@ -21,7 +18,7 @@ namespace Common.Network
 
         public static bool InvokeHandler(IPacketReader reader, IWorldManager manager, Opcodes opcode)
         {
-            if(OpcodeHandlers.TryGetValue(opcode, out var handle))
+            if (OpcodeHandlers.TryGetValue(opcode, out var handle))
             {
                 handle.Invoke(ref reader, ref manager);
                 return true;

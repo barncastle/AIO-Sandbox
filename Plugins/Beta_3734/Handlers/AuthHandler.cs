@@ -70,14 +70,17 @@ namespace Beta_3734.Handlers
                         case RealmlistOpcodes.LOGON_CHALLENGE:
                             writer.WriteBytes(ClientAuth.LogonChallenge(packet));
                             break;
+
                         case RealmlistOpcodes.RECONNECT_CHALLENGE:
                             writer.WriteBytes(ClientAuth.Reconnect_Challenge);
                             break;
+
                         case RealmlistOpcodes.LOGON_PROOF:
                         case RealmlistOpcodes.RECONNECT_PROOF:
                             writer.WriteUInt8((byte)RealmlistOpcodes.RECONNECT_PROOF);
                             writer.WriteUInt8(0);
                             break;
+
                         case RealmlistOpcodes.REALMLIST_REQUEST:
                             // Send Realm List
                             byte[] realmName = Encoding.UTF8.GetBytes(Sandbox.Instance.RealmName);

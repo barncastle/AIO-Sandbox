@@ -35,7 +35,6 @@ namespace Alpha_3494.Handlers
             HandleQueryTime(ref packet, ref manager);
 
             manager.Send(character.BuildUpdate());
-
         }
 
         public void HandleWorldTeleport(ref IPacketReader packet, ref IWorldManager manager)
@@ -62,9 +61,13 @@ namespace Alpha_3494.Handlers
             manager.Send(movementStatus);
         }
 
-        public void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager) { }
+        public void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager)
+        {
+        }
 
-        public void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager) { }
+        public void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager)
+        {
+        }
 
         public void HandleQueryTime(ref IPacketReader packet, ref IWorldManager manager)
         {
@@ -88,7 +91,6 @@ namespace Alpha_3494.Handlers
                         loc = new Common.Structs.Location(77f, -1f, 20f, 0, 44);
                         break;
                 }
-
 
                 manager.Account.ActiveCharacter.Teleport(loc, ref manager);
             }

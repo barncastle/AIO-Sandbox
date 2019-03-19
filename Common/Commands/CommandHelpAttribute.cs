@@ -7,10 +7,7 @@ namespace Common.Commands
     {
         public readonly string HelpText;
 
-        public CommandHelpAttribute(string helptext)
-        {
-            HelpText = helptext;
-        }
+        public CommandHelpAttribute(string helptext) => HelpText = helptext;
 
         public override string ToString()
         {

@@ -9,21 +9,22 @@ namespace Common.Commands
 {
     public class Commands
     {
-        #region Coordinates 
+        #region Coordinates
+
         [CommandHelp(".gps")]
         public static void Gps(IWorldManager manager, string[] args)
         {
             var character = manager.Account.ActiveCharacter;
             manager.Send(character.BuildMessage(character.Location.ToString()));
         }
-        #endregion
+
+        #endregion Coordinates
 
         #region Teleport
 
         [CommandHelp(".go {x} {y} {z} Optional: {mapid}")]
         [CommandHelp(".go {name}")]
         [CommandHelp(".go instance {name | id}")]
-
         public static void Go(IWorldManager manager, string[] args)
         {
             if (args.Length == 0)
@@ -37,7 +38,6 @@ namespace Common.Commands
                 GoNamedArea(manager, true, args); // Worldport
         }
 
-
         private static void GoNamedArea(IWorldManager manager, bool worldport, string[] args)
         {
             int skip = args[0] == "area" || args[0] == "instance" ? 1 : 0;
@@ -49,9 +49,11 @@ namespace Common.Commands
                 case 0: // No matches
                     manager.Send(manager.Account.ActiveCharacter.BuildMessage("No matching locations found"));
                     break;
+
                 case 1: // Single match
                     manager.Account.ActiveCharacter.Teleport(locations.First().Value, ref manager);
                     break;
+
                 default: // Multiple possible matches
                     manager.Send(manager.Account.ActiveCharacter.BuildMessage("Multiple matches:"));
 
@@ -102,9 +104,11 @@ namespace Common.Commands
                 GoNamedArea(manager, false, args); // Area name check
             }
         }
-        #endregion
+
+        #endregion Teleport
 
         #region Nudge
+
         [CommandHelp(".nudge Optional: [0 - 100] {z offset}")]
         public static void Nudge(IWorldManager manager, string[] args)
         {
@@ -125,9 +129,11 @@ namespace Common.Commands
 
             character.Teleport(loc, ref manager);
         }
-        #endregion
+
+        #endregion Nudge
 
         #region Speed
+
         [CommandHelp(".speed [0.1 - 10] Optional: {run | swim | all} ")]
         public static void Speed(IWorldManager manager, string[] args)
         {
@@ -145,9 +151,11 @@ namespace Common.Commands
                 case "swim":
                     manager.Send(character.BuildForceSpeed(speed, true));
                     break;
+
                 case "run":
                     manager.Send(character.BuildForceSpeed(speed));
                     break;
+
                 default:
                     manager.Send(character.BuildForceSpeed(speed, true));
                     manager.Send(character.BuildForceSpeed(speed));
@@ -156,9 +164,11 @@ namespace Common.Commands
 
             manager.Send(character.BuildMessage($"{type.ToUpperFirst()} speed changed to {speed * 100}% of normal"));
         }
-        #endregion
+
+        #endregion Speed
 
         #region Morph
+
         [CommandHelp(".morph {id}")]
         public static void Morph(IWorldManager manager, string[] args)
         {
@@ -181,7 +191,8 @@ namespace Common.Commands
             character.Demorph();
             manager.Send(character.BuildUpdate());
         }
-        #endregion
+
+        #endregion Morph
 
         public static void Help(IWorldManager manager, string[] args)
         {

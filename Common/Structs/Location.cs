@@ -3,7 +3,6 @@ using Common.Interfaces;
 
 namespace Common.Structs
 {
-    
     public class Location : ICloneable
     {
         public float X { get; set; }
@@ -15,8 +14,9 @@ namespace Common.Structs
 
         private readonly string formattedDesc;
 
-
-        public Location() { }
+        public Location()
+        {
+        }
 
         public Location(float x, float y, float z, float o, uint map)
         {
@@ -38,7 +38,6 @@ namespace Common.Structs
 
             formattedDesc = description.Replace(" ", "").Replace("'", "").Trim();
         }
-
 
         public void Update(float x, float y, float z)
         {
@@ -64,7 +63,6 @@ namespace Common.Structs
                 O = packet.ReadFloat();
         }
 
-
         public bool HasDescriptionValue(string needle, bool exact)
         {
             if (exact)
@@ -72,7 +70,6 @@ namespace Common.Structs
             else
                 return formattedDesc.IndexOf(needle, StringComparison.OrdinalIgnoreCase) != -1;
         }
-
 
         public override string ToString()
         {

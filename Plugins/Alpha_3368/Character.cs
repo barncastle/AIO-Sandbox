@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using Common.Constants;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
 
 namespace Alpha_3368
 {
-    
     public class Character : BaseCharacter
     {
         public override int Build { get; set; } = Sandbox.Instance.Build;
-        
+
         public override IPacketWriter BuildUpdate()
         {
             MaskSize = ((int)Fields.MAX + 31) / 32;

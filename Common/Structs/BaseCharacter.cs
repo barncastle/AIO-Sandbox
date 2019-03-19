@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Runtime.InteropServices;
 using Common.Constants;
 using Common.Interfaces;
-using Common.Extensions;
-using System.Runtime.InteropServices;
-using System.IO;
 
 namespace Common.Structs
 {
@@ -49,14 +47,14 @@ namespace Common.Structs
         protected byte[] MaskArray;
 
         public abstract IPacketWriter BuildForceSpeed(float modifier, bool swim = false);
+
         public abstract IPacketWriter BuildMessage(string text);
+
         public abstract IPacketWriter BuildUpdate();
+
         public abstract void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager);
 
-        public BaseCharacter()
-        {
-            FieldData = new SortedList<int, byte[]>();
-        }
+        public BaseCharacter() => FieldData = new SortedList<int, byte[]>();
 
         protected void SetField<TEnum, TValue>(TEnum index, TValue value) where TEnum : unmanaged, Enum where TValue : unmanaged
         {
@@ -68,7 +66,6 @@ namespace Common.Structs
             for (int i = 0; i < (FieldData[field].Length / 4); i++)
                 MaskArray[field / 8] |= (byte)(1 << ((field + i) % 8));
         }
-
 
         #region Serialization
 
@@ -125,6 +122,6 @@ namespace Common.Structs
             Scale = br.ReadSingle();
         }
 
-        #endregion
+        #endregion Serialization
     }
 }

@@ -42,7 +42,7 @@ namespace Common.Commands
         {
             command = command.TrimStart('.').Trim(); // Remove command "." prefix and format
 
-            if(CommandHandlers.TryGetValue(command, out var handle))
+            if (CommandHandlers.TryGetValue(command, out var handle))
             {
                 handle.Invoke(manager, args);
                 return true;

@@ -322,6 +322,4 @@ namespace Common.Constants
 
         public static uint Get(TextEmotes emote) => emoteLookup.ContainsKey(emote) ? emoteLookup[emote] : 0;
     }
-
-
 }

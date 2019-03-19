@@ -17,24 +17,34 @@ namespace Common.Extensions
             {
                 case Races.HUMAN:
                     return male ? 0x31u : 0x32u;
+
                 case Races.ORC:
                     return male ? 0x33u : 0x34u;
+
                 case Races.DWARF:
                     return male ? 0x35u : 0x36u;
+
                 case Races.NIGHT_ELF:
                     return male ? 0x37u : 0x38u;
+
                 case Races.UNDEAD:
                     return male ? 0x39u : 0x3Au;
+
                 case Races.TAUREN:
                     return male ? 0x3Bu : 0x3Cu;
+
                 case Races.GNOME:
                     return male ? 0x61Bu : 0x61Cu;
+
                 case Races.TROLL:
                     return male ? 0x5C6u : 0x5C7u;
+
                 case Races.BLOODELF:
                     return male ? 0x3C74u : 0x3C73u;
+
                 case Races.DRAENEI:
                     return male ? 0x3EFDu : 0x3EFEu;
+
                 default:
                     return male ? 0x31u : 0x32; // Default to human
             }
@@ -58,12 +68,15 @@ namespace Common.Extensions
                 case Classes.WARRIOR:
                     character.PowerType = (byte)PowerTypes.RAGE;
                     break;
+
                 case Classes.ROGUE:
                     character.PowerType = (byte)PowerTypes.ENERGY;
                     break;
+
                 case Classes.HUNTER:
                     character.PowerType = (byte)(hunterFocus ? PowerTypes.FOCUS : PowerTypes.MANA);
                     break;
+
                 default:
                     character.PowerType = (byte)PowerTypes.MANA;
                     break;

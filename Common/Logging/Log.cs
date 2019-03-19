@@ -21,24 +21,31 @@ namespace Common.Logging
                 case LogType.NORMAL:
                     Console.ForegroundColor = ConsoleColor.Green;
                     break;
+
                 case LogType.ERROR:
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
+
                 case LogType.DUMP:
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     break;
+
                 case LogType.INIT:
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     break;
+
                 case LogType.MISC:
                     Console.ForegroundColor = ConsoleColor.Gray;
                     break;
+
                 case LogType.CMD:
                     Console.ForegroundColor = ConsoleColor.Green;
                     break;
+
                 case LogType.DEBUG:
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     break;
+
                 default:
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
@@ -57,9 +64,11 @@ namespace Common.Logging
                 case LogType.NORMAL:
                     text = text.Insert(0, "System: [" + DateTime.Now.ToLongTimeString() + "] ");
                     break;
+
                 case LogType.ERROR:
                     text = text.Insert(0, "Error: [" + DateTime.Now.ToLongTimeString() + "] ");
                     break;
+
                 case LogType.MISC:
                     text = text.Insert(0, "[" + DateTime.Now.ToLongTimeString() + "] ");
                     break;

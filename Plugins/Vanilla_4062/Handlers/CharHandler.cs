@@ -174,7 +174,7 @@ namespace Vanilla_4062.Handlers
 
         public void HandleTextEmote(ref IPacketReader packet, ref IWorldManager manager)
         {
-            // I don't like to do this but since its the only packet change 
+            // I don't like to do this but since its the only packet change
             // it's really not worth creating a whole new plugin for it
             bool build_4211 = packet.Size == 22;
 
@@ -207,14 +207,17 @@ namespace Vanilla_4062.Handlers
                     character.StandState = StandState.SITTING;
                     manager.Send(character.BuildUpdate());
                     return;
+
                 case TextEmotes.EMOTE_STAND:
                     character.StandState = StandState.STANDING;
                     manager.Send(character.BuildUpdate());
                     return;
+
                 case TextEmotes.EMOTE_SLEEP:
                     character.StandState = StandState.SLEEPING;
                     manager.Send(character.BuildUpdate());
                     return;
+
                 case TextEmotes.EMOTE_KNEEL:
                     character.StandState = StandState.KNEEL;
                     manager.Send(character.BuildUpdate());

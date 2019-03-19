@@ -8,11 +8,11 @@ using WorldServer.Plugins;
 
 namespace WorldServer
 {
-    class WorldServer
+    internal class WorldServer
     {
         public static SandboxHost Sandbox;
 
-        static void Main()
+        private static void Main()
         {
             Log.Message(LogType.INIT, "                AIO SANDBOX                ");
             Log.Message(LogType.INIT, "             REALM/PROXY/WORLD             ");

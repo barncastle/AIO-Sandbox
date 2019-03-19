@@ -7,7 +7,7 @@ namespace Alpha_3368
     public class Sandbox : ISandbox
     {
         public static Sandbox Instance => _instance;
-        static readonly Sandbox _instance = new Sandbox();
+        private static readonly Sandbox _instance = new Sandbox();
 
         public string RealmName { get; set; } = "|cFF00FFFFAlpha (0.5.3) Sandbox";
         public int Build { get; set; } = 3368;
@@ -22,6 +22,7 @@ namespace Alpha_3368
         public IWorldHandler WorldHandler { get; set; } = new WorldHandler();
 
         public IPacketReader ReadPacket(byte[] data, bool parse = true) => new PacketReader(data, parse);
+
         public IPacketWriter WritePacket() => new PacketWriter();
     }
 }

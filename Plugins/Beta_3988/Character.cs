@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using Common.Constants;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
 
 namespace Beta_3988
 {
-    
     public class Character : BaseCharacter
     {
         public override int Build { get; set; } = Sandbox.Instance.Build;

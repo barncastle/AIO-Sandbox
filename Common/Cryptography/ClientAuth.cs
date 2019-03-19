@@ -14,7 +14,6 @@ namespace Common.Cryptography
         public static byte[] SS_Hash { get; private set; }
         public static byte[] Key { get; private set; } = new byte[4];
 
-
         public static readonly byte[] Reconnect_Challenge =
         {
             0x02, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
@@ -22,9 +21,9 @@ namespace Common.Cryptography
             0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
         };
 
+        #region Private Vars
 
-        #region Private Vars 
-        static readonly byte[] N =
+        private static readonly byte[] N =
         {
             0x89, 0x4B, 0x64, 0x5E, 0x89, 0xE1, 0x53, 0x5B,
             0xBD, 0xAD, 0x5B, 0x8B, 0x29, 0x06, 0x50, 0x53,
@@ -32,7 +31,7 @@ namespace Common.Cryptography
             0xAB, 0x3C, 0x82, 0x87, 0x2A, 0x3E, 0x9B, 0xB7
         };
 
-        static readonly byte[] Salt =
+        private static readonly byte[] Salt =
         {
             0xAD, 0xD0, 0x3A, 0x31, 0xD2, 0x71, 0x14, 0x46,
             0x75, 0xF2, 0x70, 0x7E, 0x50, 0x26, 0xB6, 0xD2,
@@ -40,15 +39,16 @@ namespace Common.Cryptography
             0xB9, 0x45, 0xE0, 0x9E, 0xDD, 0x2A, 0xA3, 0x45,
         };
 
-        static readonly byte[] RN = N.Reverse().ToArray();
+        private static readonly byte[] RN = N.Reverse().ToArray();
 
-        static BigInteger B;
-        static BigInteger V;
-        static byte[] RB;
-        static BigInteger K;
-        static BigInteger G;
-        static byte[] BUsername;
-        #endregion
+        private static BigInteger B;
+        private static BigInteger V;
+        private static byte[] RB;
+        private static BigInteger K;
+        private static BigInteger G;
+        private static byte[] BUsername;
+
+        #endregion Private Vars
 
         public static void Clear()
         {

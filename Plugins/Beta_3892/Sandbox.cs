@@ -7,7 +7,7 @@ namespace Beta_3892
     public class Sandbox : ISandbox
     {
         public static Sandbox Instance => _instance;
-        static readonly Sandbox _instance = new Sandbox();
+        private static readonly Sandbox _instance = new Sandbox();
 
         public string RealmName { get; set; } = "|cFF00FFFFBeta 3 (0.10.0/0.11.0) Sandbox";
         public int Build { get; set; } = 3892;
@@ -20,7 +20,9 @@ namespace Beta_3892
         public IAuthHandler AuthHandler { get; set; } = new AuthHandler();
         public ICharHandler CharHandler { get; set; } = new CharHandler();
         public IWorldHandler WorldHandler { get; set; } = new WorldHandler();
+
         public IPacketReader ReadPacket(byte[] data, bool parse = true) => new PacketReader(data, parse);
+
         public IPacketWriter WritePacket() => new PacketWriter();
     }
 }

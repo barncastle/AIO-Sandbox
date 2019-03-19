@@ -5,7 +5,6 @@ using Common.Interfaces;
 
 namespace Common.Structs
 {
-    
     public class Account
     {
         public string Name { get; set; }
@@ -14,16 +13,9 @@ namespace Common.Structs
 
         private bool _saving = false;
 
-        public Account()
-        {
-            Characters = new List<ICharacter>();
-        }
+        public Account() => Characters = new List<ICharacter>();
 
-        public Account(string name) : this()
-        {
-            Name = name;
-        }
-
+        public Account(string name) : this() => Name = name;
 
         public ICharacter SetActiveChar(ulong guid, int build)
         {
@@ -33,11 +25,11 @@ namespace Common.Structs
             cha.IsOnline = true;
             return cha;
         }
+
         public ICharacter GetCharacter(ulong guid, int build)
         {
             return Characters.Find(x => x.Guid == guid && x.Build == build);
         }
-
 
         public void Save()
         {

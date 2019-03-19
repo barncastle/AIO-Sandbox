@@ -278,6 +278,4 @@ namespace Common.Constants
             return Locations.Where(x => FormatString(x.Key).Contains(needle));
         }
     }
-
-
 }

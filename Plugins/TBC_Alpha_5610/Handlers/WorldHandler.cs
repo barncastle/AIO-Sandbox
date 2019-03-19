@@ -61,9 +61,13 @@ namespace TBC_Alpha_5610.Handlers
             throw new NotImplementedException();
         }
 
-        public void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager) { }
+        public void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager)
+        {
+        }
 
-        public void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager) { }
+        public void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager)
+        {
+        }
 
         public void HandleAreaTrigger(ref IPacketReader packet, ref IWorldManager manager)
         {

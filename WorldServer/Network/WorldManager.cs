@@ -74,7 +74,6 @@ namespace WorldServer.Network
             Socket.SendData(packet, packet.Name);
         }
 
-
         private void SetAutosave()
         {
             unchecked { autosave = Environment.TickCount + 60000; }

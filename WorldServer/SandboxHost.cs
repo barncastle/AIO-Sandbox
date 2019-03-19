@@ -24,8 +24,9 @@ namespace WorldServer
         public IAuthHandler AuthHandler => _instance.AuthHandler;
         public ICharHandler CharHandler => _instance.CharHandler;
         public IWorldHandler WorldHandler => _instance.WorldHandler;
-        public IPacketReader ReadPacket(byte[] data, bool parse = true) => _instance.ReadPacket(data, parse);
-        public IPacketWriter WritePacket() => _instance.WritePacket();
 
+        public IPacketReader ReadPacket(byte[] data, bool parse = true) => _instance.ReadPacket(data, parse);
+
+        public IPacketWriter WritePacket() => _instance.WritePacket();
     }
 }

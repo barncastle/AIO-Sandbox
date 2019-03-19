@@ -65,7 +65,6 @@ namespace TBC_Alpha_5610.Handlers
                 manager.Account.Characters.Remove(character);
                 manager.Account.Save();
             }
-
         }
 
         public void HandleCharEnum(ref IPacketReader packet, ref IWorldManager manager)
@@ -196,14 +195,17 @@ namespace TBC_Alpha_5610.Handlers
                     character.StandState = StandState.SITTING;
                     manager.Send(character.BuildUpdate());
                     return;
+
                 case TextEmotes.EMOTE_STAND:
                     character.StandState = StandState.STANDING;
                     manager.Send(character.BuildUpdate());
                     return;
+
                 case TextEmotes.EMOTE_SLEEP:
                     character.StandState = StandState.SLEEPING;
                     manager.Send(character.BuildUpdate());
                     return;
+
                 case TextEmotes.EMOTE_KNEEL:
                     character.StandState = StandState.KNEEL;
                     manager.Send(character.BuildUpdate());

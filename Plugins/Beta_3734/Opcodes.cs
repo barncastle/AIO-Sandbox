@@ -6,7 +6,7 @@ namespace Beta_3734
 {
     public class Opcodes : IOpcodes
     {
-        readonly IDictionary<global::Opcodes, uint> opcodes = new Dictionary<global::Opcodes, uint>()
+        private readonly IDictionary<global::Opcodes, uint> opcodes = new Dictionary<global::Opcodes, uint>()
         {
             { global::Opcodes.SMSG_AUTH_CHALLENGE, 0x1EA },
             { global::Opcodes.SMSG_AUTH_RESPONSE, 0x1EC },
@@ -74,6 +74,5 @@ namespace Beta_3734
         public global::Opcodes this[uint opcode] => opcodes.First(x => x.Value == opcode).Key;
 
         public bool OpcodeExists(uint opcode) => opcodes.Any(x => x.Value == opcode);
-
     }
 }

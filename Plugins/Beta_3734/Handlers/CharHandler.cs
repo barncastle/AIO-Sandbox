@@ -187,14 +187,17 @@ namespace Beta_3734.Handlers
                     character.StandState = StandState.SITTING;
                     manager.Send(character.BuildUpdate());
                     return;
+
                 case TextEmotes.EMOTE_STAND:
                     character.StandState = StandState.STANDING;
                     manager.Send(character.BuildUpdate());
                     return;
+
                 case TextEmotes.EMOTE_SLEEP:
                     character.StandState = StandState.SLEEPING;
                     manager.Send(character.BuildUpdate());
                     return;
+
                 case TextEmotes.EMOTE_KNEEL:
                     character.StandState = StandState.KNEEL;
                     manager.Send(character.BuildUpdate());

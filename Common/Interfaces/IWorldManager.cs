@@ -9,6 +9,7 @@ namespace Common.Interfaces
         Socket Socket { get; set; }
 
         void Recieve();
+
         void Send(IPacketWriter packet);
     }
 }

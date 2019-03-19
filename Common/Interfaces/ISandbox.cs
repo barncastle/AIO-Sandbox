@@ -16,6 +16,7 @@ namespace Common.Interfaces
         IWorldHandler WorldHandler { get; set; }
 
         IPacketReader ReadPacket(byte[] data, bool parse = true);
+
         IPacketWriter WritePacket();
     }
 }

@@ -13,12 +13,8 @@ namespace WorldServer.Network
 
         private readonly CancellationTokenSource token;
         private TcpListener worldListener;
-        
-        public WorldSocket()
-        {
-            token = new CancellationTokenSource();
-        }
 
+        public WorldSocket() => token = new CancellationTokenSource();
 
         public bool Start()
         {

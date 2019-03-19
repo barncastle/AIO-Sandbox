@@ -6,7 +6,7 @@ namespace Alpha_3494
 {
     public class Opcodes : IOpcodes
     {
-        readonly IDictionary<global::Opcodes, uint> opcodes = new Dictionary<global::Opcodes, uint>()
+        private readonly IDictionary<global::Opcodes, uint> opcodes = new Dictionary<global::Opcodes, uint>()
         {
             { global::Opcodes.SMSG_AUTH_CHALLENGE, 0x01DE },
             { global::Opcodes.SMSG_AUTH_RESPONSE, 0x01E0 },

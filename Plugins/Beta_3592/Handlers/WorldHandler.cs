@@ -63,9 +63,13 @@ namespace Beta_3592.Handlers
             manager.Send(movementStatus);
         }
 
-        public void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager) { }
+        public void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager)
+        {
+        }
 
-        public void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager) { }
+        public void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager)
+        {
+        }
 
         public void HandleQueryTime(ref IPacketReader packet, ref IWorldManager manager)
         {

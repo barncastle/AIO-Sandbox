@@ -39,8 +39,11 @@ namespace Common.Interfaces
         float Scale { get; set; }
 
         void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager);
+
         IPacketWriter BuildForceSpeed(float modifier, bool swim = false);
+
         IPacketWriter BuildMessage(string text);
+
         IPacketWriter BuildUpdate();
     }
 }
