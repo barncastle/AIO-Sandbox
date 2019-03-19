@@ -5,6 +5,7 @@ using Common.Constants;
 using Common.Interfaces;
 using Common.Extensions;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace Common.Structs
 {
@@ -67,5 +68,63 @@ namespace Common.Structs
             for (int i = 0; i < (FieldData[field].Length / 4); i++)
                 MaskArray[field / 8] |= (byte)(1 << ((field + i) % 8));
         }
+
+
+        #region Serialization
+
+        internal void Serialize(BinaryWriter bw)
+        {
+            bw.Write(Build);
+            bw.Write(Class);
+            bw.Write(DisplayId);
+            bw.Write(Face);
+            bw.Write(FacialHair);
+            bw.Write(Gender);
+            bw.Write(Guid);
+            bw.Write(HairColor);
+            bw.Write(HairStyle);
+            bw.Write(Location.X);
+            bw.Write(Location.Y);
+            bw.Write(Location.Z);
+            bw.Write(Location.O);
+            bw.Write(Location.Map);
+            bw.Write(Name);
+            bw.Write(PowerType);
+            bw.Write(Race);
+            bw.Write(Skin);
+            bw.Write(Zone);
+            bw.Write(Scale);
+        }
+
+        internal void Deserialize(BinaryReader br)
+        {
+            Build = br.ReadInt32();
+            Class = br.ReadByte();
+            DisplayId = br.ReadUInt32();
+            Face = br.ReadByte();
+            FacialHair = br.ReadByte();
+            Gender = br.ReadByte();
+            Guid = br.ReadUInt64();
+            HairColor = br.ReadByte();
+            HairStyle = br.ReadByte();
+
+            Location = new Location()
+            {
+                X = br.ReadSingle(),
+                Y = br.ReadSingle(),
+                Z = br.ReadSingle(),
+                O = br.ReadSingle(),
+                Map = br.ReadUInt32(),
+            };
+
+            Name = br.ReadString();
+            PowerType = br.ReadByte();
+            Race = br.ReadByte();
+            Skin = br.ReadByte();
+            Zone = br.ReadUInt32();
+            Scale = br.ReadSingle();
+        }
+
+        #endregion
     }
 }

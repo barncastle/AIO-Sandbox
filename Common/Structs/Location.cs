@@ -3,7 +3,7 @@ using Common.Interfaces;
 
 namespace Common.Structs
 {
-    [Serializable]
+    
     public class Location : ICloneable
     {
         public float X { get; set; }

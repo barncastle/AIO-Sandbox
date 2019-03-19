@@ -7,7 +7,7 @@ using Common.Structs;
 
 namespace TBC_Alpha_5610
 {
-    [Serializable]
+    
     public class Character : BaseCharacter
     {
         public override int Build { get; set; } = Sandbox.Instance.Build;

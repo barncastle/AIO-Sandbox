@@ -7,7 +7,7 @@ using Common.Structs;
 
 namespace Alpha_3368
 {
-    [Serializable]
+    
     public class Character : BaseCharacter
     {
         public override int Build { get; set; } = Sandbox.Instance.Build;
