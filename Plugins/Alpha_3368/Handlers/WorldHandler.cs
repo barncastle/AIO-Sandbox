@@ -67,10 +67,10 @@ namespace Alpha_3368.Handlers
             {
                 var loc = AreaTriggers.Triggers[id];
 
-                //Hacky override
+                // Hacky override
                 switch (id)
                 {
-                    case 45: //Scarlet Monestary
+                    case 45: // Scarlet Monestary
                         loc = new Common.Structs.Location(77f, -1f, 20f, 0, 44);
                         break;
                 }

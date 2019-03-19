@@ -50,7 +50,7 @@ namespace Alpha_3368.Handlers
             manager.Account = account;
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_RESPONSE], "SMSG_AUTH_RESPONSE");
-            writer.WriteUInt8(0x0C); //AUTH_OK
+            writer.WriteUInt8(0x0C); // AUTH_OK
             manager.Send(writer);
         }
 

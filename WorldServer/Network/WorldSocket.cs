@@ -11,6 +11,7 @@ namespace WorldServer.Network
     {
         public bool Started { get; private set; } = false;
         public bool ListenWorldSocket { get; private set; } = true;
+
         private CancellationTokenSource token = new CancellationTokenSource();
         private TcpListener worldListener;
 
@@ -44,8 +45,10 @@ namespace WorldServer.Network
                 Thread.Sleep(1);
                 if (worldListener.Pending())
                 {
-                    WorldManager World = new WorldManager();
-                    World.Socket = worldListener.AcceptSocket();
+                    WorldManager World = new WorldManager
+                    {
+                        Socket = worldListener.AcceptSocket()
+                    };
                     Task.Run(() => World.Recieve(), token.Token);
                 }
             }

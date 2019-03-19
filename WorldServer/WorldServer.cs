@@ -20,7 +20,7 @@ namespace WorldServer
             Log.Message(LogType.NORMAL, "Starting AIO Sandbox WorldServer...");
             Log.Message();
 
-            //Load Plugins
+            // Load Plugins
             PluginHandler.GetPlugins();
             Sandbox = PluginHandler.SelectPlugin();
 

@@ -49,67 +49,67 @@ namespace Alpha_3368
             SortedDictionary<int, byte[]> fieldData = new SortedDictionary<int, byte[]>();
             byte[] maskArray = new byte[maskSize * 4];
 
-            Action<Fields, object> SetField = (place, value) => this.SetField((int)place, value, ref fieldData, ref maskArray);
+            void SetField(Fields place, object value) => this.SetField((int)place, value, ref fieldData, ref maskArray);
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UPDATE_OBJECT], "SMSG_UPDATE_OBJECT");
-            writer.WriteUInt32(1); //Number of transactions
-            writer.WriteUInt8(2); //UpdateType
-            writer.WriteUInt64(this.Guid); //ObjectGuid
-            writer.WriteUInt8(4); //ObjectType, 4 = Player
+            writer.WriteUInt32(1); // Number of transactions
+            writer.WriteUInt8(2); // UpdateType
+            writer.WriteUInt64(Guid); // ObjectGuid
+            writer.WriteUInt8(4); // ObjectType, 4 = Player
 
-            writer.WriteUInt64(0); //TransportGuid
-            writer.WriteFloat(0);  //TransportX
-            writer.WriteFloat(0);  //TransportY
-            writer.WriteFloat(0);  //TransportZ
-            writer.WriteFloat(0);  //TransportW (TransportO)
+            writer.WriteUInt64(0); // TransportGuid
+            writer.WriteFloat(0);  // TransportX
+            writer.WriteFloat(0);  // TransportY
+            writer.WriteFloat(0);  // TransportZ
+            writer.WriteFloat(0);  // TransportW (TransportO)
 
-            writer.WriteFloat(Location.X);  //x
-            writer.WriteFloat(Location.Y);  //y
-            writer.WriteFloat(Location.Z);  //z
-            writer.WriteFloat(Location.O);  //w (o)
+            writer.WriteFloat(Location.X);  // x
+            writer.WriteFloat(Location.Y);  // y
+            writer.WriteFloat(Location.Z);  // z
+            writer.WriteFloat(Location.O);  // w (o)
 
-            writer.WriteFloat(0);  //Pitch
+            writer.WriteFloat(0);  // Pitch
 
-            writer.WriteUInt32(0);  //MovementFlagMask
-            writer.WriteUInt32(0); //FallTime
+            writer.WriteUInt32(0);  // MovementFlagMask
+            writer.WriteUInt32(0); // FallTime
 
-            writer.WriteFloat(2.5f); //WalkSpeed
-            writer.WriteFloat(7.0f); //RunSpeed
-            writer.WriteFloat(4.7222f); //SwimSpeed
-            writer.WriteFloat(3.14f); //TurnSpeed
+            writer.WriteFloat(2.5f); // WalkSpeed
+            writer.WriteFloat(7.0f); // RunSpeed
+            writer.WriteFloat(4.7222f); // SwimSpeed
+            writer.WriteFloat(3.14f); // TurnSpeed
 
-            writer.WriteUInt32(1); //Flags, 1 - Player
-            writer.WriteUInt32(1); //AttackCycle
-            writer.WriteUInt32(0); //TimerId
-            writer.WriteUInt64(0); //VictimGuid
+            writer.WriteUInt32(1); // Flags, 1 - Player
+            writer.WriteUInt32(1); // AttackCycle
+            writer.WriteUInt32(0); // TimerId
+            writer.WriteUInt64(0); // VictimGuid
 
-            SetField(Fields.OBJECT_FIELD_GUID, this.Guid);
+            SetField(Fields.OBJECT_FIELD_GUID, Guid);
             SetField(Fields.OBJECT_FIELD_TYPE, 0x19);
             SetField(Fields.OBJECT_FIELD_ENTRY, 0);
-            SetField(Fields.OBJECT_FIELD_SCALE_X, this.Scale);
-            SetField(Fields.UNIT_FIELD_HEALTH, this.Health);
-            SetField(Fields.UNIT_FIELD_POWER1, this.Mana);
+            SetField(Fields.OBJECT_FIELD_SCALE_X, Scale);
+            SetField(Fields.UNIT_FIELD_HEALTH, Health);
+            SetField(Fields.UNIT_FIELD_POWER1, Mana);
             SetField(Fields.UNIT_FIELD_POWER2, 0);
-            SetField(Fields.UNIT_FIELD_POWER3, this.Focus);
-            SetField(Fields.UNIT_FIELD_POWER4, this.Energy);
-            SetField(Fields.UNIT_FIELD_MAXHEALTH, this.Health);
-            SetField(Fields.UNIT_FIELD_MAXPOWER1, this.Mana);
-            SetField(Fields.UNIT_FIELD_MAXPOWER2, this.Rage);
-            SetField(Fields.UNIT_FIELD_MAXPOWER3, this.Focus);
-            SetField(Fields.UNIT_FIELD_MAXPOWER4, this.Energy);
-            SetField(Fields.UNIT_FIELD_LEVEL, this.Level);
-            SetField(Fields.UNIT_FIELD_BYTES_0, BitConverter.ToUInt32(new byte[] { this.Race, this.Class, this.Gender, this.PowerType }, 0));
+            SetField(Fields.UNIT_FIELD_POWER3, Focus);
+            SetField(Fields.UNIT_FIELD_POWER4, Energy);
+            SetField(Fields.UNIT_FIELD_MAXHEALTH, Health);
+            SetField(Fields.UNIT_FIELD_MAXPOWER1, Mana);
+            SetField(Fields.UNIT_FIELD_MAXPOWER2, Rage);
+            SetField(Fields.UNIT_FIELD_MAXPOWER3, Focus);
+            SetField(Fields.UNIT_FIELD_MAXPOWER4, Energy);
+            SetField(Fields.UNIT_FIELD_LEVEL, Level);
+            SetField(Fields.UNIT_FIELD_BYTES_0, BitConverter.ToUInt32(new byte[] { Race, Class, Gender, PowerType }, 0));
             SetField(Fields.UNIT_FIELD_BYTES_1, (uint)StandState);
-            SetField(Fields.UNIT_FIELD_STAT0, this.Strength);
-            SetField(Fields.UNIT_FIELD_STAT1, this.Agility);
-            SetField(Fields.UNIT_FIELD_STAT2, this.Stamina);
-            SetField(Fields.UNIT_FIELD_STAT3, this.Intellect);
-            SetField(Fields.UNIT_FIELD_STAT4, this.Spirit);
-            SetField(Fields.UNIT_FIELD_BASESTAT0, this.Strength);
-            SetField(Fields.UNIT_FIELD_BASESTAT1, this.Agility);
-            SetField(Fields.UNIT_FIELD_BASESTAT2, this.Stamina);
-            SetField(Fields.UNIT_FIELD_BASESTAT3, this.Intellect);
-            SetField(Fields.UNIT_FIELD_BASESTAT4, this.Spirit);
+            SetField(Fields.UNIT_FIELD_STAT0, Strength);
+            SetField(Fields.UNIT_FIELD_STAT1, Agility);
+            SetField(Fields.UNIT_FIELD_STAT2, Stamina);
+            SetField(Fields.UNIT_FIELD_STAT3, Intellect);
+            SetField(Fields.UNIT_FIELD_STAT4, Spirit);
+            SetField(Fields.UNIT_FIELD_BASESTAT0, Strength);
+            SetField(Fields.UNIT_FIELD_BASESTAT1, Agility);
+            SetField(Fields.UNIT_FIELD_BASESTAT2, Stamina);
+            SetField(Fields.UNIT_FIELD_BASESTAT3, Intellect);
+            SetField(Fields.UNIT_FIELD_BASESTAT4, Spirit);
             SetField(Fields.UNIT_FIELD_DISPLAYID, DisplayId);
             SetField(Fields.UNIT_FIELD_MOUNTDISPLAYID, MountDisplayId);
             SetField(Fields.PLAYER_FIELD_NUM_INV_SLOTS, 14);
@@ -117,14 +117,14 @@ namespace Alpha_3368
             SetField(Fields.PLAYER_XP, 47);
             SetField(Fields.PLAYER_NEXT_LEVEL_XP, 200);
             SetField(Fields.PLAYER_BYTES_2, BitConverter.ToUInt32(new byte[] { 0, FacialHair, 0, 0 }, 0));
-            SetField(Fields.PLAYER_BASE_MANA, this.Mana);
+            SetField(Fields.PLAYER_BASE_MANA, Mana);
 
-            //FillInPartialObjectData
-            writer.WriteUInt8(maskSize); //UpdateMaskBlocks, 20
+            // FillInPartialObjectData
+            writer.WriteUInt8(maskSize); // UpdateMaskBlocks, 20
             writer.WriteBytes(maskArray);
 
             foreach (var kvp in fieldData)
-                writer.WriteBytes(kvp.Value); //Data
+                writer.WriteBytes(kvp.Value); // Data
 
             return writer;
         }
@@ -142,27 +142,27 @@ namespace Alpha_3368
             if (Location.Map == map)
             {
                 PacketWriter movementStatus = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MOVE_WORLDPORT_ACK], "SMSG_MOVE_WORLDPORT_ACK");
-                movementStatus.WriteUInt64(0); //Transport ID
-                movementStatus.WriteFloat(0); //Transport
+                movementStatus.WriteUInt64(0); // Transport ID
+                movementStatus.WriteFloat(0); // Transport
                 movementStatus.WriteFloat(0);
                 movementStatus.WriteFloat(0);
                 movementStatus.WriteFloat(0);
-                movementStatus.WriteFloat(x); //Player
+                movementStatus.WriteFloat(x); // Player
                 movementStatus.WriteFloat(y);
                 movementStatus.WriteFloat(z);
                 movementStatus.WriteFloat(o);
-                movementStatus.WriteFloat(0); //?
+                movementStatus.WriteFloat(0); // ?
                 movementStatus.WriteUInt32(0x08000000);
                 manager.Send(movementStatus);
             }
             else
             {
-                //Loading screen
+                // Loading screen
                 PacketWriter transferPending = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TRANSFER_PENDING], "SMSG_TRANSFER_PENDING");
                 transferPending.WriteUInt32(map);
                 manager.Send(transferPending);
 
-                //New world transfer
+                // New world transfer
                 PacketWriter newWorld = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NEW_WORLD], "SMSG_NEW_WORLD");
                 newWorld.WriteUInt8((byte)map);
                 newWorld.WriteFloat(x);
@@ -172,7 +172,7 @@ namespace Alpha_3368
                 manager.Send(newWorld);
             }
 
-            System.Threading.Thread.Sleep(150); //Pause to factor unsent packets
+            System.Threading.Thread.Sleep(150); // Pause to factor unsent packets
 
             Location = new Location(x, y, z, o, map);
             manager.Send(BuildUpdate());

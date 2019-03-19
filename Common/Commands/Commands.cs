@@ -29,30 +29,30 @@ namespace Common.Commands
             if (args.Length == 0)
                 return;
 
-            if (Read(args, 0, out float test)) //Co-ordinate port
+            if (Read(args, 0, out float test)) // Co-ordinate port
                 GoLocation(manager, args);
-            else if (args[0].ToLower().Trim() == "instance") //Area Trigger
+            else if (args[0].ToLower().Trim() == "instance") // Area Trigger
                 GoTrigger(manager, args);
             else
-                GoNamedArea(manager, true, args); //Worldport
+                GoNamedArea(manager, true, args); // Worldport
         }
 
 
         private static void GoNamedArea(IWorldManager manager, bool worldport, string[] args)
         {
             int skip = args[0] == "area" || args[0] == "instance" ? 1 : 0;
-            string needle = string.Join(" ", args.Skip(skip).ToArray()); //Replace "area" and "instance"
+            string needle = string.Join(" ", args.Skip(skip).ToArray()); // Replace "area" and "instance"
 
             var locations = worldport ? Worldports.FindLocation(needle) : AreaTriggers.FindTrigger(needle);
             switch (locations.Count())
             {
-                case 0: //No matches
+                case 0: // No matches
                     manager.Send(manager.Account.ActiveCharacter.BuildMessage("No matching locations found"));
                     break;
-                case 1: //Single match
+                case 1: // Single match
                     manager.Account.ActiveCharacter.Teleport(locations.First().Value, ref manager);
                     break;
-                default: //Multiple possible matches
+                default: // Multiple possible matches
                     manager.Send(manager.Account.ActiveCharacter.BuildMessage("Multiple matches:"));
 
                     foreach (var l in locations)
@@ -86,7 +86,7 @@ namespace Common.Commands
                 return;
 
             var character = manager.Account.ActiveCharacter;
-            if (uint.TryParse(args[1], out uint areaid)) //Area Id check
+            if (uint.TryParse(args[1], out uint areaid)) // Area Id check
             {
                 if (AreaTriggers.Triggers.ContainsKey(areaid))
                 {
@@ -99,7 +99,7 @@ namespace Common.Commands
             }
             else
             {
-                GoNamedArea(manager, false, args); //Area name check
+                GoNamedArea(manager, false, args); // Area name check
             }
         }
         #endregion
@@ -135,7 +135,7 @@ namespace Common.Commands
                 return;
 
             Read(args, 0, out float speed);
-            speed = Math.Min(Math.Max(speed, 0.1f), 10f); //Min 0.1 Max 10.0
+            speed = Math.Min(Math.Max(speed, 0.1f), 10f); // Min 0.1 Max 10.0
 
             string type = (args.Length > 1 ? args[1] : "all").ToLower().Trim();
 

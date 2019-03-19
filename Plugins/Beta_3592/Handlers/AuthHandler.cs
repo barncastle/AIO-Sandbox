@@ -35,7 +35,7 @@ namespace Beta_3592.Handlers
             manager.Account = account;
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_RESPONSE], "SMSG_AUTH_RESPONSE");
-            writer.WriteUInt8(0x0C); //AUTH_OK
+            writer.WriteUInt8(0x0C); // AUTH_OK
             manager.Send(writer);
         }
 
@@ -79,14 +79,14 @@ namespace Beta_3592.Handlers
                             writer.WriteUInt8(0);
                             break;
                         case RealmlistOpcodes.REALMLIST_REQUEST:
-                            //Send Realm List
+                            // Send Realm List
                             byte[] realmName = Encoding.ASCII.GetBytes(Sandbox.Instance.RealmName);
                             byte[] redirect = Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.RedirectPort);
 
                             writer.WriteUInt8(0x10);
                             writer.WriteUInt16((ushort)(11 + realmName.Length + redirect.Length));
                             writer.WriteUInt32(0);
-                            writer.WriteUInt8(1); //Realm count
+                            writer.WriteUInt8(1); // Realm count
                             writer.WriteBytes(realmName);
                             writer.WriteUInt8(0);
                             writer.WriteBytes(redirect);

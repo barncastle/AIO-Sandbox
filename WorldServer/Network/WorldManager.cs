@@ -23,7 +23,7 @@ namespace WorldServer.Network
         {
             SetAutosave();
 
-            this.Send(WorldServer.Sandbox.AuthHandler.HandleAuthChallenge()); //SMSG_AUTH_CHALLENGE
+            Send(WorldServer.Sandbox.AuthHandler.HandleAuthChallenge()); // SMSG_AUTH_CHALLENGE
 
             while (WorldSession.ListenWorldSocket && Socket.Connected)
             {
@@ -57,11 +57,15 @@ namespace WorldServer.Network
                 DoAutosave();
             }
 
-            Account?.Save();
-            if (Account?.ActiveCharacter != null)
-                Account.ActiveCharacter.IsOnline = false;
+            // save the account and reset the character
+            if (Account != null)
+            {
+                Account.Save();
+                if (Account.ActiveCharacter != null)
+                    Account.ActiveCharacter.IsOnline = false;
+            }
 
-            Log.Message(LogType.DEBUG, "CLIENT DISCONNECTED {0}", Account?.Name ?? string.Empty);
+            Log.Message(LogType.DEBUG, "CLIENT DISCONNECTED {0}", Account?.Name);
             Socket.Close();
         }
 

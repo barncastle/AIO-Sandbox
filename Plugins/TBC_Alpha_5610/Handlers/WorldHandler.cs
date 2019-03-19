@@ -30,7 +30,7 @@ namespace TBC_Alpha_5610.Handlers
             Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
             character.DisplayId = character.GetDisplayId();
 
-            //Verify World : REQUIRED
+            // Verify World : REQUIRED
             PacketWriter verify = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_LOGIN_VERIFY_WORLD], "SMSG_LOGIN_VERIFY_WORLD");
             verify.WriteUInt32(character.Location.Map);
             verify.WriteFloat(character.Location.X);
@@ -39,13 +39,13 @@ namespace TBC_Alpha_5610.Handlers
             verify.WriteFloat(character.Location.O);
             manager.Send(verify);
 
-            //Account Data Hash : REQUIRED
+            // Account Data Hash : REQUIRED
             PacketWriter accountdata = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_ACCOUNT_DATA_MD5], "SMSG_ACCOUNT_DATA_MD5");
             for (int i = 0; i < 31; i++)
                 accountdata.WriteInt32(0);
             manager.Send(accountdata);
 
-            //Tutorial Flags : REQUIRED
+            // Tutorial Flags : REQUIRED
             PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
             for (int i = 0; i < 8; i++)
                 tutorial.WriteInt32(-1);

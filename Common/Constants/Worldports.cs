@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Common.Structs;
 
@@ -268,7 +267,7 @@ namespace Common.Constants
 
         public static IEnumerable<KeyValuePair<string, Location>> FindLocation(string needle)
         {
-            Func<string, string> FormatString = (s) => s.Replace(" ", "").Replace("'", "").ToLower().Trim();
+            string FormatString(string s) => s.Replace(" ", "").Replace("'", "").ToLower().Trim();
 
             needle = FormatString(needle);
 

@@ -13,51 +13,64 @@ namespace Common.Structs
         public uint Map { get; set; }
         public string Description { get; set; }
 
+        private readonly string formattedDesc;
+
+
         public Location() { }
 
         public Location(float x, float y, float z, float o, uint map)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
-            this.O = o;
-            this.Map = map;
+            X = x;
+            Y = y;
+            Z = z;
+            O = o;
+            Map = map;
         }
 
         public Location(float x, float y, float z, float o, uint map, string description)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
-            this.O = o;
-            this.Map = map;
-            this.Description = description;
+            X = x;
+            Y = y;
+            Z = z;
+            O = o;
+            Map = map;
+            Description = description;
+
+            formattedDesc = description.Replace(" ", "").Replace("'", "").Trim();
         }
 
 
         public void Update(float x, float y, float z)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            X = x;
+            Y = y;
+            Z = z;
         }
 
         public void Update(float x, float y, float z, float o)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
-            this.O = o;
+            X = x;
+            Y = y;
+            Z = z;
+            O = o;
         }
 
         public void Update(IPacketReader packet, bool orientation = false)
         {
-            this.X = packet.ReadFloat();
-            this.Y = packet.ReadFloat();
-            this.Z = packet.ReadFloat();
-
+            X = packet.ReadFloat();
+            Y = packet.ReadFloat();
+            Z = packet.ReadFloat();
             if (orientation)
-                this.O = packet.ReadFloat();
+                O = packet.ReadFloat();
+        }
+
+
+        public bool HasDescriptionValue(string needle, bool exact)
+        {
+            if (exact)
+                return formattedDesc.Equals(needle, StringComparison.OrdinalIgnoreCase);
+            else
+                return formattedDesc.IndexOf(needle, StringComparison.OrdinalIgnoreCase) != -1;
         }
 
 
@@ -68,7 +81,7 @@ namespace Common.Structs
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return MemberwiseClone();
         }
     }
 }

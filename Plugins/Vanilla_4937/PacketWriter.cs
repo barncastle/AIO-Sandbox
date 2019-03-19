@@ -119,8 +119,8 @@ namespace Vanilla_4937
         public void WriteString(string data)
         {
             byte[] sBytes = Encoding.ASCII.GetBytes(data);
-            this.WriteBytes(sBytes);
-            base.Write((byte)0);    //String null terminated
+            WriteBytes(sBytes);
+            base.Write((byte)0);    // String null terminated
         }
 
         public void WriteBytes(byte[] data)

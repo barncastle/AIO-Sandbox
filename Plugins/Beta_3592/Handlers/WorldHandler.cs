@@ -21,13 +21,13 @@ namespace Beta_3592.Handlers
             Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
             character.DisplayId = character.GetDisplayId();
 
-            //Tutorial Flags : REQUIRED
+            // Tutorial Flags : REQUIRED
             PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
             for (int i = 0; i < 8; i++)
                 tutorial.WriteInt32(-1);
             manager.Send(tutorial);
 
-            //Enable UI : REQUIRED
+            // Enable UI : REQUIRED
             PacketWriter uiconfig = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UI_CONFIG_MD5], "SMSG_UI_CONFIG_MD5");
             uiconfig.Write(new byte[80]);
             manager.Send(uiconfig);
@@ -36,7 +36,7 @@ namespace Beta_3592.Handlers
 
             manager.Send(character.BuildUpdate());
 
-            manager.Send(uiconfig); //Fixes a UI load issue?
+            manager.Send(uiconfig); // Fixes a UI load issue?
         }
 
         public void HandleWorldTeleport(ref IPacketReader packet, ref IWorldManager manager)

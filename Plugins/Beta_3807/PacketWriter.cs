@@ -42,7 +42,7 @@ namespace Beta_3807
 
             if (!PreAuth)
             {
-                //Size = (ushort)((Size >> 8) + ((Size & 0xFF) << 8));
+                // Size = (ushort)((Size >> 8) + ((Size & 0xFF) << 8));
                 data[0] = (byte)(Size >> 8);
                 data[1] = (byte)(Size & 255);
             }
@@ -103,8 +103,8 @@ namespace Beta_3807
         public void WriteString(string data)
         {
             byte[] sBytes = Encoding.ASCII.GetBytes(data);
-            this.WriteBytes(sBytes);
-            base.Write((byte)0);    //String null terminated
+            WriteBytes(sBytes);
+            base.Write((byte)0);    // String null terminated
         }
 
         public void WriteBytes(byte[] data)

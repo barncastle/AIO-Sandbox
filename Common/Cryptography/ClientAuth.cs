@@ -61,8 +61,8 @@ namespace Common.Cryptography
             packet.Position = 11;
             uint build = packet.ReadUInt16();
 
-            packet.Position = 33; //Skip to username
-            BUsername = packet.ReadBytes(packet.ReadByte()); //Read username
+            packet.Position = 33; // Skip to username
+            BUsername = packet.ReadBytes(packet.ReadByte()); // Read username
             string username = Encoding.ASCII.GetString(BUsername);
 
             byte[] x;
@@ -84,12 +84,12 @@ namespace Common.Cryptography
             BigInteger temp = (K * V) + G.ModPow(new BigInteger(RB), new BigInteger(RN));
             B = temp % new BigInteger(RN);
 
-            IEnumerable<byte> result = new byte[3]; //Opcode, 0, Success
+            IEnumerable<byte> result = new byte[3]; // Opcode, 0, Success
             result = result.Concat(B.GetBytes(32).Reverse());
-            result = result.Concat(new byte[] { 1, 7, 32 }); //1, G, 32
+            result = result.Concat(new byte[] { 1, 7, 32 }); // 1, G, 32
             result = result.Concat(N);
             result = result.Concat(Salt);
-            result = result.Concat(new byte[(build < 5875 ? 16 : 17)]); //unknown, Security Flag (version?)
+            result = result.Concat(new byte[(build < 5875 ? 16 : 17)]); // unknown, Security Flag (version?)
             return result.ToArray();
         }
 
@@ -106,7 +106,7 @@ namespace Common.Cryptography
             SHA1 sha = new SHA1CryptoServiceProvider();
             byte[] rU = sha.ComputeHash(AB).Reverse().ToArray();
 
-            //SS_Hash
+            // SS_Hash
             BigInteger s = V.ModPow(new BigInteger(rU), new BigInteger(RN));
             s *= new BigInteger(rA);
             s = s.ModPow(new BigInteger(RB), new BigInteger(RN));
@@ -130,7 +130,7 @@ namespace Common.Cryptography
                 SS_Hash[(t * 2) + 1] = hashS2[t];
             }
 
-            //calc M1
+            // calc M1
             byte[] M1;
             byte[] NHash = sha.ComputeHash(N);
             byte[] GHash = sha.ComputeHash(G.GetBytes());
@@ -145,7 +145,7 @@ namespace Common.Cryptography
             tmp = tmp.Concat(SS_Hash);
             M1 = sha.ComputeHash(tmp.ToArray());
 
-            //calc M2
+            // calc M2
             byte[] M2;
             tmp = A.Concat(M1);
             tmp = tmp.Concat(SS_Hash);

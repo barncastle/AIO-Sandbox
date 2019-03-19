@@ -30,36 +30,31 @@ namespace WorldServer.Plugins
 
         public static SandboxHost SelectPlugin()
         {
-            bool retry = true;
-
-            //Print initial plugin options
+            // Print initial plugin options
             if (!loaded)
             {
                 Log.Message(LogType.INIT, "Select a plugin from the below list:");
+
                 for (int i = 0; i < Sandboxes.Count; i++)
                     Log.Message(LogType.INIT, $"{i + 1}. {Sandboxes[i].RealmName}");
-                Log.Message();
 
+                Log.Message();
                 loaded = true;
             }
 
-            //Load plugin from user input
-            Log.SetType(LogType.MISC); //Set font colour
+            // Load plugin from user input
+            Log.SetType(LogType.MISC); // Set font colour
 
             if (int.TryParse(Console.ReadLine().Trim(), out int index))
             {
                 index--;
-                if (index >= 0 && index < Sandboxes.Count) //Out of range
-                    retry = false;
+                if (index >= 0 && index < Sandboxes.Count) // Out of range
+                    return Sandboxes[index];
             }
 
-            if (retry)
-            {
-                Log.Message(LogType.ERROR, "Invalid selection."); //Not an integer
-                return SelectPlugin();
-            }
+            Log.Message(LogType.ERROR, "Invalid selection."); // Not an integer
 
-            return Sandboxes[index];
+            return SelectPlugin();
         }
     }
 }

@@ -21,13 +21,13 @@ namespace Alpha_3494.Handlers
             Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
             character.DisplayId = character.GetDisplayId();
 
-            //Tutorial Flags : REQUIRED
+            // Tutorial Flags : REQUIRED
             PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
             for (int i = 0; i < 8; i++)
                 tutorial.WriteInt32(-1);
             manager.Send(tutorial);
 
-            //Enable UI : REQUIRED
+            // Enable UI : REQUIRED
             PacketWriter uiconfig = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UI_CONFIG_MD5], "SMSG_UI_CONFIG_MD5");
             uiconfig.Write(new byte[80]);
             manager.Send(uiconfig);
@@ -81,10 +81,10 @@ namespace Alpha_3494.Handlers
             {
                 var loc = AreaTriggers.Triggers[id];
 
-                //Hacky override
+                // Hacky override
                 switch (id)
                 {
-                    case 45: //Scarlet Monestary
+                    case 45: // Scarlet Monestary
                         loc = new Common.Structs.Location(77f, -1f, 20f, 0, 44);
                         break;
                 }

@@ -48,8 +48,10 @@ namespace WorldServer.Network
                 Thread.Sleep(1);
                 if (realmListener.Pending())
                 {
-                    RealmManager Realm = new RealmManager();
-                    Realm.realmSocket = realmListener.AcceptSocket();
+                    RealmManager Realm = new RealmManager
+                    {
+                        realmSocket = realmListener.AcceptSocket()
+                    };
                     Task.Run(() => Realm.RecieveRealm(), token.Token);
                 }
             }
@@ -62,8 +64,10 @@ namespace WorldServer.Network
                 Thread.Sleep(1);
                 if (proxyListener.Pending())
                 {
-                    RealmManager Proxy = new RealmManager();
-                    Proxy.proxySocket = proxyListener.AcceptSocket();
+                    RealmManager Proxy = new RealmManager
+                    {
+                        proxySocket = proxyListener.AcceptSocket()
+                    };
                     Task.Run(() => Proxy.RecieveProxy(), token.Token);
                 }
             }

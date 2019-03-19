@@ -15,9 +15,9 @@ namespace Alpha_3494
         {
             if (parse)
             {
-                ushort size = this.ReadUInt16();
+                ushort size = ReadUInt16();
                 Size = (ushort)((size >> 8) + ((size & 0xFF) << 8) + 2);
-                Opcode = this.ReadUInt32();
+                Opcode = ReadUInt32();
             }
         }
 

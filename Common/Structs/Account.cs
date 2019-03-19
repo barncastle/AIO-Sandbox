@@ -9,14 +9,17 @@ namespace Common.Structs
     public class Account
     {
         public string Name { get; set; }
-        public List<ICharacter> Characters { get; set; } = new List<ICharacter>();
+        public List<ICharacter> Characters { get; set; }
         public ICharacter ActiveCharacter => Characters.Find(x => x.IsOnline);
 
         private bool _saving = false;
 
-        public Account() { }
+        public Account()
+        {
+            Characters = new List<ICharacter>();
+        }
 
-        public Account(string name)
+        public Account(string name) : this()
         {
             Name = name;
         }
@@ -25,6 +28,7 @@ namespace Common.Structs
         public ICharacter SetActiveChar(ulong guid, int build)
         {
             Characters.ForEach(x => x.IsOnline = false);
+
             var cha = Characters.Find(x => x.Guid == guid && x.Build == build);
             cha.IsOnline = true;
             return cha;
@@ -37,11 +41,16 @@ namespace Common.Structs
 
         public void Save()
         {
-            if (_saving) return;
+            if (_saving)
+                return;
 
             _saving = true;
+
             Directory.CreateDirectory("Accounts");
-            using (var fs = new FileStream(Path.Combine("Accounts", Name.ToUpper() + ".dat"), FileMode.Create, FileAccess.Write))
+
+            string filename = Path.Combine("Accounts", Name.ToUpper() + ".dat");
+
+            using (var fs = File.Create(filename))
             using (var bw = new BinaryWriter(fs))
             {
                 foreach (var c in Characters)
@@ -68,6 +77,7 @@ namespace Common.Structs
                     bw.Write(c.Scale);
                 }
             }
+
             _saving = false;
         }
 
@@ -75,17 +85,20 @@ namespace Common.Structs
         {
             Characters = new List<ICharacter>();
 
-            if (!File.Exists(Path.Combine("Accounts", Name + ".dat")))
+            string filename = Path.Combine("Accounts", Name.ToUpper() + ".dat");
+
+            if (!File.Exists(filename))
                 return;
 
-            try
+            using (var fs = File.OpenRead(filename))
+            using (var br = new BinaryReader(fs))
             {
-                using (var fs = new FileStream(Path.Combine("Accounts", Name.ToUpper() + ".dat"), FileMode.Open, FileAccess.Read))
-                using (var br = new BinaryReader(fs))
+                while (br.BaseStream.Position < br.BaseStream.Length)
                 {
-                    while (br.BaseStream.Position < br.BaseStream.Length)
+                    ICharacter c = (ICharacter)Activator.CreateInstance<T>();
+
+                    try
                     {
-                        ICharacter c = (ICharacter)Activator.CreateInstance<T>();
                         c.Build = br.ReadInt32();
                         c.Class = br.ReadByte();
                         c.DisplayId = br.ReadUInt32();
@@ -111,12 +124,15 @@ namespace Common.Structs
                         c.Skin = br.ReadByte();
                         c.Zone = br.ReadUInt32();
                         c.Scale = br.ReadSingle();
-
-                        Characters.Add(c);
                     }
+                    catch
+                    {
+                        return;
+                    }
+
+                    Characters.Add(c);
                 }
             }
-            catch { }
         }
     }
 }

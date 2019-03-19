@@ -5,11 +5,11 @@ namespace Common.Commands
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public class CommandHelpAttribute : Attribute
     {
-        public string HelpText { get; set; }
+        public readonly string HelpText;
 
         public CommandHelpAttribute(string helptext)
         {
-            this.HelpText = helptext;
+            HelpText = helptext;
         }
 
         public override string ToString()

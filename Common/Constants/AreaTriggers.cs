@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Common.Structs;
 
 namespace Common.Constants
 {
     public static class AreaTriggers
     {
-        public readonly static IDictionary<uint, Location> Triggers = new Dictionary<uint, Location>()
+        public static readonly IDictionary<uint, Location> Triggers = new Dictionary<uint, Location>()
         {
             {45,  new Location(1688.99f, 1053.48f, 18.6775f, 0.00117f, 189, "Scarlet Monastery - Graveyard (Entrance)")},
             {78,  new Location(-16.4f, -383.07f, 61.78f, 1.86f, 36, "DeadMines")},
@@ -114,16 +112,22 @@ namespace Common.Constants
 
         public static IEnumerable<KeyValuePair<string, Location>> FindTrigger(string needle)
         {
-            Func<string, string> FormatString = (s) => s.Replace(" ", "").Replace("'", "").ToLower().Trim();
+            needle = needle.Replace(" ", "").Replace("'", "").Trim();
 
-            needle = FormatString(needle);
+            foreach (var trigger in Triggers)
+            {
+                if (trigger.Value.HasDescriptionValue(needle, true) && trigger.Value.Map > 1)
+                {
+                    yield return new KeyValuePair<string, Location>($"{trigger.Value.Description} : {trigger.Key}", trigger.Value);
+                    yield break;
+                }
+            }
 
-            var exact = Triggers.FirstOrDefault(x => FormatString(x.Value.Description) == needle && x.Value.Map > 1);
-            if (exact.Key != 0)
-                return new[] { new KeyValuePair<string, Location>($"{exact.Value.Description} : {exact.Key}", exact.Value) };
-
-            return Triggers.Where(x => FormatString(x.Value.Description).Contains(needle) && x.Value.Map > 1)
-                           .Select(x => new KeyValuePair<string, Location>($"{x.Value.Description} : {x.Key}", x.Value));
+            foreach (var trigger in Triggers)
+            {
+                if (trigger.Value.HasDescriptionValue(needle, false) && trigger.Value.Map > 1)
+                    yield return new KeyValuePair<string, Location>($"{trigger.Value.Description} : {trigger.Key}", trigger.Value);
+            }
         }
     }
 }

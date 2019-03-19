@@ -10,7 +10,7 @@ namespace Common.Extensions
     {
         public static uint GetDisplayId(this ICharacter character)
         {
-            bool male = (character.Gender == 0);
+            bool male = character.Gender == 0;
 
             switch ((Races)character.Race)
             {
@@ -35,13 +35,13 @@ namespace Common.Extensions
                 case Races.DRAENEI:
                     return (uint)(male ? 0x3EFD : 0x3EFE);
                 default:
-                    return (uint)(male ? 0x31 : 0x32); //Default to human
+                    return (uint)(male ? 0x31 : 0x32); // Default to human
             }
         }
 
         public static void SetDefaultValues(this ICharacter character, bool hunterFocus = false)
         {
-            bool male = (character.Gender == 0);
+            bool male = character.Gender == 0;
 
             // scale
             character.Scale = 1f;
@@ -68,8 +68,6 @@ namespace Common.Extensions
                     break;
             }
         }
-
-
 
         public static void SetField(this ICharacter character, int field, object value, ref SortedDictionary<int, byte[]> fieldData, ref byte[] maskArray)
         {
@@ -124,8 +122,8 @@ namespace Common.Extensions
         public static IPacketWriter BuildForceSpeed(this ICharacter character, IPacketWriter writer, float modifier)
         {
             const float maxmod = 8f;
-            modifier *= (10f / maxmod);
-            modifier = Math.Min(Math.Max(modifier, 1f), maxmod); //Min 1 Max 8
+            modifier *= 10f / maxmod;
+            modifier = Math.Min(Math.Max(modifier, 1f), maxmod); // Min 1 Max 8
 
             writer.WriteFloat(modifier * 7f);
             return writer;

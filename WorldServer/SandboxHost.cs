@@ -6,15 +6,14 @@ namespace WorldServer
     public class SandboxHost
     {
         private readonly ISandbox _instance;
-        private readonly string _realmName;
 
         public SandboxHost(ISandbox sandbox)
         {
             _instance = sandbox;
-            _realmName = _instance.RealmName[0] == '|' ? _instance.RealmName.Substring(10) : _instance.RealmName; //Remove colour code
+            RealmName = _instance.RealmName[0] == '|' ? _instance.RealmName.Substring(10) : _instance.RealmName; // Remove colour code
         }
 
-        public string RealmName => _realmName;
+        public string RealmName { get; private set; }
         public int Build => _instance.Build;
         public int RealmPort => _instance.RealmPort;
         public int RedirectPort => _instance.RedirectPort;

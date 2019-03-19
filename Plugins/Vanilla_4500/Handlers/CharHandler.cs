@@ -33,7 +33,7 @@ namespace Vanilla_4500.Handlers
 
             if (result.Any(x => x.Name.Equals(cha.Name, StringComparison.CurrentCultureIgnoreCase)))
             {
-                writer.WriteUInt8(0x2B); //Duplicate name
+                writer.WriteUInt8(0x2B); // Duplicate name
                 manager.Send(writer);
                 return;
             }
@@ -46,7 +46,7 @@ namespace Vanilla_4500.Handlers
             manager.Account.Characters.Add(cha);
             manager.Account.Save();
 
-            //Success
+            // Success
             writer.WriteUInt8(0x2D);
             manager.Send(writer);
         }
@@ -104,11 +104,11 @@ namespace Vanilla_4500.Handlers
                 writer.WriteUInt32(0);
                 writer.WriteUInt32(0);
 
-                //Items
+                // Items
                 for (int j = 0; j < 0x14; j++)
                 {
-                    writer.WriteUInt32(0);    //DisplayId
-                    writer.WriteUInt8(0);     //InventoryType
+                    writer.WriteUInt32(0);    // DisplayId
+                    writer.WriteUInt8(0);     // InventoryType
                 }
             }
 

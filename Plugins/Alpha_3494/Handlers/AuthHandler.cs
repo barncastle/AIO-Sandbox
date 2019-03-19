@@ -36,7 +36,7 @@ namespace Alpha_3494.Handlers
             manager.Account = account;
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_RESPONSE], "SMSG_AUTH_RESPONSE");
-            writer.WriteUInt8(0x0C); //AUTH_OK
+            writer.WriteUInt8(0x0C); // AUTH_OK
             manager.Send(writer);
         }
 
@@ -57,11 +57,13 @@ namespace Alpha_3494.Handlers
             byte[] realmName = Encoding.ASCII.GetBytes(Sandbox.Instance.RealmName);
             byte[] redirect = Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.RedirectPort);
 
-            PacketWriter writer = new PacketWriter();
-            writer.PreAuth = false;
+            PacketWriter writer = new PacketWriter
+            {
+                PreAuth = false
+            };
             writer.WriteUInt16(0);
             writer.WriteUInt8(0x10);
-            writer.WriteUInt8(1); //Realm count
+            writer.WriteUInt8(1); // Realm count
             writer.WriteBytes(realmName);
             writer.WriteUInt8(0);
             writer.WriteBytes(redirect);

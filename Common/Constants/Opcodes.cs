@@ -16,27 +16,27 @@
     CMSG_QUERY_TIME,
     SMSG_LOGIN_SETTIMESPEED,
 
-    //NameCache,
+    // NameCache,
     CMSG_NAME_QUERY,
     SMSG_NAME_QUERY_RESPONSE,
 
-    //Logout,
+    // Logout,
     CMSG_LOGOUT_REQUEST,
     SMSG_LOGOUT_COMPLETE,
 
-    //Teleport,
+    // Teleport,
     CMSG_WORLD_TELEPORT,
     SMSG_NEW_WORLD,
     SMSG_TRANSFER_PENDING,
 
-    //Chat
+    // Chat
     CMSG_MESSAGECHAT,
     SMSG_MESSAGECHAT,
     CMSG_TEXT_EMOTE,
     SMSG_TEXT_EMOTE,
     SMSG_EMOTE,
 
-    //Movement,
+    // Movement,
     MSG_MOVE_START_FORWARD,
     MSG_MOVE_START_BACKWARD,
     MSG_MOVE_STOP,
@@ -62,21 +62,21 @@
     MSG_MOVE_UNROOT,
     MSG_MOVE_HEARTBEAT,
 
-    //Force speed change
+    // Force speed change
     SMSG_FORCE_SPEED_CHANGE,
     SMSG_FORCE_SWIM_SPEED_CHANGE,
 
-    //Worldporting
+    // Worldporting
     SMSG_MOVE_WORLDPORT_ACK,
     MSG_MOVE_WORLDPORT_ACK,
     MSG_MOVE_TELEPORT_ACK,
     CMSG_AREATRIGGER,
     CMSG_ZONEUPDATE,
 
-    //Standstate
+    // Standstate
     CMSG_STANDSTATECHANGE,
 
-    //Misc
+    // Misc
     SMSG_LOGIN_VERIFY_WORLD,
     SMSG_TUTORIAL_FLAGS,
     SMSG_ACCOUNT_DATA_MD5,

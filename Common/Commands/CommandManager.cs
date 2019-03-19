@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Common.Interfaces;
 
@@ -6,11 +7,14 @@ namespace Common.Commands
 {
     public class CommandManager
     {
-        public static Dictionary<string, HandleCommand> CommandHandlers = new Dictionary<string, HandleCommand>();
+        public static Dictionary<string, HandleCommand> CommandHandlers;
+
         public delegate void HandleCommand(IWorldManager manager, string[] args);
 
         static CommandManager()
         {
+            CommandHandlers = new Dictionary<string, HandleCommand>(StringComparer.OrdinalIgnoreCase);
+
             DefineCommand("gps", Commands.Gps);
             DefineCommand("help", Commands.Help);
             DefineCommand("speed", Commands.Speed);
@@ -36,10 +40,11 @@ namespace Common.Commands
 
         public static bool InvokeHandler(string command, IWorldManager manager, params string[] args)
         {
-            command = command.TrimStart('.').Trim().ToLower(); //Remove command "." prefix and format
-            if (CommandHandlers.ContainsKey(command))
+            command = command.TrimStart('.').Trim(); // Remove command "." prefix and format
+
+            if(CommandHandlers.TryGetValue(command, out var handle))
             {
-                CommandHandlers[command].Invoke(manager, args);
+                handle.Invoke(manager, args);
                 return true;
             }
 

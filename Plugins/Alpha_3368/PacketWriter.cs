@@ -26,8 +26,8 @@ namespace Alpha_3368
 
         public void WritePacketHeader(uint opcode)
         {
-            //Packet header (0.5.3.3368): Size: 2 bytes + Cmd: 2 bytes
-            //Packet header after SMSG_AUTH_CHALLENGE (0.5.3.3368): Size: 2 bytes + Cmd: 4 bytes
+            // Packet header (0.5.3.3368): Size: 2 bytes + Cmd: 2 bytes
+            // Packet header after SMSG_AUTH_CHALLENGE (0.5.3.3368): Size: 2 bytes + Cmd: 4 bytes
             WriteUInt16(0);
             WriteUInt8((byte)(opcode % 0x100));
             WriteUInt8((byte)(opcode / 0x100));
@@ -109,8 +109,8 @@ namespace Alpha_3368
         public void WriteString(string data)
         {
             byte[] sBytes = Encoding.ASCII.GetBytes(data);
-            this.WriteBytes(sBytes);
-            base.Write((byte)0);    //String null terminated
+            WriteBytes(sBytes);
+            base.Write((byte)0);    // String null terminated
         }
 
         public void WriteBytes(byte[] data)

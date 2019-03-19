@@ -5,8 +5,14 @@ namespace Common.Network
 {
     public static class PacketManager
     {
-        public static Dictionary<Opcodes, HandlePacket> OpcodeHandlers = new Dictionary<Opcodes, HandlePacket>();
+        public static Dictionary<Opcodes, HandlePacket> OpcodeHandlers;
+
         public delegate void HandlePacket(ref IPacketReader packet, ref IWorldManager manager);
+
+        static PacketManager()
+        {
+            OpcodeHandlers = new Dictionary<Opcodes, HandlePacket>();
+        }
 
         public static void DefineOpcodeHandler(Opcodes opcode, HandlePacket handler)
         {
@@ -15,13 +21,13 @@ namespace Common.Network
 
         public static bool InvokeHandler(IPacketReader reader, IWorldManager manager, Opcodes opcode)
         {
-            if (OpcodeHandlers.ContainsKey(opcode))
+            if(OpcodeHandlers.TryGetValue(opcode, out var handle))
             {
-                OpcodeHandlers[opcode].Invoke(ref reader, ref manager);
+                handle.Invoke(ref reader, ref manager);
                 return true;
             }
-            else
-                return false;
+
+            return false;
         }
     }
 }
