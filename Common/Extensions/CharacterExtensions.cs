@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Common.Constants;
 using Common.Interfaces;
 using Common.Structs;
@@ -15,27 +16,27 @@ namespace Common.Extensions
             switch ((Races)character.Race)
             {
                 case Races.HUMAN:
-                    return (uint)(male ? 0x31 : 0x32);
+                    return male ? 0x31u : 0x32u;
                 case Races.ORC:
-                    return (uint)(male ? 0x33 : 0x34);
+                    return male ? 0x33u : 0x34u;
                 case Races.DWARF:
-                    return (uint)(male ? 0x35 : 0x36);
+                    return male ? 0x35u : 0x36u;
                 case Races.NIGHT_ELF:
-                    return (uint)(male ? 0x37 : 0x38);
+                    return male ? 0x37u : 0x38u;
                 case Races.UNDEAD:
-                    return (uint)(male ? 0x39 : 0x3A);
+                    return male ? 0x39u : 0x3Au;
                 case Races.TAUREN:
-                    return (uint)(male ? 0x3B : 0x3C);
+                    return male ? 0x3Bu : 0x3Cu;
                 case Races.GNOME:
-                    return (uint)(male ? 0x61B : 0x61C);
+                    return male ? 0x61Bu : 0x61Cu;
                 case Races.TROLL:
-                    return (uint)(male ? 0x5C6 : 0x5C7);
+                    return male ? 0x5C6u : 0x5C7u;
                 case Races.BLOODELF:
-                    return (uint)(male ? 0x3C74 : 0x3C73);
+                    return male ? 0x3C74u : 0x3C73u;
                 case Races.DRAENEI:
-                    return (uint)(male ? 0x3EFD : 0x3EFE);
+                    return male ? 0x3EFDu : 0x3EFEu;
                 default:
-                    return (uint)(male ? 0x31 : 0x32); // Default to human
+                    return male ? 0x31u : 0x32; // Default to human
             }
         }
 
@@ -69,39 +70,13 @@ namespace Common.Extensions
             }
         }
 
-        public static void SetField(this ICharacter character, int field, object value, ref SortedDictionary<int, byte[]> fieldData, ref byte[] maskArray)
+        public static void SetField<T>(this ICharacter character, int field, T value, ref SortedDictionary<int, byte[]> fieldData, ref byte[] maskArray) where T : unmanaged
         {
-            switch (Type.GetTypeCode(value.GetType()))
-            {
-                case TypeCode.Byte:
-                    fieldData.Add(field, new byte[] { (byte)value });
-                    break;
-                case TypeCode.Single:
-                    fieldData.Add(field, BitConverter.GetBytes((float)value));
-                    break;
-                case TypeCode.UInt16:
-                    fieldData.Add(field, BitConverter.GetBytes((ushort)value));
-                    break;
-                case TypeCode.UInt32:
-                    fieldData.Add(field, BitConverter.GetBytes((uint)value));
-                    break;
-                case TypeCode.UInt64:
-                    fieldData.Add(field, BitConverter.GetBytes((ulong)value));
-                    break;
-                case TypeCode.Int16:
-                    fieldData.Add(field, BitConverter.GetBytes((short)value));
-                    break;
-                case TypeCode.Int32:
-                    fieldData.Add(field, BitConverter.GetBytes((int)value));
-                    break;
-                case TypeCode.Int64:
-                    fieldData.Add(field, BitConverter.GetBytes((long)value));
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
+            Span<T> span = new T[] { value };
+            byte[] buffer = MemoryMarshal.Cast<T, byte>(span).ToArray();
+            fieldData[field] = buffer;
 
-            for (int i = 0; i < (fieldData[field].Length / 4); i++)
+            for (int i = 0; i < (buffer.Length / 4); i++)
                 maskArray[field / 8] |= (byte)(1 << ((field + i) % 8));
         }
 

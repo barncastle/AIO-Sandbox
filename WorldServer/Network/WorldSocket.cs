@@ -10,10 +10,15 @@ namespace WorldServer.Network
     public class WorldSocket
     {
         public bool Started { get; private set; } = false;
-        public bool ListenWorldSocket { get; private set; } = true;
 
-        private CancellationTokenSource token = new CancellationTokenSource();
+        private readonly CancellationTokenSource token;
         private TcpListener worldListener;
+        
+        public WorldSocket()
+        {
+            token = new CancellationTokenSource();
+        }
+
 
         public bool Start()
         {
@@ -40,7 +45,7 @@ namespace WorldServer.Network
 
         protected void AcceptConnection()
         {
-            while (ListenWorldSocket)
+            while (true)
             {
                 Thread.Sleep(1);
                 if (worldListener.Pending())

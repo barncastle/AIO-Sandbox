@@ -50,7 +50,7 @@ namespace WorldServer.Network
                 {
                     RealmManager Realm = new RealmManager
                     {
-                        realmSocket = realmListener.AcceptSocket()
+                        RealmSocket = realmListener.AcceptSocket()
                     };
                     Task.Run(() => Realm.RecieveRealm(), token.Token);
                 }
@@ -66,7 +66,7 @@ namespace WorldServer.Network
                 {
                     RealmManager Proxy = new RealmManager
                     {
-                        proxySocket = proxyListener.AcceptSocket()
+                        ProxySocket = proxyListener.AcceptSocket()
                     };
                     Task.Run(() => Proxy.RecieveProxy(), token.Token);
                 }

@@ -6,13 +6,13 @@ namespace WorldServer.Network
 {
     public class RealmManager
     {
-        public static RealmSocket RealmSession;
-        public Socket realmSocket;
-        public Socket proxySocket;
+        public static RealmSocket RealmSession { get; set; }
+        public Socket RealmSocket { get; set; }
+        public Socket ProxySocket { get; set; }
 
         public void RecieveRealm()
         {
-            WorldServer.Sandbox.AuthHandler.HandleRealmList(realmSocket);
+            WorldServer.Sandbox.AuthHandler.HandleRealmList(RealmSocket);
         }
 
         public void RecieveProxy()
@@ -20,8 +20,8 @@ namespace WorldServer.Network
             Log.Message();
             Log.Message(LogType.NORMAL, "Begin redirection to WorldServer.");
 
-            proxySocket.SendData(WorldServer.Sandbox.AuthHandler.HandleRedirect());
-            proxySocket.Close();
+            ProxySocket.SendData(WorldServer.Sandbox.AuthHandler.HandleRedirect());
+            ProxySocket.Close();
 
             Log.Message(LogType.NORMAL, "Successfully redirected to WorldServer.");
             Log.Message();

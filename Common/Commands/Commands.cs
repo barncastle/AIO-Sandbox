@@ -211,7 +211,7 @@ namespace Common.Commands
                 }
             }
 
-            result = default(T);
+            result = default;
             return false;
         }
     }

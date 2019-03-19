@@ -12,14 +12,12 @@ namespace WorldServer.Plugins
     {
         public static List<SandboxHost> Sandboxes;
 
-        private static bool loaded = false;
-
         public static void GetPlugins()
         {
             DirectoryInfo dInfo = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "Plugins"));
-            FileInfo[] files = dInfo.GetFiles("*.dll");
 
-            var assemblies = files.Select(x => Assembly.LoadFile(x.FullName));
+            var plugins = dInfo.EnumerateFiles("*.dll");
+            var assemblies = plugins.Select(x => Assembly.LoadFile(x.FullName));
             var availableTypes = assemblies.SelectMany(x => x.GetTypes());
 
             Sandboxes = availableTypes.Where(x => x.GetInterfaces().Contains(typeof(ISandbox)))
@@ -31,30 +29,27 @@ namespace WorldServer.Plugins
         public static SandboxHost SelectPlugin()
         {
             // Print initial plugin options
-            if (!loaded)
+            Log.Message(LogType.INIT, "Select a plugin from the below list:");
+
+            for (int i = 0; i < Sandboxes.Count; i++)
+                Log.Message(LogType.INIT, $"{i + 1}. {Sandboxes[i].RealmName}");
+
+            Log.Message();
+
+            while (true)
             {
-                Log.Message(LogType.INIT, "Select a plugin from the below list:");
+                Log.SetType(LogType.MISC);
 
-                for (int i = 0; i < Sandboxes.Count; i++)
-                    Log.Message(LogType.INIT, $"{i + 1}. {Sandboxes[i].RealmName}");
+                // Load plugin from user input
+                if (int.TryParse(Console.ReadLine().Trim(), out int index))
+                {
+                    index--;
+                    if (index >= 0 && index < Sandboxes.Count) // Out of range
+                        return Sandboxes[index];
+                }
 
-                Log.Message();
-                loaded = true;
+                Log.Message(LogType.ERROR, "Invalid selection."); // Not an integer
             }
-
-            // Load plugin from user input
-            Log.SetType(LogType.MISC); // Set font colour
-
-            if (int.TryParse(Console.ReadLine().Trim(), out int index))
-            {
-                index--;
-                if (index >= 0 && index < Sandboxes.Count) // Out of range
-                    return Sandboxes[index];
-            }
-
-            Log.Message(LogType.ERROR, "Invalid selection."); // Not an integer
-
-            return SelectPlugin();
         }
     }
 }

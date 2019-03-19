@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Common.Constants;
+using Common.Interfaces;
+using Common.Extensions;
+using System.Runtime.InteropServices;
+
+namespace Common.Structs
+{
+    public abstract class BaseCharacter : ICharacter
+    {
+        public abstract int Build { get; set; }
+        public ulong Guid { get; set; }
+        public string Name { get; set; }
+        public byte Race { get; set; }
+        public byte Class { get; set; }
+        public byte Gender { get; set; }
+        public byte Skin { get; set; }
+        public byte Face { get; set; }
+        public byte HairStyle { get; set; }
+        public byte HairColor { get; set; }
+        public byte FacialHair { get; set; }
+        public uint Level { get; set; } = 11;
+        public uint Zone { get; set; }
+        public Location Location { get; set; }
+        public bool IsOnline { get; set; } = false;
+        public uint Health { get; set; } = 100;
+        public uint Mana { get; set; } = 100;
+        public uint Rage { get; set; } = 1000;
+        public uint Focus { get; set; } = 100;
+        public uint Energy { get; set; } = 100;
+        public uint Strength { get; set; } = 10;
+        public uint Agility { get; set; } = 10;
+        public uint Stamina { get; set; } = 10;
+        public uint Intellect { get; set; } = 10;
+        public uint Spirit { get; set; } = 10;
+        public byte PowerType { get; set; } = 1;
+        public byte RestedState { get; set; } = 3;
+        public StandState StandState { get; set; } = StandState.STANDING;
+        public bool IsTeleporting { get; set; } = false;
+        public uint DisplayId { get; set; }
+        public uint MountDisplayId { get; set; }
+        public float Scale { get; set; }
+
+        protected SortedList<int, byte[]> FieldData;
+        protected byte MaskSize;
+        protected byte[] MaskArray;
+
+        public abstract IPacketWriter BuildForceSpeed(float modifier, bool swim = false);
+        public abstract IPacketWriter BuildMessage(string text);
+        public abstract IPacketWriter BuildUpdate();
+        public abstract void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager);
+
+        public BaseCharacter()
+        {
+            FieldData = new SortedList<int, byte[]>();
+        }
+
+        protected void SetField<TEnum, TValue>(TEnum index, TValue value) where TEnum : unmanaged, Enum where TValue : unmanaged
+        {
+            int field = (int)(object)index;
+
+            Span<TValue> span = new TValue[] { value };
+            FieldData[field] = MemoryMarshal.Cast<TValue, byte>(span).ToArray();
+
+            for (int i = 0; i < (FieldData[field].Length / 4); i++)
+                MaskArray[field / 8] |= (byte)(1 << ((field + i) % 8));
+        }
+    }
+}

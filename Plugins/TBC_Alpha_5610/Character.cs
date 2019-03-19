@@ -8,49 +8,15 @@ using Common.Structs;
 namespace TBC_Alpha_5610
 {
     [Serializable]
-    public class Character : ICharacter
+    public class Character : BaseCharacter
     {
-        public int Build { get; set; } = Sandbox.Instance.Build;
-
-        public ulong Guid { get; set; }
-        public string Name { get; set; }
-        public byte Race { get; set; }
-        public byte Class { get; set; }
-        public byte Gender { get; set; }
-        public byte Skin { get; set; }
-        public byte Face { get; set; }
-        public byte HairStyle { get; set; }
-        public byte HairColor { get; set; }
-        public byte FacialHair { get; set; }
-        public uint Level { get; set; } = 11;
-        public uint Zone { get; set; }
-        public Location Location { get; set; }
-        public bool IsOnline { get; set; } = false;
-        public uint Health { get; set; } = 100;
-        public uint Mana { get; set; } = 100;
-        public uint Rage { get; set; } = 1000;
-        public uint Focus { get; set; } = 100;
-        public uint Energy { get; set; } = 100;
-        public uint Strength { get; set; } = 10;
-        public uint Agility { get; set; } = 10;
-        public uint Stamina { get; set; } = 10;
-        public uint Intellect { get; set; } = 10;
-        public uint Spirit { get; set; } = 10;
-        public byte PowerType { get; set; } = 1;
-        public byte RestedState { get; set; } = 3;
-        public StandState StandState { get; set; } = StandState.STANDING;
-        public bool IsTeleporting { get; set; } = false;
-        public uint DisplayId { get; set; }
-        public uint MountDisplayId { get; set; }
-        public float Scale { get; set; }
-
-        public IPacketWriter BuildUpdate()
+        public override int Build { get; set; } = Sandbox.Instance.Build;
+        
+        public override IPacketWriter BuildUpdate()
         {
-            byte maskSize = ((int)Fields.MAX + 32) / 32;
-            SortedDictionary<int, byte[]> fieldData = new SortedDictionary<int, byte[]>();
-            byte[] maskArray = new byte[maskSize * 4];
-
-            void SetField(Fields place, object value) => this.SetField((int)place, value, ref fieldData, ref maskArray);
+            MaskSize = ((int)Fields.MAX + 31) / 32;
+            FieldData.Clear();
+            MaskArray = new byte[MaskSize * 4];
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_UPDATE_OBJECT], "SMSG_UPDATE_OBJECT");
             writer.WriteUInt32(1); // Number of transactions
@@ -139,20 +105,21 @@ namespace TBC_Alpha_5610
             SetField(Fields.PLAYER_XP, 47);
             SetField(Fields.PLAYER_NEXT_LEVEL_XP, 200);
 
-            writer.WriteBytes(maskArray);
-            foreach (var kvp in fieldData)
+            // FillInPartialObjectData
+            writer.WriteBytes(MaskArray);
+            foreach (var kvp in FieldData)
                 writer.WriteBytes(kvp.Value); // Data
 
             return writer;
         }
 
-        public IPacketWriter BuildMessage(string text)
+        public override IPacketWriter BuildMessage(string text)
         {
             PacketWriter message = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
             return this.BuildMessage(message, text, Sandbox.Instance.Build);
         }
 
-        public void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)
+        public override void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)
         {
             IsTeleporting = true;
 
@@ -193,7 +160,7 @@ namespace TBC_Alpha_5610
             IsTeleporting = false;
         }
 
-        public IPacketWriter BuildForceSpeed(float modifier, bool swim = false)
+        public override IPacketWriter BuildForceSpeed(float modifier, bool swim = false)
         {
             var opcode = swim ? global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE : global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());

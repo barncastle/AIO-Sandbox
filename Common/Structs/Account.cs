@@ -81,7 +81,7 @@ namespace Common.Structs
             _saving = false;
         }
 
-        public void Load<T>() where T : new()
+        public void Load<T>() where T : ICharacter, new()
         {
             Characters = new List<ICharacter>();
 

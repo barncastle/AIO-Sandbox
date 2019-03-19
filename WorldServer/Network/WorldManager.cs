@@ -25,7 +25,7 @@ namespace WorldServer.Network
 
             Send(WorldServer.Sandbox.AuthHandler.HandleAuthChallenge()); // SMSG_AUTH_CHALLENGE
 
-            while (WorldSession.ListenWorldSocket && Socket.Connected)
+            while (Socket.Connected)
             {
                 Thread.Sleep(1);
                 if (Socket.Available > 0)
