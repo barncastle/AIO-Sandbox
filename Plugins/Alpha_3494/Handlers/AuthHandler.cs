@@ -20,7 +20,7 @@ namespace Alpha_3494.Handlers
         public IPacketWriter HandleRedirect()
         {
             PacketWriter proxyWriter = new PacketWriter();
-            proxyWriter.WriteBytes(Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
+            proxyWriter.Write(Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
             proxyWriter.WriteUInt8(0);
             return proxyWriter;
         }
@@ -64,9 +64,9 @@ namespace Alpha_3494.Handlers
             writer.WriteUInt16(0);
             writer.WriteUInt8(0x10);
             writer.WriteUInt8(1); // Realm count
-            writer.WriteBytes(realmName);
+            writer.Write(realmName);
             writer.WriteUInt8(0);
-            writer.WriteBytes(redirect);
+            writer.Write(redirect);
             writer.WriteUInt8(0);
             writer.WriteUInt32(0);
             socket.SendData(writer, "REALMLIST_REQUEST");

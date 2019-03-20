@@ -50,9 +50,10 @@ namespace Common.Extensions
             }
         }
 
-        public static void SetDefaultValues(this ICharacter character, bool hunterFocus = false)
+        public static void SetDefaultValues(this ICharacter character)
         {
             bool male = character.Gender == 0;
+            bool hunterFocus = character.Build < 3807;
 
             // scale
             character.Scale = 1f;
@@ -83,19 +84,12 @@ namespace Common.Extensions
             }
         }
 
-        public static void SetField<T>(this ICharacter character, int field, T value, ref SortedDictionary<int, byte[]> fieldData, ref byte[] maskArray) where T : unmanaged
+        public static IPacketWriter BuildMessage(this ICharacter character, IPacketWriter message, string text)
         {
-            Span<T> span = new T[] { value };
-            byte[] buffer = MemoryMarshal.Cast<T, byte>(span).ToArray();
-            fieldData[field] = buffer;
+            int build = character.Build;
+            byte messageType = (byte)(build >= 4937 ? 0xA : 0x9);
 
-            for (int i = 0; i < (buffer.Length / 4); i++)
-                maskArray[field / 8] |= (byte)(1 << ((field + i) % 8));
-        }
-
-        public static IPacketWriter BuildMessage(this ICharacter character, IPacketWriter message, string text, int build)
-        {
-            message.WriteUInt8(9);  // System Message
+            message.WriteUInt8(messageType); // System Message
             message.WriteUInt32(0); // Language: General
             message.WriteUInt64(0);
 
@@ -103,7 +97,7 @@ namespace Common.Extensions
                 message.WriteInt32(text.Length + 1); // string length
 
             message.WriteString(text);
-            message.WriteUInt8(0);
+            message.WriteUInt8(0); // status flag
             return message;
         }
 

@@ -82,9 +82,9 @@ namespace Alpha_3494
 
             // FillInPartialObjectData
             writer.WriteUInt8(MaskSize); // UpdateMaskBlocks
-            writer.WriteBytes(MaskArray);
+            writer.Write(MaskArray);
             foreach (var kvp in FieldData)
-                writer.WriteBytes(kvp.Value); // Data
+                writer.Write(kvp.Value); // Data
 
             return writer;
         }
@@ -92,7 +92,7 @@ namespace Alpha_3494
         public override IPacketWriter BuildMessage(string text)
         {
             PacketWriter message = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
-            return this.BuildMessage(message, text, Sandbox.Instance.Build);
+            return this.BuildMessage(message, text);
         }
 
         public override void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)

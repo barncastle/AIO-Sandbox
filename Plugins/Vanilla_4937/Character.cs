@@ -87,9 +87,9 @@ namespace Vanilla_4937
 
             // FillInPartialObjectData
             writer.WriteUInt8(MaskSize); // UpdateMaskBlocks
-            writer.WriteBytes(MaskArray);
+            writer.Write(MaskArray);
             foreach (var kvp in FieldData)
-                writer.WriteBytes(kvp.Value); // Data
+                writer.Write(kvp.Value); // Data
 
             return writer;
         }
@@ -97,7 +97,7 @@ namespace Vanilla_4937
         public override IPacketWriter BuildMessage(string text)
         {
             PacketWriter message = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
-            return this.BuildMessage(message, text, Sandbox.Instance.Build);
+            return this.BuildMessage(message, text);
         }
 
         public override void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)
@@ -107,7 +107,7 @@ namespace Vanilla_4937
             if (Location.Map == map)
             {
                 PacketWriter movementStatus = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.MSG_MOVE_TELEPORT_ACK], "MSG_MOVE_TELEPORT_ACK");
-                movementStatus.WriteUInt64(Guid);
+                movementStatus.Write(this.GetPackedGUID());
                 movementStatus.WriteUInt64(0); // Flags
                 movementStatus.WriteFloat(x);
                 movementStatus.WriteFloat(y);
@@ -145,8 +145,7 @@ namespace Vanilla_4937
         {
             var opcode = swim ? global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE : global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
-            writer.WriteUInt64(Guid);
-            writer.Write(0);
+            writer.Write(this.GetPackedGUID());
             return this.BuildForceSpeed(writer, modifier);
         }
 

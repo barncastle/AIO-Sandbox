@@ -47,7 +47,7 @@ namespace Beta_3988.Handlers
 
             // Account Data Hash : REQUIRED
             PacketWriter accountdata = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_ACCOUNT_DATA_MD5], "SMSG_ACCOUNT_DATA_MD5");
-            accountdata.WriteBytes(new byte[80]);
+            accountdata.Write(new byte[80]);
             manager.Send(accountdata);
 
             HandleQueryTime(ref packet, ref manager);

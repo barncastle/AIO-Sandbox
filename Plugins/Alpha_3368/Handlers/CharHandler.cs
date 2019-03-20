@@ -40,7 +40,7 @@ namespace Alpha_3368.Handlers
 
             cha.Guid = (ulong)(manager.Account.Characters.Count + 1);
             cha.Location = new Location(-8949.95f, -132.493f, 83.5312f, 0, 0);
-            cha.SetDefaultValues(true);
+            cha.SetDefaultValues();
 
             manager.Account.Characters.Add(cha);
             manager.Account.Save();

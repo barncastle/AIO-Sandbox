@@ -147,7 +147,7 @@ namespace Beta_3988.Handlers
 
             packet.Position = pos;
             PacketWriter writer = new PacketWriter(opcode, Sandbox.Instance.Opcodes[opcode].ToString());
-            writer.WriteBytes(packet.ReadToEnd());
+            writer.Write(packet.ReadToEnd());
             manager.Send(writer);
         }
 

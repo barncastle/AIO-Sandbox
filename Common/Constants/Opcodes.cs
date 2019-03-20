@@ -66,6 +66,7 @@
     MSG_MOVE_ROOT,
     MSG_MOVE_UNROOT,
     MSG_MOVE_HEARTBEAT,
+    MSG_MOVE_FALL_LAND,
 
     // Force speed change
     SMSG_FORCE_SPEED_CHANGE,

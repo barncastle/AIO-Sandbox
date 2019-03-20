@@ -46,6 +46,7 @@ namespace WorldServer.Packets
             PacketManager.DefineOpcodeHandler(Opcodes.MSG_MOVE_ROOT, WorldServer.Sandbox.CharHandler.HandleMovementStatus);
             PacketManager.DefineOpcodeHandler(Opcodes.MSG_MOVE_UNROOT, WorldServer.Sandbox.CharHandler.HandleMovementStatus);
             PacketManager.DefineOpcodeHandler(Opcodes.MSG_MOVE_HEARTBEAT, WorldServer.Sandbox.CharHandler.HandleMovementStatus);
+            PacketManager.DefineOpcodeHandler(Opcodes.MSG_MOVE_FALL_LAND, WorldServer.Sandbox.CharHandler.HandleMovementStatus);
 
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_STANDSTATECHANGE, WorldServer.Sandbox.CharHandler.HandleStandState);
         }

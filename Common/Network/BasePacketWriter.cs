@@ -49,10 +49,8 @@ namespace Common.Network
         public void WriteString(string data)
         {
             byte[] sBytes = Encoding.ASCII.GetBytes(data);
-            WriteBytes(sBytes);
+            Write(sBytes);
             base.Write((byte)0);    // String null terminated
         }
-
-        public void WriteBytes(byte[] data) => base.Write(data);
     }
 }

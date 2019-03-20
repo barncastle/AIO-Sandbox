@@ -21,7 +21,7 @@ namespace Vanilla_4735.Handlers
         public IPacketWriter HandleRedirect()
         {
             PacketWriter proxyWriter = new PacketWriter();
-            proxyWriter.WriteBytes(Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
+            proxyWriter.Write(Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
             proxyWriter.WriteUInt8(0);
             return proxyWriter;
         }
@@ -74,15 +74,15 @@ namespace Vanilla_4735.Handlers
                     switch (op)
                     {
                         case RealmlistOpcodes.LOGON_CHALLENGE:
-                            writer.WriteBytes(ClientAuth.LogonChallenge(packet));
+                            writer.Write(ClientAuth.LogonChallenge(packet));
                             break;
 
                         case RealmlistOpcodes.RECONNECT_CHALLENGE:
-                            writer.WriteBytes(ClientAuth.Reconnect_Challenge);
+                            writer.Write(ClientAuth.Reconnect_Challenge);
                             break;
 
                         case RealmlistOpcodes.LOGON_PROOF:
-                            writer.WriteBytes(ClientAuth.LogonProof(packet));
+                            writer.Write(ClientAuth.LogonProof(packet));
                             break;
 
                         case RealmlistOpcodes.RECONNECT_PROOF:
@@ -101,9 +101,9 @@ namespace Vanilla_4735.Handlers
                             writer.WriteUInt8(1); // Realm count
                             writer.WriteUInt32(1); // Icon
                             writer.WriteUInt8(0); // Colour
-                            writer.WriteBytes(realmName);
+                            writer.Write(realmName);
                             writer.WriteUInt8(0);
-                            writer.WriteBytes(redirect);
+                            writer.Write(redirect);
                             writer.WriteUInt8(0);
                             writer.WriteFloat(0);
 

@@ -32,6 +32,6 @@
 
         void WriteString(string data);
 
-        void WriteBytes(byte[] data);
+        void Write(byte[] data);
     }
 }

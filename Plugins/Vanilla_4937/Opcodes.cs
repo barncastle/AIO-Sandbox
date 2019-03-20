@@ -45,6 +45,7 @@ namespace Vanilla_4937
             { global::Opcodes.MSG_MOVE_SET_WALK_MODE, 0xC3 },
             { global::Opcodes.MSG_MOVE_START_SWIM, 0xCA },
             { global::Opcodes.MSG_MOVE_STOP_SWIM, 0xCB },
+            { global::Opcodes.MSG_MOVE_FALL_LAND, 0xC9 },
             { global::Opcodes.MSG_MOVE_SET_FACING, 0xDA },
             { global::Opcodes.MSG_MOVE_SET_PITCH, 0xDB },
             { global::Opcodes.MSG_MOVE_ROOT, 0xEC },

@@ -50,7 +50,7 @@ namespace WorldServer.Network
                         if (buffer.Length == pkt.Size)
                             break;
 
-                        buffer = buffer.Skip((int)pkt.Size).ToArray();
+                        buffer = buffer.AsSpan().Slice((int)pkt.Size).ToArray();
                     }
                 }
 

@@ -29,9 +29,9 @@ namespace Alpha_3368.Handlers
 
             PacketWriter writer = new PacketWriter();
             writer.WriteUInt8(1);
-            writer.WriteBytes(realmName);
+            writer.Write(realmName);
             writer.WriteUInt8(0);
-            writer.WriteBytes(redirect);
+            writer.Write(redirect);
             writer.WriteUInt8(0);
             writer.WriteUInt32(0);
 
@@ -67,7 +67,7 @@ namespace Alpha_3368.Handlers
         public IPacketWriter HandleRedirect()
         {
             PacketWriter proxyWriter = new PacketWriter();
-            proxyWriter.WriteBytes(Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
+            proxyWriter.Write(Encoding.ASCII.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort));
             proxyWriter.WriteUInt8(0);
             return proxyWriter;
         }
