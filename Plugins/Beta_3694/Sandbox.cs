@@ -6,8 +6,7 @@ namespace Beta_3694
 {
     public class Sandbox : ISandbox
     {
-        public static Sandbox Instance => _instance;
-        private static readonly Sandbox _instance = new Sandbox();
+        public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName { get; set; } = "|cFF00FFFFBeta 2 (0.7.X) Sandbox";
         public int Build { get; set; } = 3694;

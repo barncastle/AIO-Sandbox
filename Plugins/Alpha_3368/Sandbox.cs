@@ -6,8 +6,7 @@ namespace Alpha_3368
 {
     public class Sandbox : ISandbox
     {
-        public static Sandbox Instance => _instance;
-        private static readonly Sandbox _instance = new Sandbox();
+        public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName { get; set; } = "|cFF00FFFFAlpha (0.5.3) Sandbox";
         public int Build { get; set; } = 3368;

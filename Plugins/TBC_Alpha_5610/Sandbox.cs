@@ -6,8 +6,7 @@ namespace TBC_Alpha_5610
 {
     public class Sandbox : ISandbox
     {
-        public static Sandbox Instance => _instance;
-        private static readonly Sandbox _instance = new Sandbox();
+        public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName { get; set; } = "TBC Alpha (2.0.0) Sandbox";
         public int Build { get; set; } = 5610;

@@ -6,8 +6,7 @@ namespace Vanilla_4735
 {
     public class Sandbox : ISandbox
     {
-        public static Sandbox Instance => _instance;
-        private static readonly Sandbox _instance = new Sandbox();
+        public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName { get; set; } = "|cFF00FFFFVanilla (1.8.X) Sandbox";
         public int Build { get; set; } = 4735;
