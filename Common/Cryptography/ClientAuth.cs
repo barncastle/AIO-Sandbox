@@ -89,7 +89,7 @@ namespace Common.Cryptography
             result = result.Concat(new byte[] { 1, 7, 32 }); // 1, G, 32
             result = result.Concat(N);
             result = result.Concat(Salt);
-            result = result.Concat(new byte[(build < 5875 ? 16 : 17)]); // unknown, Security Flag (version?)
+            result = result.Concat(new byte[(build < 5428 ? 16 : 17)]); // crc salt, Security Flag
             return result.ToArray();
         }
 
