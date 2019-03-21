@@ -1,5 +1,18 @@
 ﻿namespace Common.Constants
 {
+    public enum Expansions : int
+    {
+        PreRelease,
+        Vanilla,
+        TBC,
+        WotLK,
+        Cata,
+        MoP,
+        WoD,
+        Legion,
+        BfA
+    }
+
     public enum Classes : byte
     {
         WARRIOR = 1,

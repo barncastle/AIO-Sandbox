@@ -22,7 +22,7 @@ namespace WorldServer
 
             // Load Plugins
             PluginHandler.GetPlugins();
-            Sandbox = PluginHandler.SelectPlugin();
+            Sandbox = PluginHandler.SandboxSelector();
 
             RealmManager.RealmSession = new RealmSocket();
             WorldManager.WorldSession = new WorldSocket();
@@ -34,6 +34,7 @@ namespace WorldServer
                 WorldManager.WorldSession.StartConnectionThread();
 
                 Log.Message();
+                Log.Message(LogType.NORMAL, "Loading {0}", Sandbox.RealmName);
                 Log.Message(LogType.NORMAL, "RealmProxy listening on {0} port(s) {1}.", "127.0.0.1", Sandbox.RealmPort);
                 Log.Message(LogType.NORMAL, "RedirectServer listening on {0} port {1}.", "127.0.0.1", Sandbox.RedirectPort);
                 Log.Message(LogType.NORMAL, "WorldServer listening on {0} port {1}.", "127.0.0.1", Sandbox.WorldPort);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Common.Constants;
 using Common.Interfaces;
 using Common.Logging;
 
@@ -22,34 +23,55 @@ namespace WorldServer.Plugins
 
             Sandboxes = availableTypes.Where(x => x.GetInterfaces().Contains(typeof(ISandbox)))
                                       .Select(x => new SandboxHost((ISandbox)Activator.CreateInstance(x)))
-                                      .OrderBy(x => x.Build)
+                                      .OrderBy(x => x.Expansion)
+                                      .ThenBy(x => x.Build)
                                       .ToList();
+
+            if (Sandboxes.Count == 0)
+            {
+                Log.Message(LogType.ERROR, "No plugins found, press any key to exit");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
         }
 
-        public static SandboxHost SelectPlugin()
+        public static SandboxHost SandboxSelector()
         {
-            // Print initial plugin options
-            Log.Message(LogType.INIT, "Select a plugin from the below list:");
+            // expansion selector
+            var expansions = Sandboxes.Select(x => x.Expansion).Distinct().ToList();
+            int expansion = UserInput(expansions, "Select an Expansion", x => (Expansions)x);
 
-            for (int i = 0; i < Sandboxes.Count; i++)
-                Log.Message(LogType.INIT, $"{i + 1}. {Sandboxes[i].RealmName}");
+            // sandbox selector
+            Sandboxes.RemoveAll(x => x.Expansion != expansion);
+            return UserInput(Sandboxes, "Select a Sandbox", x => x.RealmName);
+        }
 
-            Log.Message();
+        private static T UserInput<T>(List<T> options, string message, Func<T, object> formatter)
+        {
+            if (options.Count == 1)
+                return options[0]; // return only option
+
+            // print options
+            Log.Message(LogType.INIT, message);
+            for (int i = 0; i < options.Count; i++)
+                Log.Message(LogType.INIT, $"{i + 1}. {formatter.Invoke(options[i])}");
 
             while (true)
             {
+                Log.Message();
                 Log.SetType(LogType.MISC);
 
-                // Load plugin from user input
+                // validate user input
                 if (int.TryParse(Console.ReadLine().Trim(), out int index))
                 {
                     index--;
-                    if (index >= 0 && index < Sandboxes.Count) // Out of range
-                        return Sandboxes[index];
+                    if (index >= 0 && index < options.Count) // out of range
+                        return options[index];                        
                 }
 
-                Log.Message(LogType.ERROR, "Invalid selection."); // Not an integer
+                Log.Message(LogType.ERROR, "Invalid selection");
             }
         }
+
     }
 }
