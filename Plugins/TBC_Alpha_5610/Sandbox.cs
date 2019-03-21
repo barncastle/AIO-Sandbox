@@ -9,6 +9,7 @@ namespace TBC_Alpha_5610
         public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName { get; set; } = "TBC Alpha (2.0.0) Sandbox";
+        public int Expansion => 2;
         public int Build { get; set; } = 5610;
         public int RealmPort { get; set; } = 3724;
         public int RedirectPort { get; set; } = 9002;

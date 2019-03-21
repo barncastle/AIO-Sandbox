@@ -9,6 +9,7 @@ namespace Vanilla_5595
         public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName { get; set; } = "|cFF00FFFFVanilla (1.12.X) Sandbox";
+        public int Expansion => 1;
         public int Build { get; set; } = 5595;
         public int RealmPort { get; set; } = 3724;
         public int RedirectPort { get; set; } = 9002;

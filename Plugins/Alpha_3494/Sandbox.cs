@@ -9,6 +9,7 @@ namespace Alpha_3494
         public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName { get; set; } = "|cFF00FFFFAlpha (0.5.5) Sandbox";
+        public int Expansion => 0;
         public int Build { get; set; } = 3592;
         public int RealmPort { get; set; } = 3724;
         public int RedirectPort { get; set; } = 9090;

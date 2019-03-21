@@ -14,6 +14,7 @@ namespace WorldServer
         }
 
         public string RealmName { get; private set; }
+        public int Expansion => _instance.Expansion;
         public int Build => _instance.Build;
         public int RealmPort => _instance.RealmPort;
         public int RedirectPort => _instance.RedirectPort;

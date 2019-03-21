@@ -5,6 +5,7 @@ namespace Common.Interfaces
     public interface ISandbox
     {
         string RealmName { get; set; }
+        int Expansion { get; }
         int Build { get; set; }
         int RealmPort { get; set; }
         int RedirectPort { get; set; }
