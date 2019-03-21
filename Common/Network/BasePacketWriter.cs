@@ -6,9 +6,9 @@ namespace Common.Network
 {
     public abstract class BasePacketWriter : BinaryWriter, IPacketWriter
     {
-        public string Name { get; set; }
-        public uint Opcode { get; set; }
-        public uint Size { get; set; }
+        public string Name { get; protected set; }
+        public uint Opcode { get; protected set; }
+        public uint Size { get; protected set; }
         public bool PreAuth { get; set; } = false;
 
         public BasePacketWriter() : base(new MemoryStream())

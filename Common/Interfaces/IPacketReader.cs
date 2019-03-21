@@ -2,8 +2,8 @@
 {
     public interface IPacketReader
     {
-        uint Opcode { get; set; }
-        uint Size { get; set; }
+        uint Opcode { get; }
+        uint Size { get; }
         long Position { get; set; }
 
         byte ReadByte();

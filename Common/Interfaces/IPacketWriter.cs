@@ -2,9 +2,10 @@
 {
     public interface IPacketWriter
     {
-        string Name { get; set; }
-        uint Opcode { get; set; }
-        uint Size { get; set; }
+        string Name { get; }
+        uint Opcode { get; }
+        uint Size { get; }
+        bool PreAuth { get; set; }
 
         void WritePacketHeader(uint opcode);
 

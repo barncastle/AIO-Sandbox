@@ -7,8 +7,8 @@ namespace Common.Network
 {
     public abstract class BasePacketReader : BinaryReader, IPacketReader
     {
-        public uint Opcode { get; set; }
-        public uint Size { get; set; }
+        public uint Opcode { get; protected set; }
+        public uint Size { get; protected set; }
         public long Position { get => BaseStream.Position; set => BaseStream.Position = value; }
 
         public BasePacketReader(byte[] data, bool parse = true) : base(new MemoryStream(data))
