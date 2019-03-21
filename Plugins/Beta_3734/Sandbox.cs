@@ -8,18 +8,18 @@ namespace Beta_3734
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName { get; set; } = "Beta 3 (0.8.0) Sandbox";
+        public string RealmName => "Beta 3 (0.8.0) Sandbox";
         public int Expansion => 0;
-        public int Build { get; set; } = 3734;
-        public int RealmPort { get; set; } = 3724;
-        public int RedirectPort { get; set; } = 9002;
-        public int WorldPort { get; set; } = 9001;
+        public int Build => 3734;
+        public int RealmPort => 3724;
+        public int RedirectPort => 9002;
+        public int WorldPort => 9001;
 
-        public IOpcodes Opcodes { get; set; } = new Opcodes();
+        public IOpcodes Opcodes => new Opcodes();
 
-        public IAuthHandler AuthHandler { get; set; } = new AuthHandler();
-        public ICharHandler CharHandler { get; set; } = new CharHandler();
-        public IWorldHandler WorldHandler { get; set; } = new WorldHandler();
+        public IAuthHandler AuthHandler => new AuthHandler();
+        public ICharHandler CharHandler => new CharHandler();
+        public IWorldHandler WorldHandler => new WorldHandler();
 
         public IPacketReader ReadPacket(byte[] data, bool parse = true) => new PacketReader(data, parse);
 

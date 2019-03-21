@@ -4,17 +4,17 @@ namespace Common.Interfaces
 {
     public interface ISandbox
     {
-        string RealmName { get; set; }
+        string RealmName { get; }
         int Expansion { get; }
-        int Build { get; set; }
-        int RealmPort { get; set; }
-        int RedirectPort { get; set; }
-        int WorldPort { get; set; }
+        int Build { get; }
+        int RealmPort { get; }
+        int RedirectPort { get; }
+        int WorldPort { get; }
 
-        IOpcodes Opcodes { get; set; }
-        IAuthHandler AuthHandler { get; set; }
-        ICharHandler CharHandler { get; set; }
-        IWorldHandler WorldHandler { get; set; }
+        IOpcodes Opcodes { get; }
+        IAuthHandler AuthHandler { get; }
+        ICharHandler CharHandler { get; }
+        IWorldHandler WorldHandler { get; }
 
         IPacketReader ReadPacket(byte[] data, bool parse = true);
 
