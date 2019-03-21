@@ -11,7 +11,7 @@ namespace Common.Network
         public uint Size { get; protected set; }
         public long Position { get => BaseStream.Position; set => BaseStream.Position = value; }
 
-        public BasePacketReader(byte[] data, bool parse = true) : base(new MemoryStream(data))
+        public BasePacketReader(byte[] data) : base(new MemoryStream(data))
         {
         }
 

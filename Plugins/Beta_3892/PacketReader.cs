@@ -4,7 +4,7 @@ namespace Beta_3892
 {
     public class PacketReader : BasePacketReader
     {
-        public PacketReader(byte[] data, bool parse = true) : base(data, parse)
+        public PacketReader(byte[] data, bool parse = true) : base(data)
         {
             if (parse)
             {

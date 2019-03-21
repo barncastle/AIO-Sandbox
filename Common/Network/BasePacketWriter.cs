@@ -16,13 +16,6 @@ namespace Common.Network
         {
         }
 
-        public BasePacketWriter(uint opcode, string name) : base(new MemoryStream())
-        {
-            Name = name;
-            Opcode = opcode;
-            WritePacketHeader(opcode);
-        }
-
         public abstract void WritePacketHeader(uint opcode);
 
         public abstract byte[] ReadDataToSend();

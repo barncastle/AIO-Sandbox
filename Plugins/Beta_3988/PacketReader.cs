@@ -7,7 +7,7 @@ namespace Beta_3988
     {
         private const int SHA_DIGEST_LENGTH = 40;
 
-        public PacketReader(byte[] data, bool parse = true) : base(data, parse)
+        public PacketReader(byte[] data, bool parse = true) : base(data)
         {
             if (parse)
             {
