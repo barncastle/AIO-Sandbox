@@ -8,7 +8,7 @@ namespace Alpha_3368
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName { get; set; } = "|cFF00FFFFAlpha (0.5.3) Sandbox";
+        public string RealmName { get; set; } = "Alpha (0.5.3) Sandbox";
         public int Expansion => 0;
         public int Build { get; set; } = 3368;
         public int RealmPort { get; set; } = 9100;

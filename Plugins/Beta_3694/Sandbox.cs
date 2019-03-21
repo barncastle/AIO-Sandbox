@@ -8,7 +8,7 @@ namespace Beta_3694
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName { get; set; } = "|cFF00FFFFBeta 2 (0.7.X) Sandbox";
+        public string RealmName { get; set; } = "Beta 2 (0.7.X) Sandbox";
         public int Expansion => 0;
         public int Build { get; set; } = 3694;
         public int RealmPort { get; set; } = 3724;

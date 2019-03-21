@@ -10,10 +10,9 @@ namespace WorldServer
         public SandboxHost(ISandbox sandbox)
         {
             _instance = sandbox;
-            RealmName = _instance.RealmName[0] == '|' ? _instance.RealmName.Substring(10) : _instance.RealmName; // Remove colour code
         }
 
-        public string RealmName { get; private set; }
+        public string RealmName => _instance.RealmName;
         public int Expansion => _instance.Expansion;
         public int Build => _instance.Build;
         public int RealmPort => _instance.RealmPort;

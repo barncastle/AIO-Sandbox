@@ -8,7 +8,7 @@ namespace Vanilla_4284
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName { get; set; } = "|cFF00FFFFVanilla (1.3.X) Sandbox";
+        public string RealmName { get; set; } = "Vanilla (1.3.X) Sandbox";
         public int Expansion => 1;
         public int Build { get; set; } = 4284;
         public int RealmPort { get; set; } = 3724;
