@@ -14,7 +14,7 @@ namespace TBC_Alpha_5610.Handlers
         {
             ClientAuth.Clear();
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_CHALLENGE], "SMSG_AUTH_CHALLENGE");
-            writer.WriteUInt32(0);
+            writer.WriteInt32(0);
             return writer;
         }
 
@@ -38,11 +38,10 @@ namespace TBC_Alpha_5610.Handlers
             manager.Account = account;
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_RESPONSE], "SMSG_AUTH_RESPONSE");
-            writer.WriteUInt8(0xC); // AUTH_OK
+            writer.WriteUInt8(0x0C); // AUTH_OK
             writer.WriteUInt32(0);
             writer.WriteUInt8(0);
             writer.WriteUInt32(0);
-            writer.WriteUInt8(0);
             manager.Send(writer);
         }
 
@@ -76,7 +75,6 @@ namespace TBC_Alpha_5610.Handlers
                     {
                         case RealmlistOpcodes.LOGON_CHALLENGE:
                             writer.Write(ClientAuth.LogonChallenge(packet));
-                            writer.WriteUInt8(0);
                             break;
 
                         case RealmlistOpcodes.RECONNECT_CHALLENGE:
@@ -97,24 +95,23 @@ namespace TBC_Alpha_5610.Handlers
                             byte[] realmName = Encoding.UTF8.GetBytes(Sandbox.Instance.RealmName);
                             byte[] redirect = Encoding.UTF8.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort);
 
-                            writer.WriteUInt8((byte)RealmlistOpcodes.REALMLIST_REQUEST);
+                            writer.WriteUInt8(0x10);
                             writer.WriteUInt16((ushort)(21 + realmName.Length + redirect.Length)); // Packet length
-
                             writer.WriteUInt32(0);
                             writer.WriteUInt8(1); // Realm count
-
                             writer.WriteUInt32(1); // Icon
                             writer.WriteUInt8(0); // Colour
                             writer.Write(realmName);
                             writer.WriteUInt8(0);
                             writer.Write(redirect);
                             writer.WriteUInt8(0);
+                            writer.WriteFloat(0);
 
-                            writer.WriteFloat(0); // Population
-                            writer.WriteUInt8(0); // Players
-                            writer.WriteUInt8(1); // Timezone
                             writer.WriteUInt8(0);
-                            writer.WriteUInt16(0x2);
+                            writer.WriteUInt8(1);
+                            writer.WriteUInt8(2);
+                            writer.WriteUInt8(0);
+                            writer.WriteUInt8(0x2);
                             break;
                     }
 
