@@ -20,7 +20,7 @@ namespace Vanilla_5595
             writer.WriteUInt8(0);
 
             writer.WriteUInt8(3); // UpdateType
-            writer.Write(this.GetPackedGUID());
+            writer.WritePackedGUID(Guid);
             writer.WriteUInt8(4); // ObjectType, 4 = Player
 
             writer.WriteUInt8(0x71); // UpdateFlags
@@ -107,7 +107,7 @@ namespace Vanilla_5595
             if (Location.Map == map)
             {
                 PacketWriter movementStatus = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.MSG_MOVE_TELEPORT_ACK], "MSG_MOVE_TELEPORT_ACK");
-                movementStatus.Write(this.GetPackedGUID());
+                movementStatus.WritePackedGUID(Guid);
                 movementStatus.WriteUInt64(0);
                 movementStatus.WriteUInt32(0);
                 movementStatus.WriteFloat(x);
@@ -146,7 +146,7 @@ namespace Vanilla_5595
         {
             var opcode = swim ? global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE : global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
-            writer.Write(this.GetPackedGUID());
+            writer.WritePackedGUID(Guid);
             writer.Write(0);
             return this.BuildForceSpeed(writer, modifier);
         }

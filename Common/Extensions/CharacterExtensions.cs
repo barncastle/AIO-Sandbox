@@ -121,26 +121,5 @@ namespace Common.Extensions
             character.DisplayId = character.GetDisplayId();
         }
 
-        public static byte[] GetPackedGUID(this ICharacter character)
-        {
-            ulong guid = character.Guid;
-            byte[] packed = new byte[9];
-            int count = 0;
-
-            while (guid > 0)
-            {
-                byte bit = (byte)guid;
-                if (bit != 0)
-                {
-                    packed[0] |= (byte)(1 << count);
-                    packed[++count] = bit;
-                }
-
-                guid >>= 8;
-            }
-
-            Array.Resize(ref packed, count + 1);
-            return packed;
-        }
     }
 }
