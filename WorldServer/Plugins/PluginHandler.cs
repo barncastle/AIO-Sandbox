@@ -15,21 +15,23 @@ namespace WorldServer.Plugins
 
         public static void GetPlugins()
         {
-            DirectoryInfo dInfo = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "Plugins"));
+            string pluginDirectory = Path.Combine(Environment.CurrentDirectory, "Plugins");
 
-            var plugins = dInfo.EnumerateFiles("*.dll");
-            var assemblies = plugins.Select(x => Assembly.LoadFile(x.FullName));
-            var availableTypes = assemblies.SelectMany(x => x.GetTypes());
-
-            Sandboxes = availableTypes.Where(x => x.GetInterfaces().Contains(typeof(ISandbox)))
-                                      .Select(x => new SandboxHost((ISandbox)Activator.CreateInstance(x)))
-                                      .OrderBy(x => x.Expansion)
-                                      .ThenBy(x => x.Build)
-                                      .ToList();
-
-            if (Sandboxes.Count == 0)
+            if (Directory.Exists(pluginDirectory))
             {
-                Log.Message(LogType.ERROR, "No plugins found, press any key to exit");
+                var plugins = Directory.EnumerateFiles(pluginDirectory, "*.dll");
+                var assemblies = plugins.Select(x => Assembly.LoadFile(x));
+                var sandboxes = assemblies.SelectMany(x => x.GetTypes()).Where(x => x.GetInterfaces().Contains(typeof(ISandbox)));
+
+                Sandboxes = sandboxes.Select(x => new SandboxHost((ISandbox)Activator.CreateInstance(x)))
+                                     .OrderBy(x => x.Expansion)
+                                     .ThenBy(x => x.Build)
+                                     .ToList();
+            }
+
+            if (Sandboxes == null || Sandboxes.Count == 0)
+            {
+                Log.Message(LogType.ERROR, "No plugins found. Press any key to exit");
                 Console.ReadKey();
                 Environment.Exit(0);
             }
@@ -66,7 +68,7 @@ namespace WorldServer.Plugins
                 {
                     index--;
                     if (index >= 0 && index < options.Count) // out of range
-                        return options[index];                        
+                        return options[index];
                 }
 
                 Log.Message(LogType.ERROR, "Invalid selection");
