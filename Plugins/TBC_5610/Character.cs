@@ -3,7 +3,7 @@ using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
 
-namespace TBC_Alpha_5610
+namespace TBC_5610
 {
     public class Character : BaseCharacter
     {

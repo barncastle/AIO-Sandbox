@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beta_3892", "Plugins\Beta_3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beta_3988", "Plugins\Beta_3988\Beta_3988.csproj", "{85FA1408-8526-4F9E-9A04-C9C78D2F31F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBC_Alpha_5610", "Plugins\TBC_Alpha_5610\TBC_Alpha_5610.csproj", "{19DD917C-87C6-407E-BFAA-9ECD37155040}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBC_5610", "Plugins\TBC_5610\TBC_5610.csproj", "{19DD917C-87C6-407E-BFAA-9ECD37155040}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alpha_3494", "Plugins\Alpha_3494\Alpha_3494.csproj", "{FD14FB48-C3D1-40EC-8526-E401661FE24A}"
 EndProject
@@ -56,7 +56,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vanilla_5195", "Plugins\Van
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vanilla_5428", "Plugins\Vanilla_5428\Vanilla_5428.csproj", "{6E348788-2647-4084-8455-61F26ECE70E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanilla_5595", "Plugins\Vanilla_5595\Vanilla_5595.csproj", "{F48188E7-3A13-4676-A6F2-20F48EC7027A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vanilla_5595", "Plugins\Vanilla_5595\Vanilla_5595.csproj", "{F48188E7-3A13-4676-A6F2-20F48EC7027A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

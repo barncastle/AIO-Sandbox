@@ -6,8 +6,8 @@
     <ProjectGuid>{19DD917C-87C6-407E-BFAA-9ECD37155040}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TBC_Alpha_5610</RootNamespace>
-    <AssemblyName>TBC_Alpha_5610</AssemblyName>
+    <RootNamespace>TBC_5610</RootNamespace>
+    <AssemblyName>TBC_5610</AssemblyName>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <OutputPath>..\..\bin\$(Configuration)_$(Platform)\Plugins</OutputPath>

@@ -2,7 +2,7 @@
 using Common.Cryptography;
 using Common.Network;
 
-namespace TBC_Alpha_5610
+namespace TBC_5610
 {
     public class PacketReader : BasePacketReader
     {

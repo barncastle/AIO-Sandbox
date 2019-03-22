@@ -5,7 +5,7 @@ using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Logging;
 
-namespace TBC_Alpha_5610.Handlers
+namespace TBC_5610.Handlers
 {
     public class WorldHandler : IWorldHandler
     {

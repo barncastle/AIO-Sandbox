@@ -1,8 +1,8 @@
 ﻿using Common.Interfaces;
 using Common.Interfaces.Handlers;
-using TBC_Alpha_5610.Handlers;
+using TBC_5610.Handlers;
 
-namespace TBC_Alpha_5610
+namespace TBC_5610
 {
     public class Sandbox : ISandbox
     {

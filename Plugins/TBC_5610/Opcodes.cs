@@ -2,7 +2,7 @@
 using System.Linq;
 using Common.Interfaces;
 
-namespace TBC_Alpha_5610
+namespace TBC_5610
 {
     public class Opcodes : IOpcodes
     {
