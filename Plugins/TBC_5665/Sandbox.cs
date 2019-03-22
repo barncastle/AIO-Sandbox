@@ -1,16 +1,16 @@
 ﻿using Common.Interfaces;
 using Common.Interfaces.Handlers;
-using TBC_5610.Handlers;
+using TBC_5665.Handlers;
 
-namespace TBC_5610
+namespace TBC_5665
 {
     public class Sandbox : ISandbox
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName => "TBC Alpha (2.0.0.5610) Sandbox";
+        public string RealmName => "TBC Alpha (2.0.0.5665) Sandbox";
         public int Expansion => 2;
-        public int Build => 5610;
+        public int Build => 5665;
         public int RealmPort => 3724;
         public int RedirectPort => 9002;
         public int WorldPort => 8129;
