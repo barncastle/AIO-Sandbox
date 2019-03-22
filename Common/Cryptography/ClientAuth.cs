@@ -9,6 +9,7 @@ namespace Common.Cryptography
 {
     public static class ClientAuth
     {
+        public static uint ClientBuild { get; set; }
         public static string Password { get; set; }
         public static bool Encode { get; set; } = false;
         public static byte[] SS_Hash { get; private set; }
@@ -59,7 +60,7 @@ namespace Common.Cryptography
         public static byte[] LogonChallenge(IPacketReader packet)
         {
             packet.Position = 11;
-            uint build = packet.ReadUInt16();
+            ClientBuild = packet.ReadUInt16();
 
             packet.Position = 33; // Skip to username
             BUsername = packet.ReadBytes(packet.ReadByte()); // Read username
@@ -84,7 +85,7 @@ namespace Common.Cryptography
             BigInteger temp = (K * V) + G.ModPow(new BigInteger(RB), new BigInteger(RN));
             B = temp % new BigInteger(RN);
 
-            int size = build < 5428 ? 118 : 119;
+            int size = ClientBuild < 5428 ? 118 : 119;
 
             byte[] result = new byte[size];
             Array.Copy(B.GetBytes(32).Reverse().ToArray(), 0, result, 3, 32);
