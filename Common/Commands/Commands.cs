@@ -30,7 +30,7 @@ namespace Common.Commands
             if (args.Length == 0)
                 return;
 
-            if (Read(args, 0, out float test)) // Co-ordinate port
+            if (Read<float>(args, 0, out _)) // Co-ordinate port
                 GoLocation(manager, args);
             else if (args[0].ToLower().Trim() == "instance") // Area Trigger
                 GoTrigger(manager, args);
@@ -41,9 +41,10 @@ namespace Common.Commands
         private static void GoNamedArea(IWorldManager manager, bool worldport, string[] args)
         {
             int skip = args[0] == "area" || args[0] == "instance" ? 1 : 0;
-            string needle = string.Join(" ", args.Skip(skip).ToArray()); // Replace "area" and "instance"
+            string needle = string.Join(" ", args.Skip(skip)); // Replace "area" and "instance"
 
             var locations = worldport ? Worldports.FindLocation(needle) : AreaTriggers.FindTrigger(needle);
+
             switch (locations.Count())
             {
                 case 0: // No matches
@@ -51,14 +52,14 @@ namespace Common.Commands
                     break;
 
                 case 1: // Single match
-                    manager.Account.ActiveCharacter.Teleport(locations.First().Value, ref manager);
+                    manager.Account.ActiveCharacter.Teleport(locations.First().Loc, ref manager);
                     break;
 
                 default: // Multiple possible matches
                     manager.Send(manager.Account.ActiveCharacter.BuildMessage("Multiple matches:"));
 
-                    foreach (var l in locations)
-                        manager.Send(manager.Account.ActiveCharacter.BuildMessage(" " + l.Key));
+                    foreach (var (Desc, Loc) in locations)
+                        manager.Send(manager.Account.ActiveCharacter.BuildMessage(" " + Desc));
 
                     break;
             }
@@ -88,16 +89,16 @@ namespace Common.Commands
                 return;
 
             var character = manager.Account.ActiveCharacter;
+
             if (uint.TryParse(args[1], out uint areaid)) // Area Id check
             {
-                if (AreaTriggers.Triggers.ContainsKey(areaid))
-                {
-                    character.Teleport(AreaTriggers.Triggers[areaid], ref manager);
-                }
-                else
+                if(!AreaTriggers.Triggers.TryGetValue(areaid, out var loc))
                 {
                     manager.Send(character.BuildMessage($"Area Id {areaid} does not exist"));
-                }
+                    return;
+                }                   
+
+                character.Teleport(loc, ref manager);
             }
             else
             {
@@ -162,7 +163,7 @@ namespace Common.Commands
                     break;
             }
 
-            manager.Send(character.BuildMessage($"{type.ToUpperFirst()} speed changed to {speed * 100}% of normal"));
+            manager.Send(character.BuildMessage($"{type.ToUpperFirst()} speed changed to {speed * 100f}% of normal"));
         }
 
         #endregion Speed
@@ -175,10 +176,10 @@ namespace Common.Commands
             if (args.Length < 1)
                 return;
 
-            if (Read(args, 0, out uint Id))
+            if (Read(args, 0, out uint id))
             {
                 var character = manager.Account.ActiveCharacter;
-                character.DisplayId = Id;
+                character.DisplayId = id;
 
                 manager.Send(character.BuildUpdate());
             }
@@ -210,7 +211,7 @@ namespace Common.Commands
             }
         }
 
-        private static bool Read<T>(string[] args, uint index, out T result)
+        private static bool Read<T>(string[] args, uint index, out T result) where T : unmanaged
         {
             if (index < args.Length)
             {

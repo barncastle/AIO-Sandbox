@@ -265,7 +265,7 @@ namespace Common.Constants
             { "Hyjal Plains", new Location(5300.18f,-2292.83f,945.186f,0f,1) },
         };
 
-        public static IEnumerable<KeyValuePair<string, Location>> FindLocation(string needle)
+        public static IEnumerable<(string Desc, Location Loc)> FindLocation(string needle)
         {
             string FormatString(string s) => s.Replace(" ", "").Replace("'", "").ToLower().Trim();
 
@@ -273,9 +273,14 @@ namespace Common.Constants
 
             var exact = Locations.FirstOrDefault(x => FormatString(x.Key) == needle);
             if (exact.Key != null)
-                return new[] { exact };
+            {
+                yield return (exact.Key, exact.Value);
+                yield break;
+            }
 
-            return Locations.Where(x => FormatString(x.Key).Contains(needle));
+            foreach(var location in Locations)
+                if (FormatString(location.Key).Contains(needle))
+                    yield return (location.Key, location.Value);
         }
     }
 }

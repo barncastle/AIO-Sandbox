@@ -110,7 +110,7 @@ namespace Common.Constants
             {4156, new Location(3498.28f, -5349.9f, 144.968f, 1.31324f, 533, "Naxxramas (Entrance)")},
         };
 
-        public static IEnumerable<KeyValuePair<string, Location>> FindTrigger(string needle)
+        public static IEnumerable<(string Desc, Location Loc)> FindTrigger(string needle)
         {
             needle = needle.Replace(" ", "").Replace("'", "").Trim();
 
@@ -118,7 +118,7 @@ namespace Common.Constants
             {
                 if (trigger.Value.HasDescriptionValue(needle, true) && trigger.Value.Map > 1)
                 {
-                    yield return new KeyValuePair<string, Location>($"{trigger.Value.Description} : {trigger.Key}", trigger.Value);
+                    yield return ($"{trigger.Value.Description} : {trigger.Key}", trigger.Value);
                     yield break;
                 }
             }
@@ -126,7 +126,7 @@ namespace Common.Constants
             foreach (var trigger in Triggers)
             {
                 if (trigger.Value.HasDescriptionValue(needle, false) && trigger.Value.Map > 1)
-                    yield return new KeyValuePair<string, Location>($"{trigger.Value.Description} : {trigger.Key}", trigger.Value);
+                    yield return ($"{trigger.Value.Description} : {trigger.Key}", trigger.Value);
             }
         }
     }
