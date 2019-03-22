@@ -1,4 +1,5 @@
 ﻿using Alpha_3368.Handlers;
+using Common.Constants;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
 
@@ -9,7 +10,7 @@ namespace Alpha_3368
         public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName => "Alpha (0.5.3) Sandbox";
-        public int Expansion => 0;
+        public Expansions Expansion => Expansions.PreRelease;
         public int Build => 3368;
         public int RealmPort => 9100;
         public int RedirectPort => 9090;

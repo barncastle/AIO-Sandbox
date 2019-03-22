@@ -1,4 +1,5 @@
-﻿using Common.Interfaces;
+﻿using Common.Constants;
+using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Vanilla_4500.Handlers;
 
@@ -9,7 +10,7 @@ namespace Vanilla_4500
         public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName => "Vanilla (1.6.X) Sandbox";
-        public int Expansion => 1;
+        public Expansions Expansion => Expansions.Vanilla;
         public int Build => 4500;
         public int RealmPort => 3724;
         public int RedirectPort => 9002;

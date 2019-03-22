@@ -1,4 +1,5 @@
-﻿using Common.Interfaces;
+﻿using Common.Constants;
+using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using TBC_5665.Handlers;
 
@@ -9,7 +10,7 @@ namespace TBC_5665
         public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName => "TBC Alpha (2.0.0.5665-2.0.0.5849) Sandbox";
-        public int Expansion => 2;
+        public Expansions Expansion => Expansions.TBC;
         public int Build => 5665;
         public int RealmPort => 3724;
         public int RedirectPort => 9002;

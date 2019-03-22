@@ -1,4 +1,5 @@
-﻿using Common.Interfaces;
+﻿using Common.Constants;
+using Common.Interfaces;
 using Common.Interfaces.Handlers;
 
 namespace WorldServer
@@ -13,7 +14,7 @@ namespace WorldServer
         }
 
         public string RealmName => _instance.RealmName;
-        public int Expansion => _instance.Expansion;
+        public Expansions Expansion => _instance.Expansion;
         public int Build => _instance.Build;
         public int RealmPort => _instance.RealmPort;
         public int RedirectPort => _instance.RedirectPort;

@@ -1,11 +1,12 @@
-﻿using Common.Interfaces.Handlers;
+﻿using Common.Constants;
+using Common.Interfaces.Handlers;
 
 namespace Common.Interfaces
 {
     public interface ISandbox
     {
         string RealmName { get; }
-        int Expansion { get; }
+        Expansions Expansion { get; }
         int Build { get; }
         int RealmPort { get; }
         int RedirectPort { get; }
