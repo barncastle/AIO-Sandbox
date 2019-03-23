@@ -54,7 +54,7 @@ namespace Alpha_3494
             SetField(Fields.MAX_ENERGY, Energy);
             SetField(Fields.LEVEL, Level);
             SetField(Fields.FACTION, 35);
-            SetField(Fields.UNIT_BYTES_0, BitConverter.ToUInt32(new byte[] { Race, Class, Gender, PowerType }, 0));
+            SetField(Fields.UNIT_BYTES_0, ToUInt32(Race, Class, Gender, PowerType));
             SetField(Fields.STRENGTH, Strength);
             SetField(Fields.AGILITY, Agility);
             SetField(Fields.STAMINA, Stamina);
@@ -68,10 +68,10 @@ namespace Alpha_3494
             SetField(Fields.FLAGS, 0);
             SetField(Fields.DISPLAYID, DisplayId);
             SetField(Fields.MOUNT_DISPLAYID, MountDisplayId);
-            SetField(Fields.UNIT_BYTES_1, BitConverter.ToUInt32(new byte[] { (byte)StandState, 0, 0, 0 }, 0));
+            SetField(Fields.UNIT_BYTES_1, ToUInt32((byte)StandState));
             SetField(Fields.PLAYER_SELECTION, (ulong)0);
-            SetField(Fields.PLAYER_BYTES_1, BitConverter.ToUInt32(new byte[] { Skin, Face, HairStyle, HairColor }, 0));
-            SetField(Fields.PLAYER_BYTES_2, BitConverter.ToUInt32(new byte[] { 0, FacialHair, 0, RestedState }, 0));
+            SetField(Fields.PLAYER_BYTES_1, ToUInt32(Skin, Face, HairStyle, HairColor));
+            SetField(Fields.PLAYER_BYTES_2, ToUInt32(0, FacialHair, 0, RestedState));
             SetField(Fields.PLAYER_XP, 47);
             SetField(Fields.PLAYER_NEXTLEVEL_XP, 200);
             SetField(Fields.DAMAGE, 0); // max_dmg << 16 | min_dmg

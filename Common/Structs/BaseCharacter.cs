@@ -56,6 +56,8 @@ namespace Common.Structs
 
         public BaseCharacter() => FieldData = new SortedList<int, byte[]>();
 
+        #region Helpers
+
         protected void SetField<TEnum, TValue>(TEnum index, TValue value) where TEnum : unmanaged, Enum where TValue : unmanaged
         {
             int field = (int)(object)index;
@@ -66,6 +68,13 @@ namespace Common.Structs
             for (int i = 0; i < (FieldData[field].Length / 4); i++)
                 MaskArray[field / 8] |= (byte)(1 << ((field + i) % 8));
         }
+
+        protected uint ToUInt32(byte b1, byte b2 = 0, byte b3 = 0, byte b4 = 0)
+        {
+            return (uint)(b1 | (b2 << 8) | (b3 << 16) | (b4 << 24));
+        }
+
+        #endregion
 
         #region Serialization
 

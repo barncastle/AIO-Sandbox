@@ -58,7 +58,7 @@ namespace Vanilla_4937
             SetField(Fields.UNIT_FIELD_MAXHEALTH, Health);
             SetField(Fields.UNIT_FIELD_MAXPOWER2, Rage);
             SetField(Fields.UNIT_FIELD_LEVEL, 0);// this.Level);
-            SetField(Fields.UNIT_FIELD_BYTES_0, BitConverter.ToUInt32(new byte[] { Race, Class, Gender, PowerType }, 0));
+            SetField(Fields.UNIT_FIELD_BYTES_0, ToUInt32(Race, Class, Gender, PowerType));
             SetField(Fields.UNIT_FIELD_STAT0, Strength);
             SetField(Fields.UNIT_FIELD_STAT1, Agility);
             SetField(Fields.UNIT_FIELD_STAT2, Stamina);
@@ -68,11 +68,11 @@ namespace Vanilla_4937
             SetField(Fields.UNIT_FIELD_BASE_MANA, Mana);
             SetField(Fields.UNIT_FIELD_DISPLAYID, DisplayId);
             SetField(Fields.UNIT_FIELD_MOUNTDISPLAYID, MountDisplayId);
-            SetField(Fields.UNIT_FIELD_BYTES_1, BitConverter.ToUInt32(new byte[] { (byte)StandState, 0, 0, 0 }, 0));
+            SetField(Fields.UNIT_FIELD_BYTES_1, ToUInt32((byte)StandState));
             SetField(Fields.UNIT_FIELD_BYTES_2, 0);
-            SetField(Fields.PLAYER_BYTES, BitConverter.ToUInt32(new byte[] { Skin, Face, HairStyle, HairColor }, 0));
-            SetField(Fields.PLAYER_BYTES_2, BitConverter.ToUInt32(new byte[] { FacialHair, 0, 0, RestedState }, 0));
-            SetField(Fields.PLAYER_BYTES_3, (uint)Gender);
+            SetField(Fields.PLAYER_BYTES, ToUInt32(Skin, Face, HairStyle, HairColor));
+            SetField(Fields.PLAYER_BYTES_2, ToUInt32(FacialHair, 0, 0, RestedState));
+            SetField(Fields.PLAYER_BYTES_3, ToUInt32(Gender));
             SetField(Fields.PLAYER_XP, 47);
             SetField(Fields.PLAYER_NEXT_LEVEL_XP, 200);
             SetField(Fields.PLAYER_FLAGS, 0);
