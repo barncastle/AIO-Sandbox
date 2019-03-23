@@ -136,12 +136,17 @@ namespace TBC_5965
                 newWorld.WriteFloat(z);
                 newWorld.WriteFloat(o);
                 manager.Send(newWorld);
+
+                IsFlying = false;
             }
 
             System.Threading.Thread.Sleep(150); // Pause to factor unsent packets
 
             Location = new Location(x, y, z, o, map);
             manager.Send(BuildUpdate());
+
+            // retain flight
+            manager.Send(BuildFly(IsFlying));
 
             IsTeleporting = false;
         }
