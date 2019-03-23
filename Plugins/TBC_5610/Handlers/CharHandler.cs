@@ -57,7 +57,7 @@ namespace TBC_5610.Handlers
             var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
-            writer.WriteUInt8(0x34);
+            writer.WriteUInt8(0x39);
             manager.Send(writer);
 
             if (character != null)
