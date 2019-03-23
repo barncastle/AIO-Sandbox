@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Common.Interfaces;
 
 namespace Common.Structs
@@ -12,20 +13,13 @@ namespace Common.Structs
         public uint Map { get; set; }
         public string Description { get; set; }
 
-        private readonly string formattedDesc;
+        private readonly string formattedDesc = "";
 
-        public Location()
-        {
-        }
+        #region Constructors
 
-        public Location(float x, float y, float z, float o, uint map)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-            O = o;
-            Map = map;
-        }
+        public Location() { }
+
+        public Location(float x, float y, float z, float o, uint map) : this(x, y, z, o, map, "") { }
 
         public Location(float x, float y, float z, float o, uint map, string description)
         {
@@ -36,15 +30,15 @@ namespace Common.Structs
             Map = map;
             Description = description;
 
-            formattedDesc = description.Replace(" ", "").Replace("'", "").Trim();
+            if (!string.IsNullOrEmpty(description))
+                formattedDesc = Regex.Replace(description, @"[\s',]", "", RegexOptions.Compiled);
         }
 
-        public void Update(float x, float y, float z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
+        #endregion
+
+        #region Update
+
+        public void Update(float x, float y, float z) => Update(x, y, z, O);
 
         public void Update(float x, float y, float z, float o)
         {
@@ -63,6 +57,8 @@ namespace Common.Structs
                 O = packet.ReadFloat();
         }
 
+        #endregion
+
         public bool HasDescriptionValue(string needle, bool exact)
         {
             if (exact)
@@ -71,14 +67,10 @@ namespace Common.Structs
                 return formattedDesc.IndexOf(needle, StringComparison.OrdinalIgnoreCase) != -1;
         }
 
-        public override string ToString()
-        {
-            return $"X: {X}, Y: {Y}, Z: {Z}, O: {O}, Map: {Map}";
-        }
 
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
+        public override string ToString() => $"X: {X}, Y: {Y}, Z: {Z}, O: {O}, Map: {Map}";
+
+        public object Clone() => MemberwiseClone();
+
     }
 }
