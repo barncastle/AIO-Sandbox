@@ -9,7 +9,7 @@ namespace Common.Structs
     {
         public string Name { get; set; }
         public List<ICharacter> Characters { get; set; }
-        public ICharacter ActiveCharacter => Characters.Find(x => x.IsOnline);
+        public ICharacter ActiveCharacter { get; private set; }
 
         private bool _saving = false;
 
@@ -21,9 +21,9 @@ namespace Common.Structs
         {
             Characters.ForEach(x => x.IsOnline = false);
 
-            var cha = Characters.Find(x => x.Guid == guid && x.Build == build);
-            cha.IsOnline = true;
-            return cha;
+            ActiveCharacter = Characters.Find(x => x.Guid == guid && x.Build == build);
+            ActiveCharacter.IsOnline = true;
+            return ActiveCharacter;
         }
 
         public ICharacter GetCharacter(ulong guid, int build)
@@ -45,8 +45,8 @@ namespace Common.Structs
             using (var fs = File.Create(filename))
             using (var bw = new BinaryWriter(fs))
             {
-                foreach (BaseCharacter c in Characters)
-                    c.Serialize(bw);
+                foreach (BaseCharacter character in Characters)
+                    character.Serialize(bw);
             }
 
             _saving = false;
@@ -66,18 +66,16 @@ namespace Common.Structs
             {
                 while (br.BaseStream.Position < br.BaseStream.Length)
                 {
-                    var c = Activator.CreateInstance<T>() as BaseCharacter;
-
                     try
                     {
-                        c.Deserialize(br);
+                        var character = Activator.CreateInstance<T>() as BaseCharacter;
+                        character.Deserialize(br);
+                        Characters.Add(character);
                     }
                     catch
                     {
                         return;
                     }
-
-                    Characters.Add(c);
                 }
             }
         }
