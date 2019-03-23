@@ -57,7 +57,8 @@ namespace TBC_5894
             SetField(Fields.UNIT_FIELD_POWER2, 0);
             SetField(Fields.UNIT_FIELD_MAXHEALTH, Health);
             SetField(Fields.UNIT_FIELD_MAXPOWER2, Rage);
-            SetField(Fields.UNIT_FIELD_LEVEL, 0);// this.Level);
+            SetField(Fields.UNIT_FIELD_LEVEL, Level);
+            SetField(Fields.UNIT_FIELD_FACTIONTEMPLATE, this.GetFactionTemplate());
             SetField(Fields.UNIT_FIELD_BYTES_0, ToUInt32(Race, Class, Gender, PowerType));
             SetField(Fields.UNIT_FIELD_STAT0, Strength);
             SetField(Fields.UNIT_FIELD_STAT1, Agility);
