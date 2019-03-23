@@ -73,4 +73,11 @@
         RECONNECT_PROOF = 3,
         REALMLIST_REQUEST = 16,
     }
+
+    public enum SpeedType : byte
+    {
+        Run,
+        Swim,
+        Fly,
+    }
 }

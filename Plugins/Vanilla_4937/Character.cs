@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Constants;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
@@ -142,9 +143,9 @@ namespace Vanilla_4937
             IsTeleporting = false;
         }
 
-        public override IPacketWriter BuildForceSpeed(float modifier, bool swim = false)
+        public override IPacketWriter BuildForceSpeed(float modifier, SpeedType type = SpeedType.Run)
         {
-            var opcode = swim ? global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE : global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
+            var opcode = type == SpeedType.Swim ? global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE : global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
             writer.WritePackedGUID(Guid);
             return this.BuildForceSpeed(writer, modifier);

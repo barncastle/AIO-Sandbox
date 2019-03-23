@@ -54,7 +54,7 @@ namespace Common.Network
 
         public new byte[] ReadBytes(int count) => base.ReadBytes(count);
 
-        public byte[] ReadToEnd() => base.ReadBytes((int)(BaseStream.Length - BaseStream.Position));
+        public byte[] ReadToEnd() => base.ReadBytes((int)(Size - Position));
 
         public string ReadStringFromBytes(int count)
         {

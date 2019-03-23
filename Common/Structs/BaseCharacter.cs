@@ -41,12 +41,15 @@ namespace Common.Structs
         public uint DisplayId { get; set; }
         public uint MountDisplayId { get; set; }
         public float Scale { get; set; }
+        public bool IsFlying { get; set; }
 
         protected SortedList<int, byte[]> FieldData;
         protected byte MaskSize;
         protected byte[] MaskArray;
 
-        public abstract IPacketWriter BuildForceSpeed(float modifier, bool swim = false);
+        public abstract IPacketWriter BuildForceSpeed(float modifier, SpeedType type = SpeedType.Run);
+
+        public virtual IPacketWriter BuildFly(bool mode) => null;
 
         public abstract IPacketWriter BuildMessage(string text);
 
@@ -100,6 +103,7 @@ namespace Common.Structs
             bw.Write(Skin);
             bw.Write(Zone);
             bw.Write(Scale);
+            bw.Write(IsFlying);
         }
 
         internal void Deserialize(BinaryReader br)
@@ -129,6 +133,7 @@ namespace Common.Structs
             Skin = br.ReadByte();
             Zone = br.ReadUInt32();
             Scale = br.ReadSingle();
+            IsFlying = br.ReadBoolean();
         }
 
         #endregion Serialization

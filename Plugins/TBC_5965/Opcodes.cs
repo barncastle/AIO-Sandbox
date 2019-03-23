@@ -70,6 +70,11 @@ namespace TBC_5965
             { global::Opcodes.SMSG_EMOTE, 0x103 },
             { global::Opcodes.CMSG_TEXT_EMOTE, 0x104 },
             { global::Opcodes.SMSG_TEXT_EMOTE, 0x105 },
+            { global::Opcodes.SMSG_FORCE_FLIGHT_SPEED_CHANGE , 0x381 },
+            { global::Opcodes.SMSG_MOVE_SET_CAN_FLY, 0x343 },
+            { global::Opcodes.SMSG_MOVE_UNSET_CAN_FLY, 0x344 },
+            { global::Opcodes.MSG_MOVE_START_ASCEND, 0x359 },
+            { global::Opcodes.MSG_MOVE_STOP_ASCEND, 0x35A },
         };
 
         public uint this[global::Opcodes opcode] => opcodes[opcode];

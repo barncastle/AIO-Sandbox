@@ -22,6 +22,7 @@ namespace Common.Commands
             DefineCommand("nudge", Commands.Nudge);
             DefineCommand("morph", Commands.Morph);
             DefineCommand("demorph", Commands.Demorph);
+            DefineCommand("fly", Commands.Fly);
         }
 
         public static void DefineCommand(string command, HandleCommand handler) => CommandHandlers[command.ToLower()] = handler;

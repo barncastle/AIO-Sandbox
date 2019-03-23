@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Constants;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
@@ -145,13 +146,37 @@ namespace TBC_5965
             IsTeleporting = false;
         }
 
-        public override IPacketWriter BuildForceSpeed(float modifier, bool swim = false)
+        public override IPacketWriter BuildForceSpeed(float modifier, SpeedType type = SpeedType.Run)
         {
-            var opcode = swim ? global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE : global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
+            global::Opcodes opcode;
+            switch(type)
+            {
+                case SpeedType.Fly:
+                    opcode = global::Opcodes.SMSG_FORCE_FLIGHT_SPEED_CHANGE;
+                    break;            
+                case SpeedType.Swim:
+                    opcode = global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE;
+                    break;
+                default:
+                    opcode = global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
+                    break;
+            }
+
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
             writer.WritePackedGUID(Guid);
-            writer.Write(0);
+            writer.Write(2);
             return this.BuildForceSpeed(writer, modifier);
+        }
+
+        public override IPacketWriter BuildFly(bool mode)
+        {
+            IsFlying = mode;
+
+            var opcode = mode ? global::Opcodes.SMSG_MOVE_SET_CAN_FLY : global::Opcodes.SMSG_MOVE_UNSET_CAN_FLY;
+            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
+            writer.WritePackedGUID(Guid);
+            writer.Write(2);
+            return writer;
         }
 
         internal enum Fields

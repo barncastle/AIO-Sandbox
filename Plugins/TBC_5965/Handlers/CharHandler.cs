@@ -57,7 +57,7 @@ namespace TBC_5965.Handlers
             var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
-            writer.WriteUInt8(0x39);
+            writer.WriteUInt8(0x3B);
             manager.Send(writer);
 
             if (character != null)
@@ -145,10 +145,10 @@ namespace TBC_5965.Handlers
             ulong Flags = packet.ReadUInt64();
             character.Location.Update(packet, true);
 
-            packet.Position = pos;
-            PacketWriter writer = new PacketWriter(opcode, Sandbox.Instance.Opcodes[opcode].ToString());
-            writer.Write(packet.ReadToEnd());
-            manager.Send(writer);
+            //packet.Position = pos;
+            //PacketWriter writer = new PacketWriter(opcode, Sandbox.Instance.Opcodes[opcode].ToString());
+            //writer.Write(packet.ReadToEnd());
+            //manager.Send(writer);
         }
 
         public void HandleNameCache(ref IPacketReader packet, ref IWorldManager manager)

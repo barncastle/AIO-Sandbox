@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Common.Constants;
+using Common.Cryptography;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
@@ -92,11 +93,11 @@ namespace Common.Commands
 
             if (uint.TryParse(args[1], out uint areaid)) // Area Id check
             {
-                if(!AreaTriggers.Triggers.TryGetValue(areaid, out var loc))
+                if (!AreaTriggers.Triggers.TryGetValue(areaid, out var loc))
                 {
                     manager.Send(character.BuildMessage($"Area Id {areaid} does not exist"));
                     return;
-                }                   
+                }
 
                 character.Teleport(loc, ref manager);
             }
@@ -135,7 +136,7 @@ namespace Common.Commands
 
         #region Speed
 
-        [CommandHelp(".speed [0.1 - 10] Optional: {run | swim | all} ")]
+        [CommandHelp(".speed [0.1 - 10] Optional: {run | swim | fly | all} ")]
         public static void Speed(IWorldManager manager, string[] args)
         {
             if (args.Length < 1)
@@ -145,21 +146,36 @@ namespace Common.Commands
             speed = Math.Min(Math.Max(speed, 0.1f), 10f); // Min 0.1 Max 10.0
 
             string type = (args.Length > 1 ? args[1] : "all").ToLower().Trim();
+            bool canfly = ClientAuth.ClientBuild >= 5965;
 
             var character = manager.Account.ActiveCharacter;
+
             switch (type)
             {
                 case "swim":
-                    manager.Send(character.BuildForceSpeed(speed, true));
+                    manager.Send(character.BuildForceSpeed(speed, SpeedType.Swim));
                     break;
 
                 case "run":
-                    manager.Send(character.BuildForceSpeed(speed));
+                    manager.Send(character.BuildForceSpeed(speed, SpeedType.Run));
+                    break;
+
+                case "fly" when canfly:
+                    manager.Send(character.BuildForceSpeed(speed, SpeedType.Fly));
+                    break;
+
+                case "fly" when !canfly:
+                    return;
+
+                case "all" when canfly:
+                    manager.Send(character.BuildForceSpeed(speed, SpeedType.Run));
+                    manager.Send(character.BuildForceSpeed(speed, SpeedType.Swim));
+                    manager.Send(character.BuildForceSpeed(speed, SpeedType.Fly));
                     break;
 
                 default:
-                    manager.Send(character.BuildForceSpeed(speed, true));
-                    manager.Send(character.BuildForceSpeed(speed));
+                    manager.Send(character.BuildForceSpeed(speed, SpeedType.Run));
+                    manager.Send(character.BuildForceSpeed(speed, SpeedType.Swim));
                     break;
             }
 
@@ -194,6 +210,44 @@ namespace Common.Commands
         }
 
         #endregion Morph
+
+        #region Fly
+
+        [CommandHelp(".fly {on | off}")]
+        public static void Fly(IWorldManager manager, string[] args)
+        {
+            // check client build
+            if (ClientAuth.ClientBuild < 5965)
+                return;
+
+            // validate args
+            if (args.Length < 1)
+                return;
+
+            var character = manager.Account.ActiveCharacter;
+            bool enabled = false;
+
+            IPacketWriter packet = null;
+            switch (args[0].ToLower().Trim())
+            {
+                case "on":
+                    packet = character.BuildFly(true);
+                    enabled = true;
+                    break;
+                case "off":
+                    packet = character.BuildFly(false);
+                    break;
+            }
+
+            if (packet != null)
+            {
+                manager.Send(packet);
+                manager.Send(character.BuildMessage($"Flight {(enabled ? "enabled" : "disabled")}"));
+            }
+        }
+
+        #endregion
+
 
         public static void Help(IWorldManager manager, string[] args)
         {

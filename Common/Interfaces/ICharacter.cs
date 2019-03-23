@@ -37,10 +37,13 @@ namespace Common.Interfaces
         uint DisplayId { get; set; }
         uint MountDisplayId { get; set; }
         float Scale { get; set; }
+        bool IsFlying { get; set; }
 
         void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager);
 
-        IPacketWriter BuildForceSpeed(float modifier, bool swim = false);
+        IPacketWriter BuildFly(bool mode);
+
+        IPacketWriter BuildForceSpeed(float modifier, SpeedType type = SpeedType.Run);
 
         IPacketWriter BuildMessage(string text);
 

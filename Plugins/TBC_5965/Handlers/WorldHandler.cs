@@ -52,8 +52,11 @@ namespace TBC_5965.Handlers
             manager.Send(tutorial);
 
             HandleQueryTime(ref packet, ref manager);
-
+                        
             manager.Send(character.BuildUpdate());
+
+            // handle flying
+            manager.Send(character.BuildFly(character.IsFlying));
         }
 
         public void HandleWorldTeleport(ref IPacketReader packet, ref IWorldManager manager)
