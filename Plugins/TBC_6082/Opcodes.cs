@@ -75,6 +75,7 @@ namespace TBC_6082
             { global::Opcodes.SMSG_MOVE_UNSET_CAN_FLY, 0x344 },
             { global::Opcodes.MSG_MOVE_START_ASCEND, 0x359 },
             { global::Opcodes.MSG_MOVE_STOP_ASCEND, 0x35A },
+            { global::Opcodes.SMSG_TIME_SYNC_REQ, 0x390 },
         };
 
         public uint this[global::Opcodes opcode] => opcodes[opcode];

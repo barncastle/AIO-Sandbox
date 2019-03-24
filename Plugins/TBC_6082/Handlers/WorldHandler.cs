@@ -57,6 +57,11 @@ namespace TBC_6082.Handlers
 
             // handle flying
             manager.Send(character.BuildFly(character.IsFlying));
+
+            // Force timesync : REQUIRED
+            PacketWriter timesyncreq = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TIME_SYNC_REQ], "SMSG_TIME_SYNC_REQ");
+            timesyncreq.Write(0);
+            manager.Send(timesyncreq);
         }
 
         public void HandleWorldTeleport(ref IPacketReader packet, ref IWorldManager manager)
