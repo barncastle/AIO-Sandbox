@@ -33,7 +33,7 @@ namespace TBC_5965.Handlers
 
             if (result.Any(x => x.Name.Equals(cha.Name, StringComparison.CurrentCultureIgnoreCase)))
             {
-                writer.WriteUInt8(0x2B); // Duplicate name
+                writer.WriteUInt8(0x31); // Duplicate name
                 manager.Send(writer);
                 return;
             }
@@ -57,7 +57,7 @@ namespace TBC_5965.Handlers
             var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
-            writer.WriteUInt8(0x3B);
+            writer.WriteUInt8(0x3A);
             manager.Send(writer);
 
             if (character != null)

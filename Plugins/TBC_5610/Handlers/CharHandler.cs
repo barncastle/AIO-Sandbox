@@ -33,7 +33,7 @@ namespace TBC_5610.Handlers
 
             if (result.Any(x => x.Name.Equals(cha.Name, StringComparison.CurrentCultureIgnoreCase)))
             {
-                writer.WriteUInt8(0x2B); // Duplicate name
+                writer.WriteUInt8(0x31); // Duplicate name
                 manager.Send(writer);
                 return;
             }
