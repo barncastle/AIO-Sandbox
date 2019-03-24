@@ -158,7 +158,20 @@ namespace Common.Cryptography
 
             IEnumerable<byte> result = new byte[] { 1, 0 };
             result = result.Concat(M2);
-            result = result.Concat(new byte[4]);
+
+            switch(true)
+            {
+                case true when ClientBuild < 6178:
+                    result = result.Concat(new byte[4]); // unk
+                    break;
+                case true when ClientBuild < 8606:
+                    result = result.Concat(new byte[6]); // unk, unkFlags
+                    break;
+                default:
+                    result = result.Concat(new byte[10]); // account flag, uint32 surveyId, uint16 unkFlags
+                    break;
+            }
+
             return result.ToArray();
         }
     }
