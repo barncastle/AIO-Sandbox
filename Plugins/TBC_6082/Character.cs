@@ -107,8 +107,9 @@ namespace TBC_6082
         public override void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager)
         {
             IsTeleporting = true;
+            bool mapchange = Location.Map != map;
 
-            if (Location.Map == map)
+            if (!mapchange)
             {
                 PacketWriter movementStatus = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.MSG_MOVE_TELEPORT_ACK], "MSG_MOVE_TELEPORT_ACK");
                 movementStatus.WritePackedGUID(Guid);
@@ -145,8 +146,16 @@ namespace TBC_6082
             Location = new Location(x, y, z, o, map);
             manager.Send(BuildUpdate());
 
-            // retain flight
-            manager.Send(BuildFly(IsFlying));
+            if (mapchange)
+            {
+                // retain flight
+                manager.Send(BuildFly(IsFlying));
+
+                // send timesync
+                PacketWriter timesyncreq = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TIME_SYNC_REQ], "SMSG_TIME_SYNC_REQ");
+                timesyncreq.Write(0);
+                manager.Send(timesyncreq);
+            }
 
             IsTeleporting = false;
         }
