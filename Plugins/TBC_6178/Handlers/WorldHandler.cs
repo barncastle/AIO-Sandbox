@@ -52,7 +52,7 @@ namespace TBC_6178.Handlers
             manager.Send(tutorial);
 
             HandleQueryTime(ref packet, ref manager);
-                        
+
             manager.Send(character.BuildUpdate());
 
             // handle flying

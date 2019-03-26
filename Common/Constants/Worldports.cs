@@ -1418,7 +1418,7 @@ namespace Common.Constants
                 yield break;
             }
 
-            foreach(var location in Locations)
+            foreach (var location in Locations)
                 if (FormatString(location.Key).Contains(needle))
                     yield return (location.Key, location.Value);
         }

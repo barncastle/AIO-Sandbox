@@ -163,11 +163,11 @@ namespace TBC_6082
         public override IPacketWriter BuildForceSpeed(float modifier, SpeedType type = SpeedType.Run)
         {
             global::Opcodes opcode;
-            switch(type)
+            switch (type)
             {
                 case SpeedType.Fly:
                     opcode = global::Opcodes.SMSG_FORCE_FLIGHT_SPEED_CHANGE;
-                    break;            
+                    break;
                 case SpeedType.Swim:
                     opcode = global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE;
                     break;
