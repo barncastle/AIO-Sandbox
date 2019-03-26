@@ -97,7 +97,7 @@ namespace TBC_6178.Handlers
                             byte[] redirect = Encoding.UTF8.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort);
 
                             writer.WriteUInt8(0x10);
-                            writer.WriteUInt16((ushort)(21 + realmName.Length + redirect.Length)); // Packet length 75
+                            writer.WriteUInt16((ushort)(21 + realmName.Length + redirect.Length)); // Packet length
 
                             writer.WriteUInt32(0);
                             writer.WriteUInt16(1); // Realm count

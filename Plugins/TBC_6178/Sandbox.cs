@@ -9,7 +9,7 @@ namespace TBC_6178
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName => "TBC Alpha (2.0.0.6178-2.0.2.6144) Sandbox";
+        public string RealmName => "TBC Alpha (2.0.0.6178) Sandbox";
         public Expansions Expansion => Expansions.TBC;
         public int Build => 6178;
         public int RealmPort => 3724;
