@@ -10,7 +10,7 @@ namespace TBC_6213
         public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName => "TBC Beta (2.0.0.6213-2.1.0.6692) Sandbox";
-        public Expansions Expansion => Expansions.TBC_Beta;
+        public Expansions Expansion => Expansions.TBC;
         public int Build => 6213;
         public int RealmPort => 3724;
         public int RedirectPort => 9002;

@@ -4,7 +4,6 @@
     {
         PreRelease,
         Vanilla,
-        TBC_Beta,
         TBC,
         WotLK,
         Cata,
