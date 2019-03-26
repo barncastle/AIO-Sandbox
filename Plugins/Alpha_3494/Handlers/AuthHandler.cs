@@ -27,6 +27,9 @@ namespace Alpha_3494.Handlers
 
         public void HandleAuthSession(ref IPacketReader packet, ref IWorldManager manager)
         {
+            // TODO use proper packet offsets
+            Common.Cryptography.ClientAuth.ClientBuild = 3592;
+
             packet.ReadUInt64();
             byte[] data = packet.ReadToEnd().TakeWhile(x => x != 10 && x != 13).ToArray();
             string name = Encoding.UTF8.GetString(data).ToUpper();

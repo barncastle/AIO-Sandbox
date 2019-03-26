@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using System.Net.Sockets;
 using System.Text;
 using Common.Constants;
@@ -41,11 +41,14 @@ namespace Alpha_3368.Handlers
 
         public void HandleAuthSession(ref IPacketReader packet, ref IWorldManager manager)
         {
-            packet.ReadUInt64();
-            byte[] data = packet.ReadToEnd().TakeWhile(x => x != 10 && x != 13).ToArray();
-            string name = Encoding.UTF8.GetString(data).ToUpper();
+            packet.Position = 6;
+            Common.Cryptography.ClientAuth.ClientBuild = packet.ReadUInt16();
 
-            Account account = new Account(name);
+            packet.Position = 14;
+            string login = packet.ReadString();
+            string username = login.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)[0];
+
+            Account account = new Account(username.ToUpper());
             account.Load<Character>();
             manager.Account = account;
 
