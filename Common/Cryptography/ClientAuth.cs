@@ -158,7 +158,7 @@ namespace Common.Cryptography
             int extradata = 0;
             switch (true)
             {
-                case true when ClientBuild < 6178:
+                case true when ClientBuild < 6178 || ClientBuild == 6180:
                     extradata = 4; // uint unk
                     break;
                 case true when ClientBuild < 8606:
