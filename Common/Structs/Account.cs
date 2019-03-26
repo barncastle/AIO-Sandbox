@@ -42,7 +42,7 @@ namespace Common.Structs
 
             string filename = Path.Combine("Accounts", Name.ToUpper() + ".dat");
 
-            using (var fs = File.Create(filename))
+            using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Write))
             using (var bw = new BinaryWriter(fs))
             {
                 foreach (BaseCharacter character in Characters)
