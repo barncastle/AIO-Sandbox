@@ -41,7 +41,7 @@ namespace WorldServer.Plugins
         {
             // expansion selector
             var expansions = Sandboxes.Select(x => x.Expansion).Distinct().ToList();
-            Expansions expansion = UserInput(expansions, "Select an Expansion", x => x);
+            Expansions expansion = UserInput(expansions, "Select an Expansion", x => x.ToString().Replace("_", " "));
 
             // sandbox selector
             Sandboxes.RemoveAll(x => x.Expansion != expansion);

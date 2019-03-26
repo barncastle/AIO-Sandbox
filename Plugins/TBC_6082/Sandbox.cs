@@ -9,8 +9,8 @@ namespace TBC_6082
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName => "TBC Alpha (2.0.0.6082-2.0.2.6144) Sandbox";
-        public Expansions Expansion => Expansions.TBC;
+        public string RealmName => "TBC Beta (2.0.0.6082-2.0.2.6144) Sandbox";
+        public Expansions Expansion => Expansions.TBC_Beta;
         public int Build => 6082;
         public int RealmPort => 3724;
         public int RedirectPort => 9002;
