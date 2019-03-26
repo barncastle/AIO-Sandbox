@@ -156,23 +156,24 @@ namespace Common.Cryptography
 
             sha1.Dispose();
 
-            IEnumerable<byte> result = new byte[] { 1, 0 };
-            result = result.Concat(M2);
-
-            switch(true)
+            int extradata = 0;
+            switch (true)
             {
                 case true when ClientBuild < 6178:
-                    result = result.Concat(new byte[4]); // unk
+                    extradata = 4; // uint unk
                     break;
                 case true when ClientBuild < 8606:
-                    result = result.Concat(new byte[6]); // unk, unkFlags
+                    extradata = 6; // uint unk, ushort unkFlags
                     break;
                 default:
-                    result = result.Concat(new byte[10]); // account flag, uint32 surveyId, uint16 unkFlags
+                    extradata = 10; // uint account flag, uint surveyId, ushort unkFlags
                     break;
             }
 
-            return result.ToArray();
+            byte[] result = new byte[22 + extradata];
+            result[0] = 1;
+            Array.Copy(M2, 0, result, 2, M2.Length);
+            return result;
         }
     }
 }
