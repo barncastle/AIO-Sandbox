@@ -98,10 +98,13 @@ namespace TBC_6213.Handlers
                             byte[] redirect = Encoding.UTF8.GetBytes("127.0.0.1:" + Sandbox.Instance.WorldPort);
 
                             writer.WriteUInt8(0x10);
-                            writer.WriteUInt16((ushort)(19 + realmName.Length + redirect.Length)); // Packet length
+                            writer.WriteUInt16(0); // Packet length
 
                             writer.WriteUInt32(0);
+
                             writer.WriteUInt8(1); // Realm count
+                            if (ClientAuth.ClientBuild > 6337)
+                                writer.WriteUInt8(0); // ushort as of 2.0.7
 
                             writer.WriteUInt8(0); // Flags
                             writer.WriteUInt8(0); // Locked
@@ -115,6 +118,9 @@ namespace TBC_6213.Handlers
                             writer.WriteUInt8(0); // TimeZone
                             writer.WriteUInt8(0);
                             writer.WriteUInt16(0x15);
+
+                            writer.BaseStream.Position = 1;
+                            writer.WriteUInt16((ushort)(writer.BaseStream.Length - 3)); // Packet length
                             break;
                     }
 
