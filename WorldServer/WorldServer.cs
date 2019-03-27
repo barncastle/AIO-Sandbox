@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using Common.Cryptography;
 using Common.Logging;
 using WorldServer.Network;
@@ -41,12 +40,9 @@ namespace WorldServer
                 Log.Message(LogType.NORMAL, "Started {0}", Sandbox.RealmName);
                 Log.Message();
 
-                ClientAuth.Password = ConfigurationManager.AppSettings["Password"];
-                if (!string.IsNullOrEmpty(ClientAuth.Password))
-                {
-                    Log.Message(LogType.NORMAL, "Default client password set to \"{0}\"", ClientAuth.Password);
-                    Log.Message();
-                }
+                ClientAuth.Password = "admin";
+                Log.Message(LogType.NORMAL, "Default client password set to \"{0}\"", ClientAuth.Password);
+                Log.Message();
 
                 HandlerDefinitions.InitializePacketHandler();
             }
