@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Common.Cryptography;
 using Common.Logging;
 using WorldServer.Network;
@@ -28,6 +29,10 @@ namespace WorldServer
 
             if (WorldManager.WorldSession.Start() && RealmManager.RealmSession.Start())
             {
+                // load preferred expansion level
+                if (byte.TryParse(ConfigurationManager.AppSettings["Expansion"], out var exp))
+                    ClientAuth.ExpansionLevel = exp;
+
                 RealmManager.RealmSession.StartRealmThread();
                 RealmManager.RealmSession.StartProxyThread();
                 WorldManager.WorldSession.StartConnectionThread();
@@ -39,8 +44,6 @@ namespace WorldServer
                 Log.Message(LogType.NORMAL, "WorldServer listening on {0} port {1}.", "127.0.0.1", Sandbox.WorldPort);
                 Log.Message(LogType.NORMAL, "Started {0}", Sandbox.RealmName);
                 Log.Message();
-
-                ClientAuth.Password = "admin";
                 Log.Message(LogType.NORMAL, "Default client password set to \"{0}\"", ClientAuth.Password);
                 Log.Message();
 

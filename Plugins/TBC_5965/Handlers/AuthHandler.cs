@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.Net.Sockets;
 using System.Text;
 using Common.Constants;
 using Common.Cryptography;
@@ -42,7 +43,7 @@ namespace TBC_5965.Handlers
             writer.WriteUInt32(0);
             writer.WriteUInt8(0);
             writer.WriteUInt32(0);
-            writer.WriteInt8(1);
+            writer.WriteUInt8(Math.Min(ClientAuth.ExpansionLevel, (byte)1)); // Expansion level
             manager.Send(writer);
         }
 

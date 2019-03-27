@@ -8,8 +8,16 @@ namespace Common.Cryptography
 {
     public static class ClientAuth
     {
+        /// <summary>
+        /// Login password
+        /// </summary>
+        public static string Password { get; } = "admin";
+        /// <summary>
+        /// Preferred account expansion access. 0 = Vanilla, 1 = TBC etc
+        /// </summary>
+        public static byte ExpansionLevel { get; set; } = 1;
+
         public static uint ClientBuild { get; set; }
-        public static string Password { get; set; }
         public static bool Encode { get; set; } = false;
         public static byte[] SS_Hash { get; private set; }
         public static byte[] Key { get; private set; } = new byte[4];
