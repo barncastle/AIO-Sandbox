@@ -63,6 +63,12 @@ namespace Common.Extensions
             message.WriteUInt32(0); // Language: General
             message.WriteUInt64(0);
 
+            if(build >= 6577)
+            {
+                message.WriteUInt32(0);
+                message.WriteUInt64(0);
+            }
+
             if (build >= 4062)
                 message.WriteInt32(text.Length + 1); // string length
 

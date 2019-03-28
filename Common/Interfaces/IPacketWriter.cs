@@ -34,5 +34,7 @@
         void WriteString(string data);
 
         void Write(byte[] data);
+
+        void WritePackedGUID(ulong guid);
     }
 }

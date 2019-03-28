@@ -156,6 +156,9 @@ namespace TBC_6577.Handlers
             ulong guid = packet.ReadUInt64();
             var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
+            if (character == null)
+                return;
+
             PacketWriter nameCache = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NAME_QUERY_RESPONSE], "SMSG_NAME_QUERY_RESPONSE");
             nameCache.WriteUInt64(guid);
             nameCache.WriteString(character.Name);
@@ -174,6 +177,7 @@ namespace TBC_6577.Handlers
         public void HandleTextEmote(ref IPacketReader packet, ref IWorldManager manager)
         {
             uint emote = packet.ReadUInt32();
+            uint emotenum = packet.ReadUInt32();
             ulong guid = packet.ReadUInt64();
             uint emoteId = Emotes.Get((TextEmotes)emote);
             Character character = (Character)manager.Account.ActiveCharacter;
@@ -181,12 +185,9 @@ namespace TBC_6577.Handlers
             PacketWriter pw = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TEXT_EMOTE], "SMSG_TEXT_EMOTE");
             pw.Write(character.Guid);
             pw.Write(emote);
-
-            if (guid == character.Guid)
-                pw.WriteString(character.Name);
-            else
-                pw.WriteUInt8(0);
-
+            pw.Write(emotenum);
+            pw.WriteUInt32(0);
+            pw.WriteUInt8(0);
             manager.Send(pw);
 
             switch ((TextEmotes)emote)
