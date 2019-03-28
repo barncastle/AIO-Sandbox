@@ -72,9 +72,14 @@ namespace Common.Structs
                 MaskArray[field / 8] |= (byte)(1 << ((field + i) % 8));
         }
 
-        protected uint ToUInt32(byte b1, byte b2 = 0, byte b3 = 0, byte b4 = 0)
+        protected uint ToUInt32(byte b1 = 0, byte b2 = 0, byte b3 = 0, byte b4 = 0)
         {
             return (uint)(b1 | (b2 << 8) | (b3 << 16) | (b4 << 24));
+        }
+
+        protected uint ToUInt32(uint u1 = 0, uint u2 = 0)
+        {
+            return u1 | (u2 << 16);
         }
 
         #endregion

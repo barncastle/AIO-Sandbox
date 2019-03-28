@@ -1,17 +1,17 @@
 ﻿using Common.Constants;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
-using TBC_6577.Handlers;
+using TBC_7561.Handlers;
 
-namespace TBC_6577
+namespace TBC_7561
 {
     public class Sandbox : ISandbox
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName => "TBC (2.1.0-2.2.3) Sandbox";
+        public string RealmName => "TBC (2.2.3) Sandbox";
         public Expansions Expansion => Expansions.TBC;
-        public int Build => 6577;
+        public int Build => 7561;
         public int RealmPort => 3724;
         public int RedirectPort => 9002;
         public int WorldPort => 8129;

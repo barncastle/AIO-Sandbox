@@ -4,6 +4,11 @@ namespace Common.Constants
 {
     public static class CharacterData
     {
+        public const uint COMMON_SKILL_ID = 98;
+        public const uint COMMON_SPELL_ID = 668;
+        public const uint ORCISH_SKILL_ID = 109;
+        public const uint ORCISH_SPELL_ID = 669;
+
         public static readonly Dictionary<Races, uint[]> DisplayIds = new Dictionary<Races, uint[]>()
         {
             { Races.HUMAN,     new []{ 0x31u, 0x32u } },
