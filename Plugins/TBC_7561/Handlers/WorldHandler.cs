@@ -43,7 +43,7 @@ namespace TBC_7561.Handlers
             PacketWriter accountdata = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_ACCOUNT_DATA_MD5], "SMSG_ACCOUNT_DATA_MD5");
             for (int i = 0; i < 31; i++)
                 accountdata.WriteInt32(0);
-            manager.Send(accountdata);            
+            manager.Send(accountdata);
 
             // Tutorial Flags : REQUIRED
             PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
@@ -76,14 +76,6 @@ namespace TBC_7561.Handlers
         public void HandleWorldTeleport(ref IPacketReader packet, ref IWorldManager manager)
         {
             throw new NotImplementedException();
-        }
-
-        public void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager)
-        {
-        }
-
-        public void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager)
-        {
         }
 
         public void HandleAreaTrigger(ref IPacketReader packet, ref IWorldManager manager)

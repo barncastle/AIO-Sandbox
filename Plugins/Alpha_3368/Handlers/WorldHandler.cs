@@ -48,14 +48,6 @@ namespace Alpha_3368.Handlers
             manager.Send(movementStatus);
         }
 
-        public void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager)
-        {
-        }
-
-        public void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager)
-        {
-        }
-
         public void HandleQueryTime(ref IPacketReader packet, ref IWorldManager manager)
         {
             PacketWriter queryTime = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_LOGIN_SETTIMESPEED], "SMSG_LOGIN_SETTIMESPEED");

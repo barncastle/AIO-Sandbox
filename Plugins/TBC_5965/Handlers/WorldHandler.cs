@@ -64,14 +64,6 @@ namespace TBC_5965.Handlers
             throw new NotImplementedException();
         }
 
-        public void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager)
-        {
-        }
-
-        public void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager)
-        {
-        }
-
         public void HandleAreaTrigger(ref IPacketReader packet, ref IWorldManager manager)
         {
             uint id = packet.ReadUInt32();

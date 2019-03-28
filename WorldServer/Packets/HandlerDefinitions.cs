@@ -17,7 +17,6 @@ namespace WorldServer.Packets
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_NAME_QUERY, WorldServer.Sandbox.CharHandler.HandleNameCache);
 
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_WORLD_TELEPORT, WorldServer.Sandbox.WorldHandler.HandleWorldTeleport);
-            PacketManager.DefineOpcodeHandler(Opcodes.MSG_MOVE_WORLDPORT_ACK, WorldServer.Sandbox.WorldHandler.HandleWorldTeleportAck);
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_AREATRIGGER, WorldServer.Sandbox.WorldHandler.HandleAreaTrigger);
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_ZONEUPDATE, WorldServer.Sandbox.WorldHandler.HandleZoneUpdate);
 

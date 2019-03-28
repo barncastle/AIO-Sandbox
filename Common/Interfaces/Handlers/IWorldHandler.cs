@@ -4,10 +4,6 @@
     {
         void HandleWorldTeleport(ref IPacketReader packet, ref IWorldManager manager);
 
-        void HandleWorldTeleportAck(ref IPacketReader packet, ref IWorldManager manager);
-
-        void HandleWorldPortAck(ref IPacketReader packet, ref IWorldManager manager);
-
         void HandlePlayerLogin(ref IPacketReader packet, ref IWorldManager manager);
 
         void HandlePing(ref IPacketReader packet, ref IWorldManager manager);
