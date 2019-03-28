@@ -175,7 +175,7 @@ namespace Vanilla_4284.Handlers
         public void HandleTextEmote(ref IPacketReader packet, ref IWorldManager manager)
         {
             uint emote = packet.ReadUInt32();
-            packet.ReadUInt32();
+            uint emotenum = packet.ReadUInt32();
             ulong guid = packet.ReadUInt64();
             uint emoteId = Emotes.Get((TextEmotes)emote);
             Character character = (Character)manager.Account.ActiveCharacter;
@@ -183,6 +183,7 @@ namespace Vanilla_4284.Handlers
             PacketWriter pw = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TEXT_EMOTE], "SMSG_TEXT_EMOTE");
             pw.Write(character.Guid);
             pw.Write(emote);
+            pw.Write(emotenum);
             pw.WriteInt64(0);
             manager.Send(pw);
 

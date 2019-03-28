@@ -178,9 +178,9 @@ namespace Vanilla_4062.Handlers
             // it's really not worth creating a whole new plugin for it
             bool build_4211 = packet.Size == 22;
 
-            uint emote = packet.ReadUInt32();
+            uint emote = packet.ReadUInt32(), emotenum = 0;
             if (build_4211)
-                packet.ReadUInt32();
+                emotenum = packet.ReadUInt32();
 
             ulong guid = packet.ReadUInt64();
             uint emoteId = Emotes.Get((TextEmotes)emote);
