@@ -66,7 +66,7 @@ namespace Vanilla_4284
             SetField(Fields.UNIT_FIELD_BYTES_1, ToUInt32((byte)StandState));
             SetField(Fields.PLAYER_SELECTION, (ulong)0);
             SetField(Fields.PLAYER_BYTES, ToUInt32(Skin, Face, HairStyle, HairColor));
-            SetField(Fields.PLAYER_BYTES_2, ToUInt32(0, FacialHair, 0, RestedState));
+            SetField(Fields.PLAYER_BYTES_2, ToUInt32(b2: FacialHair, b4: RestedState));
             SetField(Fields.PLAYER_BYTES_3, ToUInt32(Gender));
             SetField(Fields.PLAYER_XP, 47);
             SetField(Fields.PLAYER_NEXT_LEVEL_XP, 200);

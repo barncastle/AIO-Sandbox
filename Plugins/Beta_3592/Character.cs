@@ -70,7 +70,7 @@ namespace Beta_3592
             SetField(Fields.UNIT_BYTES_1, ToUInt32((byte)StandState));
             SetField(Fields.SELECTION, (ulong)0);
             SetField(Fields.PLAYER_BYTES_1, ToUInt32(Skin, Face, HairStyle, HairColor));
-            SetField(Fields.PLAYER_BYTES_2, ToUInt32(0, FacialHair, 0, RestedState));
+            SetField(Fields.PLAYER_BYTES_2, ToUInt32(b2: FacialHair, b4: RestedState));
             SetField(Fields.XP, 47);
             SetField(Fields.NEXTLEVEL_XP, 200);
             SetField(Fields.MIN_DAMAGE, 0);

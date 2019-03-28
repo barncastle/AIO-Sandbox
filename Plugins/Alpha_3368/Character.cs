@@ -80,7 +80,7 @@ namespace Alpha_3368
             SetField(Fields.PLAYER_BYTES, ToUInt32(Skin, Face, HairStyle, HairColor));
             SetField(Fields.PLAYER_XP, 47);
             SetField(Fields.PLAYER_NEXT_LEVEL_XP, 200);
-            SetField(Fields.PLAYER_BYTES_2, ToUInt32(0, FacialHair));
+            SetField(Fields.PLAYER_BYTES_2, ToUInt32(b2: FacialHair));
             SetField(Fields.PLAYER_BASE_MANA, Mana);
 
             // FillInPartialObjectData

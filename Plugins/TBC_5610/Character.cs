@@ -73,7 +73,7 @@ namespace TBC_5610
             SetField(Fields.UNIT_FIELD_BYTES_1, ToUInt32((byte)StandState));
             SetField(Fields.UNIT_FIELD_BYTES_2, 0);
             SetField(Fields.PLAYER_BYTES, ToUInt32(Skin, Face, HairStyle, HairColor));
-            SetField(Fields.PLAYER_BYTES_2, ToUInt32(FacialHair, 0, 0, RestedState));
+            SetField(Fields.PLAYER_BYTES_2, ToUInt32(FacialHair, b4: RestedState));
             SetField(Fields.PLAYER_BYTES_3, ToUInt32(Gender));
             SetField(Fields.PLAYER_XP, 47);
             SetField(Fields.PLAYER_NEXT_LEVEL_XP, 200);

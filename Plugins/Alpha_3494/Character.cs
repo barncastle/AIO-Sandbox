@@ -71,7 +71,7 @@ namespace Alpha_3494
             SetField(Fields.UNIT_BYTES_1, ToUInt32((byte)StandState));
             SetField(Fields.PLAYER_SELECTION, (ulong)0);
             SetField(Fields.PLAYER_BYTES_1, ToUInt32(Skin, Face, HairStyle, HairColor));
-            SetField(Fields.PLAYER_BYTES_2, ToUInt32(0, FacialHair, 0, RestedState));
+            SetField(Fields.PLAYER_BYTES_2, ToUInt32(b2: FacialHair, b4: RestedState));
             SetField(Fields.PLAYER_XP, 47);
             SetField(Fields.PLAYER_NEXTLEVEL_XP, 200);
             SetField(Fields.DAMAGE, 0); // max_dmg << 16 | min_dmg
