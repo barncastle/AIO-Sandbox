@@ -20,6 +20,7 @@
         HUNTER = 3,
         ROGUE = 4,
         PRIEST = 5,
+        DEATHKNIGHT = 6,
         SHAMAN = 7,
         MAGE = 8,
         WARLOCK = 9,
@@ -47,6 +48,8 @@
         FOCUS = 2,
         ENERGY = 3,
         HAPPINESS = 4,
+        RUNES = 5,
+        RUNIC = 6,
         POWER_HEALTH = 0xFFFFFFFE
     }
 
