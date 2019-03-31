@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Constants;
+using Common.Cryptography;
 using Common.Interfaces;
 using Common.Structs;
 
@@ -56,8 +57,13 @@ namespace Common.Extensions
 
         public static IPacketWriter BuildMessage(this ICharacter character, IPacketWriter message, string text)
         {
-            int build = character.Build;
-            byte messageType = (byte)(build >= 4937 ? 0xA : 0x9);
+            uint build = ClientAuth.ClientBuild;
+
+            byte messageType = 0x9;
+            if(build >= 4937)
+                messageType = 0xA;
+            if (build >= 8089)
+                messageType = 0;
 
             message.WriteUInt8(messageType); // System Message
             message.WriteUInt32(0); // Language: General

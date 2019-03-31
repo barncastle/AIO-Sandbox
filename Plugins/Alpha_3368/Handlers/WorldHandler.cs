@@ -3,6 +3,7 @@ using Common.Extensions;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Logging;
+using Common.Structs;
 
 namespace Alpha_3368.Handlers
 {
@@ -28,24 +29,10 @@ namespace Alpha_3368.Handlers
         {
             packet.ReadUInt32();
             byte zone = packet.ReadUInt8();
-            float x = packet.ReadFloat();
-            float y = packet.ReadFloat();
-            float z = packet.ReadFloat();
-            float o = packet.ReadFloat();
 
-            PacketWriter movementStatus = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MOVE_WORLDPORT_ACK], "SMSG_MOVE_WORLDPORT_ACK");
-            movementStatus.WriteUInt64(0);
-            movementStatus.WriteFloat(0);
-            movementStatus.WriteFloat(0);
-            movementStatus.WriteFloat(0);
-            movementStatus.WriteFloat(0);
-            movementStatus.WriteFloat(x);
-            movementStatus.WriteFloat(y);
-            movementStatus.WriteFloat(z);
-            movementStatus.WriteFloat(o);
-            movementStatus.WriteFloat(0);
-            movementStatus.WriteUInt32(0x08000000);
-            manager.Send(movementStatus);
+            var character = manager.Account.ActiveCharacter;
+            character.Location.Update(packet, true);
+            character.Teleport(character.Location, ref manager);
         }
 
         public void HandleQueryTime(ref IPacketReader packet, ref IWorldManager manager)
@@ -61,15 +48,10 @@ namespace Alpha_3368.Handlers
             uint id = packet.ReadUInt32();
             if (AreaTriggers.Triggers.ContainsKey(id))
             {
-                var loc = AreaTriggers.Triggers[id];
-
-                // Hacky override
-                switch (id)
-                {
-                    case 45: // Scarlet Monestary
-                        loc = new Common.Structs.Location(77f, -1f, 20f, 0, 44);
-                        break;
-                }
+                // HACK - Scarlet Monastery
+                Location loc = AreaTriggers.Triggers[id];
+                if (id == 45)
+                    loc = new Location(77f, -1f, 20f, 0, 44);
 
                 manager.Account.ActiveCharacter.Teleport(loc, ref manager);
             }

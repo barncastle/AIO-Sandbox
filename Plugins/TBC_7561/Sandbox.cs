@@ -9,7 +9,7 @@ namespace TBC_7561
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName => "TBC (2.3.0) Sandbox";
+        public string RealmName => "TBC (2.3.X) Sandbox";
         public Expansions Expansion => Expansions.TBC;
         public int Build => 7561;
         public int RealmPort => 3724;
