@@ -146,6 +146,7 @@ namespace Common.Cryptography
             byte[] NHash = sha1.ComputeHash(N);
             byte[] GHash = sha1.ComputeHash(G.GetBytes());
             byte[] NG_Hash = new byte[20];
+
             for (int t = 0; t < 20; t++)
                 NG_Hash[t] = (byte)(NHash[t] ^ GHash[t]);
 
@@ -160,8 +161,10 @@ namespace Common.Cryptography
             byte[] M2;
             tmp = A.Concat(M1).Concat(SS_Hash);
             M2 = sha1.ComputeHash(tmp.ToArray());
-
             sha1.Dispose();
+
+            // calculate the network hash, 2.4.3+
+            CalculateNetworkKey();
 
             int extradata = 0;
             switch (true)
@@ -169,7 +172,7 @@ namespace Common.Cryptography
                 case true when ClientBuild < 6178 || ClientBuild == 6180:
                     extradata = 4; // uint unk
                     break;
-                case true when ClientBuild < 8606:
+                case true when ClientBuild < 8089:
                     extradata = 6; // uint unk, ushort unkFlags
                     break;
                 default:
@@ -181,6 +184,37 @@ namespace Common.Cryptography
             result[0] = 1;
             Array.Copy(M2, 0, result, 2, M2.Length);
             return result;
+        }
+
+        public static void CalculateNetworkKey()
+        {
+            if (ClientBuild < 8606)
+                return;
+
+            byte[] opad = new byte[64];
+            byte[] ipad = new byte[64];
+
+            // hardcoded 16 byte Key located at 0x0088FB3C
+            byte[] key = new byte[] { 0x38, 0xA7, 0x83, 0x15, 0xF8, 0x92, 0x25, 0x30, 0x71, 0x98, 0x67, 0xB1, 0x8C, 0x4, 0xE2, 0xAA };
+            
+            // fill 64 bytes of same value
+            for (int i = 0; i < 64; i++)
+            {
+                opad[i] = 0x5C;
+                ipad[i] = 0x36;
+            }
+
+            for (int i = 0; i < 16; i++)
+            {
+                opad[i] = (byte)(opad[i] ^ key[i]);
+                ipad[i] = (byte)(ipad[i] ^ key[i]);
+            }
+
+            using(var sha1 = new SHA1Managed())
+            {
+                byte[] digest = sha1.ComputeHash(ipad.Concat(SS_Hash).ToArray());
+                SS_Hash = sha1.ComputeHash(opad.Concat(digest).ToArray());
+            }
         }
     }
 }
