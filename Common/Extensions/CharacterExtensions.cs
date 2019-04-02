@@ -27,7 +27,7 @@ namespace Common.Extensions
         public static void SetDefaultValues(this ICharacter character)
         {
             bool male = character.Gender == 0;
-            bool hunterFocus = character.Build < 3807;
+            bool hunterFocus = ClientAuth.ClientBuild < 3807;
 
             // scale
             character.Scale = 1f;
