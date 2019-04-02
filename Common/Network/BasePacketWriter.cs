@@ -19,6 +19,8 @@ namespace Common.Network
 
         public abstract byte[] ReadDataToSend();
 
+        public void WriteBool(bool data) => base.Write(data);
+
         public void WriteInt8(sbyte data) => base.Write(data);
 
         public void WriteInt16(short data) => base.Write(data);

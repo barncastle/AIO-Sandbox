@@ -15,6 +15,8 @@ namespace Common.Network
         {
         }
 
+        public bool ReadBool() => base.ReadBoolean();
+
         public sbyte ReadInt8() => base.ReadSByte();
 
         public new short ReadInt16() => base.ReadInt16();

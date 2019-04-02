@@ -34,12 +34,18 @@ namespace TBC_8089.Handlers
 
             packet.Position += 8; // client version, session id
             string name = packet.ReadString().ToUpper();
+            packet.Position += 4 + 20; // salt, encrypted password
+            int addonsize = packet.ReadInt32();
 
             Account account = new Account(name);
             account.Load<Character>();
             manager.Account = account;
 
-            System.Threading.Thread.Sleep(500);
+            // enable addons
+            var addonPacketInfo = new PacketReader(this.GetAddonInfo(packet), false);
+            var addonPacketResponse = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_ADDON_INFO], "SMSG_ADDON_INFO");
+            this.WriteAddonInfo(addonPacketInfo, addonPacketResponse, addonsize);
+            manager.Send(addonPacketResponse);
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_RESPONSE], "SMSG_AUTH_RESPONSE");
             writer.WriteUInt8(0x0C); // AUTH_OK

@@ -11,6 +11,8 @@
 
         byte[] ReadDataToSend();
 
+        void WriteBool(bool data);
+
         void WriteInt8(sbyte data);
 
         void WriteInt16(short data);

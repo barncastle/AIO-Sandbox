@@ -70,6 +70,7 @@ namespace TBC_5665
             { global::Opcodes.SMSG_EMOTE, 0x103 },
             { global::Opcodes.CMSG_TEXT_EMOTE, 0x104 },
             { global::Opcodes.SMSG_TEXT_EMOTE, 0x105 },
+            { global::Opcodes.SMSG_ADDON_INFO, 0x2EF },
         };
 
         public uint this[global::Opcodes opcode] => opcodes[opcode];

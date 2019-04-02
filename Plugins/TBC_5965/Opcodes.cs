@@ -75,6 +75,7 @@ namespace TBC_5965
             { global::Opcodes.SMSG_MOVE_UNSET_CAN_FLY, 0x344 },
             { global::Opcodes.MSG_MOVE_START_ASCEND, 0x359 },
             { global::Opcodes.MSG_MOVE_STOP_ASCEND, 0x35A },
+            { global::Opcodes.SMSG_ADDON_INFO, 0x2EF },
         };
 
         public uint this[global::Opcodes opcode] => opcodes[opcode];

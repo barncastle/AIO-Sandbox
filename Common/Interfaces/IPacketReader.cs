@@ -6,6 +6,8 @@
         uint Size { get; }
         long Position { get; set; }
 
+        bool ReadBool();
+
         byte ReadByte();
 
         sbyte ReadInt8();
