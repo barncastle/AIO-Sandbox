@@ -2,6 +2,7 @@
 using System.Linq;
 using Common.Commands;
 using Common.Constants;
+using Common.Cryptography;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
@@ -99,6 +100,11 @@ namespace WotLK_8303.Handlers
 
                 writer.WriteUInt32(0);
                 writer.WriteUInt32(0);
+
+                // HACK - force char customise
+                if (ClientAuth.ClientBuild >= 8471)
+                    writer.WriteUInt32(0);
+
                 writer.WriteUInt8(c.RestedState);
                 writer.WriteUInt32(0);
                 writer.WriteUInt32(0);
