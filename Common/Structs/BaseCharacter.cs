@@ -47,9 +47,11 @@ namespace Common.Structs
         protected byte MaskSize;
         protected byte[] MaskArray;
 
-        public abstract IPacketWriter BuildForceSpeed(float modifier, SpeedType type = SpeedType.Run);
+        public BaseCharacter() => FieldData = new SortedList<int, byte[]>();
 
-        public virtual IPacketWriter BuildFly(bool mode) => null;
+        #region Methods
+
+        public abstract IPacketWriter BuildForceSpeed(float modifier, SpeedType type = SpeedType.Run);
 
         public abstract IPacketWriter BuildMessage(string text);
 
@@ -57,18 +59,21 @@ namespace Common.Structs
 
         public abstract void Teleport(float x, float y, float z, float o, uint map, ref IWorldManager manager);
 
-        public BaseCharacter() => FieldData = new SortedList<int, byte[]>();
+        public virtual IPacketWriter BuildFly(bool mode) => null;
+
+        #endregion
 
         #region Helpers
 
-        protected void SetField<TEnum, TValue>(TEnum index, TValue value) where TEnum : unmanaged, Enum where TValue : unmanaged
+        protected void SetField<TEnum, TValue>(TEnum index, TValue value) where TEnum : Enum where TValue : unmanaged
         {
             int field = (int)(object)index;
+            int size = Marshal.SizeOf<TValue>();
 
-            Span<TValue> span = new TValue[] { value };
-            FieldData[field] = MemoryMarshal.Cast<TValue, byte>(span).ToArray();
+            FieldData[field] = new byte[size];
+            MemoryMarshal.Write(FieldData[field], ref value);
 
-            for (int i = 0; i < (FieldData[field].Length / 4); i++)
+            for (int i = 0; i < (size / 4); i++)
                 MaskArray[field / 8] |= (byte)(1 << ((field + i) % 8));
         }
 
@@ -77,9 +82,9 @@ namespace Common.Structs
             return (uint)(b1 | (b2 << 8) | (b3 << 16) | (b4 << 24));
         }
 
-        protected uint ToUInt32(uint u1 = 0, uint u2 = 0)
+        protected uint ToUInt32(ushort u1 = 0, ushort u2 = 0)
         {
-            return u1 | (u2 << 16);
+            return (uint)(u1 | (u2 << 16));
         }
 
         #endregion

@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using Common.Interfaces;
 using Common.Logging;
 
-namespace Common.Constants
+namespace Common.Extensions
 {
     public static class Extensions
     {
