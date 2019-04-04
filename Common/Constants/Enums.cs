@@ -1,4 +1,6 @@
-﻿namespace Common.Constants
+﻿using System;
+
+namespace Common.Constants
 {
     public enum Expansions : int
     {
@@ -75,6 +77,22 @@
         RECONNECT_CHALLENGE = 2,
         RECONNECT_PROOF = 3,
         REALMLIST_REQUEST = 16,
+    }
+
+    [Flags]
+    public enum AccountDataMask : byte
+    {
+        GLOBAL_CONFIG_CACHE = 0x1,
+        CHARACTER_CONFIG_CACHE = 0x2,
+        GLOBAL_BINDINGS_CACHE = 0x4,
+        CHARACTER_BINDINGS_CACHE = 0x8,
+        GLOBAL_MACROS_CACHE = 0x10,
+        CHARACTER_MACROS_CACHE = 0x20,
+        CHARACTER_LAYOUT_CACHE = 0x40,
+        CHARACTER_CHAT_CACHE = 0x80,
+        //
+        GLOBAL = GLOBAL_BINDINGS_CACHE | GLOBAL_CONFIG_CACHE | GLOBAL_MACROS_CACHE,
+        CHARACTER = CHARACTER_CONFIG_CACHE | CHARACTER_BINDINGS_CACHE | CHARACTER_MACROS_CACHE | CHARACTER_LAYOUT_CACHE | CHARACTER_CHAT_CACHE
     }
 
     public enum SpeedType : byte
