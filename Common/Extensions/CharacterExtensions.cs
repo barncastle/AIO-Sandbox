@@ -85,11 +85,10 @@ namespace Common.Extensions
 
         public static IPacketWriter BuildForceSpeed(this ICharacter character, IPacketWriter writer, float modifier)
         {
-            const float maxmod = 8f;
-            modifier *= 10f / maxmod;
-            modifier = Math.Min(Math.Max(modifier, 1f), maxmod); // Min 1 Max 8
-
-            writer.WriteFloat(modifier * 7f);
+            if (ClientAuth.ClientBuild < 3592)
+                modifier = Math.Max(modifier, 56f); // clients crash after this
+            
+            writer.WriteFloat(modifier);
             return writer;
         }
 

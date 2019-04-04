@@ -136,14 +136,14 @@ namespace Common.Commands
 
         #region Speed
 
-        [CommandHelp(".speed [0.1 - 10] Optional: {run | swim | fly | all} ")]
+        [CommandHelp(".speed [0.1 - 1000] Optional: {run | swim | fly | all} ")]
         public static void Speed(IWorldManager manager, string[] args)
         {
             if (args.Length < 1)
                 return;
 
             Read(args, 0, out float speed);
-            speed = Math.Min(Math.Max(speed, 0.1f), 10f); // Min 0.1 Max 10.0
+            speed = Math.Min(Math.Max(speed, 0.1f), 1000f); // Min 0.1 Max 1000.0
 
             string type = (args.Length > 1 ? args[1] : "all").ToLower().Trim();
             bool canfly = ClientAuth.ClientBuild >= 5965;
@@ -164,22 +164,22 @@ namespace Common.Commands
                     manager.Send(character.BuildForceSpeed(speed, SpeedType.Fly));
                     break;
 
-                case "fly" when !canfly:
-                    return;
-
                 case "all" when canfly:
                     manager.Send(character.BuildForceSpeed(speed, SpeedType.Run));
                     manager.Send(character.BuildForceSpeed(speed, SpeedType.Swim));
                     manager.Send(character.BuildForceSpeed(speed, SpeedType.Fly));
                     break;
 
-                default:
+                case "all":
                     manager.Send(character.BuildForceSpeed(speed, SpeedType.Run));
                     manager.Send(character.BuildForceSpeed(speed, SpeedType.Swim));
                     break;
+
+                default:
+                    return;
             }
 
-            manager.Send(character.BuildMessage($"{type.ToUpperFirst()} speed changed to {speed * 100f}% of normal"));
+            manager.Send(character.BuildMessage($"{type.ToUpperFirst()} speed changed to {speed}% of normal"));
         }
 
         #endregion Speed
