@@ -213,7 +213,10 @@ namespace Common.Cryptography
             using(var sha1 = new SHA1Managed())
             {
                 byte[] digest = sha1.ComputeHash(ipad.Concat(SS_Hash).ToArray());
-                SS_Hash = sha1.ComputeHash(opad.Concat(digest).ToArray());
+                var ss_hash = sha1.ComputeHash(opad.Concat(digest).ToArray());
+                Array.Resize(ref ss_hash, 40);
+
+                SS_Hash = ss_hash;
             }
         }
     }
