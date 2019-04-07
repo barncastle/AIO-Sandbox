@@ -179,7 +179,7 @@ namespace Common.Commands
                     return;
             }
 
-            manager.Send(character.BuildMessage($"{type.ToUpperFirst()} speed changed to {speed}% of normal"));
+            manager.Send(character.BuildMessage($"{type.ToUpperFirst()} speed changed to {speed}x normal"));
         }
 
         #endregion Speed

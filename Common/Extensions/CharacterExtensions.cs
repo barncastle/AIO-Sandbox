@@ -85,10 +85,10 @@ namespace Common.Extensions
 
         public static IPacketWriter BuildForceSpeed(this ICharacter character, IPacketWriter writer, float modifier)
         {
-            modifier = modifier / 100f * 7.5f; // % of default speed
+            modifier = modifier * 7.5f; // default speed
 
             if (ClientAuth.ClientBuild < 3592)
-                modifier = Math.Max(modifier, 56f); // clients crash after this
+                modifier = Math.Max(modifier, 56f); // alpha clients crash after this
             
             writer.WriteFloat(modifier);
             return writer;
