@@ -10,6 +10,8 @@ namespace WotLK_8874
     {
         public override int Build { get; set; } = Sandbox.Instance.Build;
 
+        public Character() => Level = 55; // enable DKs
+
         public override IPacketWriter BuildUpdate()
         {
             MaskSize = ((int)Fields.MAX + 31) / 32;
