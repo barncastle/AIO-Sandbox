@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using Common.Cryptography;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Network;
@@ -36,7 +37,12 @@ namespace Common.Extensions
 
         public static void WriteAddonInfo(this IAuthHandler authHandler, IPacketReader inPacket, IPacketWriter outPacket, int size)
         {
-            while (inPacket.Position < size)
+            int count = 0x100; // arbitrary number
+            if (ClientAuth.ClientBuild >= 9464)
+                count = inPacket.ReadInt32(); // addon count
+
+            int i = 0;
+            while (inPacket.Position < size && i < count)
             {
                 string addonName = inPacket.ReadString();
                 bool enabled = inPacket.ReadBool();
@@ -51,6 +57,8 @@ namespace Common.Extensions
                     outPacket.Write(AddonPublicKey);
                 outPacket.WriteUInt32(0); // use addon url file
                 outPacket.WriteUInt8(0); // addon url filename, cstring
+
+                i++;
             }
 
             outPacket.WriteUInt32(0); // banned addon count
