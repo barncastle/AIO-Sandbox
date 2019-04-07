@@ -95,7 +95,7 @@ namespace Common.Constants
             {3196, new Location(-4030.21f, 127.966f, 26.8109f, 0f, 1, "Dire Maul")},
             {3197, new Location(-3577.67f, 841.859f, 134.594f, 0f, 1, "Dire Maul")},
             {3528, new Location(1096f, -467f, -104.6f, 3.64f, 409, "The Molten Core Window")},
-            {3529, new Location(1096f, -467f, -104.6f, 3.64f, 409, "The Molten Core Window (Lava)")},
+            {3529, new Location(1096f, -467f, -104.6f, 3.64f, 409, "The Molten Core Window Lava")},
             {3726, new Location(-7666.23f, -1102.79f, 399.68f, 0.601256f, 469, "Blackwing Lair")},
             {3728, new Location(-7524.19f, -1230.13f, 285.743f, 2.09544f, 0, "Blackrock Spire Unknown")},
             {3928, new Location(-11916.1f, -1230.53f, 92.5334f, 4.71867f, 309, "Zul'Gurub")},
@@ -169,7 +169,6 @@ namespace Common.Constants
             {4887, new Location(7.09f, -0.45f, -2.8f, 0.05f, 585, "Magisters' Terrace Entrance")},
             {4889, new Location(1790.65f, 925.67f, 15.15f, 3.1f, 580, "Sunwell Plateau Entrance")},
             {4891, new Location(12560.8f, -6774.59f, 15.08f, 6.25f, 530, "Sunwell Plateau Exit")},
-            {4917, new Location(4054.57f, 2923.23f, 13.8179f, 0f, 559, "Arena - Nagrand - Teleport Target - Game On")},
         };
 
         public static IEnumerable<(string Desc, Location Loc)> FindTrigger(string needle)
