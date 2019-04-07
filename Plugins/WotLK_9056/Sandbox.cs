@@ -9,7 +9,7 @@ namespace WotLK_9056
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName => "WotLK (3.0.2-3.0.3) Sandbox";
+        public string RealmName => "WotLK (3.0.2-3.0.8) Sandbox";
         public Expansions Expansion => Expansions.WotLK;
         public int Build => 9056;
         public int RealmPort => 3724;
