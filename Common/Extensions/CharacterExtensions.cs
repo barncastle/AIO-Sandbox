@@ -18,10 +18,10 @@ namespace Common.Extensions
 
         public static uint GetFactionTemplate(this ICharacter character)
         {
-            if (CharacterData.FactionTemplate.TryGetValue((Races)character.Race, out var id))
+            if (CharacterData.FactionTemplates.TryGetValue((Races)character.Race, out var id))
                 return id;
 
-            return CharacterData.FactionTemplate[Races.HUMAN];
+            return CharacterData.FactionTemplates[Races.HUMAN];
         }
 
         public static void SetDefaultValues(this ICharacter character)
@@ -49,6 +49,9 @@ namespace Common.Extensions
                 case Classes.HUNTER:
                     character.PowerType = (byte)(hunterFocus ? PowerTypes.FOCUS : PowerTypes.MANA);
                     break;
+                case Classes.DEATHKNIGHT:
+                    character.PowerType = (byte)PowerTypes.RUNIC;
+                    break;
                 default:
                     character.PowerType = (byte)PowerTypes.MANA;
                     break;
@@ -59,13 +62,14 @@ namespace Common.Extensions
         {
             uint build = Authenticator.ClientBuild;
 
+            // System Message
             byte messageType = 0x9;
-            if(build >= 4937)
+            if (build >= 4937)
                 messageType = 0xA;
             if (build >= 8089)
                 messageType = 0;
 
-            message.WriteUInt8(messageType); // System Message
+            message.WriteUInt8(messageType);
             message.WriteUInt32(0); // Language: General
             message.WriteUInt64(0);
 
@@ -79,17 +83,17 @@ namespace Common.Extensions
                 message.WriteInt32(text.Length + 1); // string length
 
             message.WriteString(text);
-            message.WriteUInt8(0); // status flag
+            message.WriteUInt8(0); // chat flag (gm, dnd etc.)
             return message;
         }
 
         public static IPacketWriter BuildForceSpeed(this ICharacter character, IPacketWriter writer, float modifier)
         {
-            modifier = modifier * 7f; // default speed
+            modifier *= 7f; // default speed
 
             if (Authenticator.ClientBuild < 3592)
                 modifier = Math.Max(modifier, 56f); // alpha clients crash after this
-            
+
             writer.WriteFloat(modifier);
             return writer;
         }

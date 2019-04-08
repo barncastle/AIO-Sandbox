@@ -1,5 +1,4 @@
-﻿using Common.Cryptography;
-using Common.Network;
+﻿using Common.Network;
 
 namespace Beta_3988
 {

@@ -4,7 +4,6 @@ using System.IO.Compression;
 using Common.Cryptography;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
-using Common.Network;
 
 namespace Common.Extensions
 {

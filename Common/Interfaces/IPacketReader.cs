@@ -30,16 +30,10 @@
 
         double ReadDouble();
 
-        string ReadString(byte terminator = 0);
-
         string ReadString();
 
         byte[] ReadBytes(int count);
 
         byte[] ReadToEnd();
-
-        string ReadStringFromBytes(int count);
-
-        void SkipBytes(int count);
     }
 }

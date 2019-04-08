@@ -28,6 +28,6 @@ namespace WorldServer
 
         public IPacketReader ReadPacket(byte[] data, bool parse = true) => _instance.ReadPacket(data, parse);
 
-        public IPacketWriter WritePacket() => _instance.WritePacket();
+        public override string ToString() => _instance.RealmName;
     }
 }

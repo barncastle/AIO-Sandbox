@@ -59,6 +59,8 @@ namespace Common.Structs
 
         #endregion
 
+        #region Helpers
+
         public bool HasDescriptionValue(string needle, bool exact)
         {
             if (exact)
@@ -67,10 +69,11 @@ namespace Common.Structs
                 return formattedDesc.IndexOf(needle, StringComparison.OrdinalIgnoreCase) != -1;
         }
 
-
         public override string ToString() => $"X: {X}, Y: {Y}, Z: {Z}, O: {O}, Map: {Map}";
 
         public object Clone() => MemberwiseClone();
+
+        #endregion
 
     }
 }

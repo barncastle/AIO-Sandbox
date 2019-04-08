@@ -1,5 +1,4 @@
 ﻿using System;
-using Common.Cryptography;
 using Common.Network;
 
 namespace WotLK_9056

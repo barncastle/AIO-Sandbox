@@ -23,7 +23,7 @@ namespace Common.Constants
             { Races.DRAENEI,   new []{ 0x3EFDu, 0x3EFEu } },
         };
 
-        public static readonly Dictionary<Races, uint> FactionTemplate = new Dictionary<Races, uint>()
+        public static readonly Dictionary<Races, uint> FactionTemplates = new Dictionary<Races, uint>()
         {
             { Races.HUMAN,     (uint)Races.HUMAN },
             { Races.ORC,       (uint)Races.ORC },

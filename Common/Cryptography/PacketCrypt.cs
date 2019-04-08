@@ -11,8 +11,8 @@ namespace Common.Cryptography
         public byte DigestSize { get; set; } = 20;
         public bool Initialised { get; set; } = false;
         public HandleCrypt Encode { get; private set; }
-        public HandleCrypt Decode { get; private set; } 
-        
+        public HandleCrypt Decode { get; private set; }
+
 
         private ARC4 ARC4Encrypt;
         private ARC4 ARC4Decrypt;
@@ -120,7 +120,7 @@ namespace Common.Cryptography
         /// </summary>
         /// <param name="data"></param>
         /// <param name="count"></param>
-        private void EncryptImpl(byte[] data, int count  = 4)
+        private void EncryptImpl(byte[] data, int count = 4)
         {
             if (!Initialised || data.Length < count)
                 return;

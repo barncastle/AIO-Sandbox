@@ -2,7 +2,7 @@
 
 namespace Common.Logging
 {
-    public class Log
+    public static class Log
     {
         public static void Message()
         {

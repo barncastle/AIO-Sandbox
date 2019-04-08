@@ -6,7 +6,7 @@ namespace Common.Constants
 {
     public static class Worldports
     {
-        public static readonly IDictionary<string, Location> Locations = new Dictionary<string, Location>()
+        private static readonly IDictionary<string, Location> Locations = new Dictionary<string, Location>()
         {
             { "Abandoned Armory", new Location(-2068.19f, 7463.77f, -18.9908f, 5.21755f, 530) },
             { "Abyssal Sands", new Location(-7583.58f, -3408.81f, 43.2019f, 2.47556f, 1) },

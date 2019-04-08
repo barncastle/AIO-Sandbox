@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
-
-namespace Common.Cryptography
+﻿namespace Common.Cryptography
 {
     public class ARC4
     {

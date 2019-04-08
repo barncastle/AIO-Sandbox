@@ -8,14 +8,20 @@ namespace Common.Structs
     public class Account
     {
         public string Name { get; set; }
-        public List<ICharacter> Characters { get; set; }
+        public List<ICharacter> Characters { get; private set; }
         public ICharacter ActiveCharacter { get; private set; }
 
         private bool _saving = false;
 
+        #region Constructors
+
         public Account() => Characters = new List<ICharacter>();
 
         public Account(string name) : this() => Name = name;
+
+        #endregion
+
+        #region Methods
 
         public ICharacter SetActiveChar(ulong guid, int build)
         {
@@ -41,7 +47,6 @@ namespace Common.Structs
             Directory.CreateDirectory("Accounts");
 
             string filename = Path.Combine("Accounts", Name.ToUpper() + ".dat");
-
             using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Write))
             using (var bw = new BinaryWriter(fs))
             {
@@ -54,10 +59,9 @@ namespace Common.Structs
 
         public void Load<T>() where T : ICharacter, new()
         {
-            Characters = new List<ICharacter>();
+            Characters.Clear();
 
             string filename = Path.Combine("Accounts", Name.ToUpper() + ".dat");
-
             if (!File.Exists(filename))
                 return;
 
@@ -79,5 +83,7 @@ namespace Common.Structs
                 }
             }
         }
+
+        #endregion
     }
 }

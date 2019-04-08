@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Common.Cryptography;
 using Common.Network;
 
 namespace WotLK_8874

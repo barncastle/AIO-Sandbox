@@ -13,9 +13,7 @@ namespace Common.Network
         public uint Size { get; protected set; }
         public bool PreAuth { get; set; } = false;
 
-        public BasePacketWriter() : base(new MemoryStream())
-        {
-        }
+        public BasePacketWriter() : base(new MemoryStream()) { }
 
         public abstract void WritePacketHeader(uint opcode);
 
@@ -56,9 +54,9 @@ namespace Common.Network
             byte[] buffer = BitConverter.GetBytes(guid);
 
             int count = 0;
-            for(int i = 0; i < buffer.Length; i++)
+            for (int i = 0; i < buffer.Length; i++)
             {
-                if(buffer[i] != 0)
+                if (buffer[i] != 0)
                 {
                     packed[0] |= (byte)(1 << count);
                     packed[++count] = buffer[i];

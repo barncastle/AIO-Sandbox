@@ -24,6 +24,5 @@ namespace Beta_3694
 
         public IPacketReader ReadPacket(byte[] data, bool parse = true) => new PacketReader(data, parse);
 
-        public IPacketWriter WritePacket() => new PacketWriter();
     }
 }
