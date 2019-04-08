@@ -237,6 +237,8 @@ namespace Common.Commands
                 case "off":
                     packet = character.BuildFly(false);
                     break;
+                default:
+                    return;
             }
 
             if (packet != null)
@@ -249,18 +251,16 @@ namespace Common.Commands
         #endregion
 
 
+        #region Helpers
+
         public static void Help(IWorldManager manager, string[] args)
         {
             var character = manager.Account.ActiveCharacter;
-            var attrs = typeof(Commands).GetMethods()
-                                        .Where(x => x.IsDefined(typeof(CommandHelpAttribute), false))
-                                        .SelectMany(x => x.GetCustomAttributes(typeof(CommandHelpAttribute), false) as CommandHelpAttribute[])
-                                        .OrderBy(x => x.HelpText);
 
-            if (attrs.Any())
+            if (HelpText.Value.Any())
             {
                 manager.Send(character.BuildMessage("Commands: "));
-                foreach (var attr in attrs)
+                foreach (var attr in HelpText.Value)
                     manager.Send(character.BuildMessage("    " + attr.HelpText));
             }
         }
@@ -280,5 +280,16 @@ namespace Common.Commands
             result = default;
             return false;
         }
+
+        private static readonly Lazy<CommandHelpAttribute[]> HelpText = new Lazy<CommandHelpAttribute[]>(() =>
+        {
+            return typeof(Commands).GetMethods()
+                                   .Where(x => x.IsDefined(typeof(CommandHelpAttribute), false))
+                                   .SelectMany(x => x.GetCustomAttributes(typeof(CommandHelpAttribute), false) as CommandHelpAttribute[])
+                                   .OrderBy(x => x.HelpText)
+                                   .ToArray();
+        });
+
+        #endregion
     }
 }
