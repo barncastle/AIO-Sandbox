@@ -20,7 +20,7 @@ namespace Vanilla_4937
             writer.WriteUInt32(1); // Number of transactions
             writer.WriteUInt8(0);
 
-            writer.WriteUInt8(3); // UpdateType <--- New Type for 1.9.0
+            writer.WriteUInt8(3); // UpdateType -- New Type for 1.9.0
             writer.WritePackedGUID(Guid);
             writer.WriteUInt8(4); // ObjectType, 4 = Player
 
