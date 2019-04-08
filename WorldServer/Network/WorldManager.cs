@@ -16,13 +16,11 @@ namespace WorldServer.Network
         public Socket Socket { get; set; }
         public static WorldSocket WorldSession { get; set; }
 
-        private int autosave;
-
         public void Recieve()
         {
-            SetAutosave();
-
             Send(WorldServer.Sandbox.AuthHandler.HandleAuthChallenge()); // SMSG_AUTH_CHALLENGE
+
+            Task.Run(DoAutoSaveAsync);
 
             while (Socket.Connected)
             {
@@ -52,41 +50,24 @@ namespace WorldServer.Network
                         buffer = buffer.AsSpan().Slice((int)pkt.Size).ToArray();
                     }
                 }
-
-                DoAutosave();
             }
 
-            // save the account and reset the character
-            if (Account != null)
-            {
-                Account.Save();
-                if (Account.ActiveCharacter != null)
-                    Account.ActiveCharacter.IsOnline = false;
-            }
-
+            // save the account and close the socket
+            Account?.Save();
             Log.Message(LogType.DEBUG, "CLIENT DISCONNECTED {0}", Account?.Name);
             Socket.Close();
         }
 
-        public void Send(IPacketWriter packet)
-        {
-            Socket.SendData(packet, packet.Name);
-        }
+        public void Send(IPacketWriter packet) => Socket.SendData(packet, packet.Name);
 
-        private void SetAutosave()
+        private async Task DoAutoSaveAsync()
         {
-            unchecked { autosave = Environment.TickCount + 60000; }
-        }
+            await Task.Delay(60000); // initial delay
 
-        private void DoAutosave()
-        {
-            unchecked
+            while (Socket?.Connected == true)
             {
-                if (Environment.TickCount >= autosave || Environment.TickCount < (autosave - 60000))
-                {
-                    SetAutosave();
-                    Task.Run(() => Account?.Save());
-                }
+                Account?.Save();
+                await Task.Delay(60000);
             }
         }
     }
