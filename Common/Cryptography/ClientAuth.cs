@@ -21,6 +21,8 @@ namespace Common.Cryptography
         public static bool Encode { get; set; } = false;
         public static byte[] SS_Hash { get; private set; }
         public static byte[] Key { get; private set; } = new byte[4];
+        public static PacketCrypt PacketCrypt { get; private set; }
+
 
         public static readonly byte[] Reconnect_Challenge =
         {
@@ -163,8 +165,8 @@ namespace Common.Cryptography
             M2 = sha1.ComputeHash(tmp.ToArray());
             sha1.Dispose();
 
-            // calculate the network hash, 2.4.3+
-            CalculateNetworkKey();
+            // instantiate additional cryptors, 2.4.3+
+            PacketCrypt = new PacketCrypt(SS_Hash, ClientBuild);
 
             int extradata = 0;
             switch (true)
@@ -186,38 +188,5 @@ namespace Common.Cryptography
             return result;
         }
 
-        public static void CalculateNetworkKey()
-        {
-            if (ClientBuild < 8606)
-                return;
-
-            byte[] opad = new byte[64];
-            byte[] ipad = new byte[64];
-
-            // hardcoded 16 byte Key located at 0x0088FB3C
-            byte[] key = new byte[] { 0x38, 0xA7, 0x83, 0x15, 0xF8, 0x92, 0x25, 0x30, 0x71, 0x98, 0x67, 0xB1, 0x8C, 0x4, 0xE2, 0xAA };
-            
-            // fill 64 bytes of same value
-            for (int i = 0; i < 64; i++)
-            {
-                opad[i] = 0x5C;
-                ipad[i] = 0x36;
-            }
-
-            for (int i = 0; i < 16; i++)
-            {
-                opad[i] = (byte)(opad[i] ^ key[i]);
-                ipad[i] = (byte)(ipad[i] ^ key[i]);
-            }
-
-            using(var sha1 = new SHA1Managed())
-            {
-                byte[] digest = sha1.ComputeHash(ipad.Concat(SS_Hash).ToArray());
-                var ss_hash = sha1.ComputeHash(opad.Concat(digest).ToArray());
-                Array.Resize(ref ss_hash, 40);
-
-                SS_Hash = ss_hash;
-            }
-        }
     }
 }
