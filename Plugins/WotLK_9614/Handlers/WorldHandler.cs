@@ -5,7 +5,7 @@ using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Logging;
 
-namespace WotLK_9056.Handlers
+namespace WotLK_9614.Handlers
 {
     public class WorldHandler : IWorldHandler
     {
@@ -56,10 +56,12 @@ namespace WotLK_9056.Handlers
 
             // send language spells so we can type commands
             PacketWriter spells = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_INITIAL_SPELLS], "SMSG_INITIAL_SPELLS");
-            spells.WriteUInt8(character.Gender);
+            spells.WriteUInt8(0);
             spells.WriteUInt16(2); // spell count
             spells.WriteUInt32(CharacterData.COMMON_SPELL_ID);
+            spells.WriteUInt16(0);
             spells.WriteUInt32(CharacterData.ORCISH_SPELL_ID);
+            spells.WriteUInt16(0);
             spells.WriteUInt16(0); // cooldown count
             manager.Send(spells);
 
