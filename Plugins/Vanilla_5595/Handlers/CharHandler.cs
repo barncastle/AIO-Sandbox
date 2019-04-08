@@ -160,6 +160,7 @@ namespace Vanilla_5595.Handlers
             PacketWriter nameCache = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NAME_QUERY_RESPONSE], "SMSG_NAME_QUERY_RESPONSE");
             nameCache.WriteUInt64(guid);
             nameCache.WriteString(character.Name);
+            nameCache.WriteUInt8(0);
             nameCache.WriteUInt32(character.Race);
             nameCache.WriteUInt32(character.Gender);
             nameCache.WriteUInt32(character.Class);

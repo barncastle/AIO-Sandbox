@@ -25,7 +25,7 @@ namespace WotLK_9614
             writer.WritePackedGUID(Guid);
             writer.WriteUInt8(4); // ObjectType, 4 = Player
 
-            writer.WriteUInt16(0x61); // UpdateFlags -- size changed
+            writer.WriteUInt16(0x71); // UpdateFlags -- size changed
             writer.WriteUInt32(0);  // MovementFlagMask
             writer.WriteUInt16(0); // MoveFlags2? 
             writer.WriteUInt32((uint)Environment.TickCount);
@@ -46,7 +46,7 @@ namespace WotLK_9614
             writer.WriteFloat(3.14f); // TurnSpeed
             writer.WriteFloat(3.14f); // PitchRate
 
-            //writer.Write(1);
+            writer.Write(1);
 
             SetField(Fields.OBJECT_FIELD_GUID, Guid);
             SetField(Fields.OBJECT_FIELD_TYPE, (uint)0x19);

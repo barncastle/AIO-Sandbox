@@ -167,6 +167,7 @@ namespace WotLK_9614.Handlers
             nameCache.WritePackedGUID(guid);
             nameCache.WriteUInt8(0);
             nameCache.WriteString(character.Name);
+            nameCache.WriteUInt8(0);
             nameCache.WriteUInt8(character.Race);
             nameCache.WriteUInt8(character.Gender);
             nameCache.WriteUInt8(character.Class);

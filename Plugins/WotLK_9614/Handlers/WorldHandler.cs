@@ -43,10 +43,10 @@ namespace WotLK_9614.Handlers
             PacketWriter accountdata = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_ACCOUNT_DATA_MD5], "SMSG_ACCOUNT_DATA_MD5");
             accountdata.WriteInt32((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
             accountdata.WriteUInt8(1);
+            accountdata.WriteUInt32((uint)AccountDataMask.ALL);
             for (int i = 0; i < 8; i++)
                 accountdata.WriteUInt32(0);
             manager.Send(accountdata);
-
 
             // Tutorial Flags : REQUIRED
             PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");

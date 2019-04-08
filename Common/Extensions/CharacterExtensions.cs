@@ -91,8 +91,8 @@ namespace Common.Extensions
         {
             modifier *= 7f; // default speed
 
-            if (Authenticator.ClientBuild < 3592)
-                modifier = Math.Max(modifier, 56f); // alpha clients crash after this
+            if (Authenticator.ClientBuild < 4062)
+                modifier = Math.Max(modifier, 56f); // alpha clients crash, other clients are limited
 
             writer.WriteFloat(modifier);
             return writer;

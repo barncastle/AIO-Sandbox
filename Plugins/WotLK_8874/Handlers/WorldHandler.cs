@@ -47,7 +47,6 @@ namespace WotLK_8874.Handlers
                 accountdata.WriteUInt32(0);
             manager.Send(accountdata);
 
-
             // Tutorial Flags : REQUIRED
             PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
             for (int i = 0; i < 8; i++)
