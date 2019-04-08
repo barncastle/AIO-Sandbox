@@ -102,7 +102,7 @@ namespace WotLK_8303.Handlers
                 writer.WriteUInt32(0);
 
                 // HACK - force char customise
-                if (ClientAuth.ClientBuild >= 8471)
+                if (Authenticator.ClientBuild >= 8471)
                     writer.WriteUInt32(0);
 
                 writer.WriteUInt8(c.RestedState);

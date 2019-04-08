@@ -13,7 +13,7 @@ namespace TBC_5894.Handlers
     {
         public IPacketWriter HandleAuthChallenge()
         {
-            ClientAuth.Clear();
+            Authenticator.Clear();
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_CHALLENGE], "SMSG_AUTH_CHALLENGE");
             writer.WriteInt32(0);
             return writer;
@@ -29,7 +29,8 @@ namespace TBC_5894.Handlers
 
         public void HandleAuthSession(ref IPacketReader packet, ref IWorldManager manager)
         {
-            ClientAuth.Encode = true;
+            Authenticator.PacketCrypt.Initialised = true;
+            Authenticator.PacketCrypt.DigestSize = 40;
 
             packet.Position += 8; // client version, session id
             string name = packet.ReadString().ToUpper();
@@ -83,15 +84,15 @@ namespace TBC_5894.Handlers
                     switch (op)
                     {
                         case RealmlistOpcodes.LOGON_CHALLENGE:
-                            writer.Write(ClientAuth.LogonChallenge(packet));
+                            writer.Write(Authenticator.LogonChallenge(packet));
                             break;
 
                         case RealmlistOpcodes.RECONNECT_CHALLENGE:
-                            writer.Write(ClientAuth.Reconnect_Challenge);
+                            writer.Write(Authenticator.Reconnect_Challenge);
                             break;
 
                         case RealmlistOpcodes.LOGON_PROOF:
-                            writer.Write(ClientAuth.LogonProof(packet));
+                            writer.Write(Authenticator.LogonProof(packet));
                             break;
 
                         case RealmlistOpcodes.RECONNECT_PROOF:

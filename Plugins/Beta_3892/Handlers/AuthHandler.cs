@@ -69,15 +69,15 @@ namespace Beta_3892.Handlers
                     switch (op)
                     {
                         case RealmlistOpcodes.LOGON_CHALLENGE:
-                            writer.Write(ClientAuth.LogonChallenge(packet));
+                            writer.Write(Authenticator.LogonChallenge(packet));
                             break;
 
                         case RealmlistOpcodes.RECONNECT_CHALLENGE:
-                            writer.Write(ClientAuth.Reconnect_Challenge);
+                            writer.Write(Authenticator.Reconnect_Challenge);
                             break;
 
                         case RealmlistOpcodes.LOGON_PROOF:
-                            writer.Write(ClientAuth.LogonProof(packet));
+                            writer.Write(Authenticator.LogonProof(packet));
                             break;
 
                         case RealmlistOpcodes.RECONNECT_PROOF:

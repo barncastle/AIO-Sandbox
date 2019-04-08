@@ -6,7 +6,7 @@ using Common.Interfaces;
 
 namespace Common.Cryptography
 {
-    public static class ClientAuth
+    public static class Authenticator
     {
         /// <summary>
         /// Login password
@@ -16,14 +16,18 @@ namespace Common.Cryptography
         /// Preferred account expansion access. 0 = Vanilla, 1 = TBC etc
         /// </summary>
         public static byte ExpansionLevel { get; set; } = 1;
-
+        /// <summary>
+        /// Build as sent by the client
+        /// </summary>
         public static uint ClientBuild { get; set; }
-        public static bool Encode { get; set; } = false;
-        public static byte[] SS_Hash { get; private set; }
-        public static byte[] Key { get; private set; } = new byte[4];
+        /// <summary>
+        /// Packet coder/crypt handler
+        /// </summary>
         public static PacketCrypt PacketCrypt { get; private set; }
 
-
+        /// <summary>
+        /// TODO fix this at some point
+        /// </summary>
         public static readonly byte[] Reconnect_Challenge =
         {
             0x02, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
@@ -40,7 +44,6 @@ namespace Common.Cryptography
             0x08, 0x01, 0xB1, 0x8E, 0xBF, 0xBF, 0x5E, 0x8F,
             0xAB, 0x3C, 0x82, 0x87, 0x2A, 0x3E, 0x9B, 0xB7
         };
-
         private static readonly byte[] Salt =
         {
             0xAD, 0xD0, 0x3A, 0x31, 0xD2, 0x71, 0x14, 0x46,
@@ -48,9 +51,7 @@ namespace Common.Cryptography
             0xF1, 0x86, 0x59, 0x99, 0x76, 0x02, 0x50, 0xAA,
             0xB9, 0x45, 0xE0, 0x9E, 0xDD, 0x2A, 0xA3, 0x45,
         };
-
         private static readonly byte[] RN = N.Reverse().ToArray();
-
         private static BigInteger B;
         private static BigInteger V;
         private static byte[] RB;
@@ -60,11 +61,9 @@ namespace Common.Cryptography
 
         #endregion Private Vars
 
-        public static void Clear()
-        {
-            Key = new byte[4];
-            Encode = false;
-        }
+        #region Methods
+
+        public static void Clear() => PacketCrypt.Clear();
 
         public static byte[] LogonChallenge(IPacketReader packet)
         {
@@ -136,11 +135,11 @@ namespace Common.Cryptography
 
             byte[] hashS1 = sha1.ComputeHash(S1);
             byte[] hashS2 = sha1.ComputeHash(S2);
-            SS_Hash = new byte[hashS1.Length + hashS2.Length];
+            byte[] ss_hash = new byte[hashS1.Length + hashS2.Length];
             for (int t = 0; t < hashS1.Length; t++)
             {
-                SS_Hash[t * 2] = hashS1[t];
-                SS_Hash[(t * 2) + 1] = hashS2[t];
+                ss_hash[t * 2] = hashS1[t];
+                ss_hash[(t * 2) + 1] = hashS2[t];
             }
 
             // calc M1
@@ -156,31 +155,26 @@ namespace Common.Cryptography
                              .Concat(Salt)
                              .Concat(A)
                              .Concat(B.GetBytes(32).Reverse())
-                             .Concat(SS_Hash);
+                             .Concat(ss_hash);
             M1 = sha1.ComputeHash(tmp.ToArray());
 
             // calc M2
             byte[] M2;
-            tmp = A.Concat(M1).Concat(SS_Hash);
+            tmp = A.Concat(M1).Concat(ss_hash);
             M2 = sha1.ComputeHash(tmp.ToArray());
             sha1.Dispose();
 
-            // instantiate additional cryptors, 2.4.3+
-            PacketCrypt = new PacketCrypt(SS_Hash, ClientBuild);
+            // instantiate coders/cryptors
+            PacketCrypt = new PacketCrypt(ss_hash, ClientBuild);
 
+            // additional information, always zeroed
             int extradata = 0;
-            switch (true)
-            {
-                case true when ClientBuild < 6178 || ClientBuild == 6180:
-                    extradata = 4; // uint unk
-                    break;
-                case true when ClientBuild < 8089:
-                    extradata = 6; // uint unk, ushort unkFlags
-                    break;
-                default:
-                    extradata = 10; // uint account flag, uint surveyId, ushort unkFlags
-                    break;
-            }
+            if (ClientBuild < 6178 || ClientBuild == 6180)
+                extradata = 04; // uint unk
+            else if (ClientBuild < 8089)
+                extradata = 06; // uint unk, ushort unkFlags
+            else
+                extradata = 10; // uint account flag, uint surveyId, ushort unkFlags
 
             byte[] result = new byte[22 + extradata];
             result[0] = 1;
@@ -188,5 +182,6 @@ namespace Common.Cryptography
             return result;
         }
 
+        #endregion
     }
 }

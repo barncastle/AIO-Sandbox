@@ -6,8 +6,6 @@ namespace WotLK_9614
 {
     public class PacketWriter : BasePacketWriter
     {
-        private const int SHA_DIGEST_LENGTH = 20;
-
         public PacketWriter() : base() => PreAuth = true;
 
         public PacketWriter(uint opcode, string name) : base()
@@ -40,14 +38,6 @@ namespace WotLK_9614
             }
 
             return data;
-        }
-
-        private void Encode(ref byte[] data)
-        {
-            if (!ClientAuth.Encode || data.Length < 4)
-                return;
-
-            ClientAuth.PacketCrypt.Encode(data, 4);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Common.Extensions
         public static void SetDefaultValues(this ICharacter character)
         {
             bool male = character.Gender == 0;
-            bool hunterFocus = ClientAuth.ClientBuild < 3807;
+            bool hunterFocus = Authenticator.ClientBuild < 3807;
 
             // scale
             character.Scale = 1f;
@@ -57,7 +57,7 @@ namespace Common.Extensions
 
         public static IPacketWriter BuildMessage(this ICharacter character, IPacketWriter message, string text)
         {
-            uint build = ClientAuth.ClientBuild;
+            uint build = Authenticator.ClientBuild;
 
             byte messageType = 0x9;
             if(build >= 4937)
@@ -87,7 +87,7 @@ namespace Common.Extensions
         {
             modifier = modifier * 7f; // default speed
 
-            if (ClientAuth.ClientBuild < 3592)
+            if (Authenticator.ClientBuild < 3592)
                 modifier = Math.Max(modifier, 56f); // alpha clients crash after this
             
             writer.WriteFloat(modifier);

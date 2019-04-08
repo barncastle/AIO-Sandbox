@@ -42,7 +42,7 @@ namespace Alpha_3368.Handlers
 
         public void HandleAuthSession(ref IPacketReader packet, ref IWorldManager manager)
         {
-            Common.Cryptography.ClientAuth.ClientBuild = packet.ReadUInt16();
+            Common.Cryptography.Authenticator.ClientBuild = packet.ReadUInt16();
 
             packet.Position = 14;
             string login = packet.ReadString();

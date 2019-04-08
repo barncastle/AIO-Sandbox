@@ -6,8 +6,6 @@ namespace TBC_6577
 {
     public class PacketWriter : BasePacketWriter
     {
-        private const int SHA_DIGEST_LENGTH = 40;
-
         public PacketWriter() : base() => PreAuth = true;
 
         public PacketWriter(uint opcode, string name) : base()
@@ -40,20 +38,6 @@ namespace TBC_6577
             }
 
             return data;
-        }
-
-        private void Encode(ref byte[] data)
-        {
-            if (!ClientAuth.Encode || data.Length < 4)
-                return;
-
-            for (int i = 0; i < 4; i++)
-            {
-                ClientAuth.Key[3] %= SHA_DIGEST_LENGTH;
-                byte x = (byte)((data[i] ^ ClientAuth.SS_Hash[ClientAuth.Key[3]]) + ClientAuth.Key[2]);
-                ++ClientAuth.Key[3];
-                data[i] = ClientAuth.Key[2] = x;
-            }
         }
     }
 }

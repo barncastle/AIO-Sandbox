@@ -146,7 +146,7 @@ namespace Common.Commands
             speed = Math.Min(Math.Max(speed, 0.1f), 1000f); // Min 0.1 Max 1000.0
 
             string type = (args.Length > 1 ? args[1] : "all").ToLower().Trim();
-            bool canfly = ClientAuth.ClientBuild >= 5965;
+            bool canfly = Authenticator.ClientBuild >= 5965;
 
             var character = manager.Account.ActiveCharacter;
 
@@ -217,7 +217,7 @@ namespace Common.Commands
         public static void Fly(IWorldManager manager, string[] args)
         {
             // check client build
-            if (ClientAuth.ClientBuild < 5965)
+            if (Authenticator.ClientBuild < 5965)
                 return;
 
             // validate args

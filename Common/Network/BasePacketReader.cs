@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Common.Cryptography;
 using Common.Interfaces;
 
 namespace Common.Network
@@ -67,5 +68,8 @@ namespace Common.Network
         }
 
         public void SkipBytes(int count) => base.BaseStream.Position += count;
+
+
+        protected virtual void Decode(ref byte[] buffer, int count = 6) => Authenticator.PacketCrypt.Decode(buffer, count);
     }
 }

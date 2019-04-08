@@ -6,31 +6,34 @@ namespace Common.Cryptography
 {
     public class PacketCrypt
     {
+        public delegate void HandleCrypt(byte[] buffer, int count);
+
         public byte DigestSize { get; set; } = 20;
         public bool Initialised { get; set; } = false;
-        public Action<byte[], int> Encode { get; private set; }
-        public Action<byte[], int> Decode { get; private set; } 
+        public HandleCrypt Encode { get; private set; }
+        public HandleCrypt Decode { get; private set; } 
         
 
         private ARC4 ARC4Encrypt;
         private ARC4 ARC4Decrypt;
-        private byte[] SessionKey;
+        private readonly byte[] SessionKey;
         private readonly byte[] Key;
 
         public PacketCrypt(byte[] sessionkey, uint build)
         {
             SessionKey = sessionkey;
+            Array.Resize(ref SessionKey, 40);
             Key = new byte[4];
-            Encode = EncryptImpl;
-            Decode = DecryptImpl;
+            Encode = EncodeImpl;
+            Decode = DecodeImpl;
 
             switch (true)
             {
                 case true when build >= 8606 && build < 9614:
-                    ApplyHMACKey(sessionkey);
+                    ApplyHMACKey();
                     break;
                 case true when build >= 9614:
-                    InitCryptors(sessionkey);
+                    InitCryptors();
                     break;
             }
         }
@@ -41,40 +44,45 @@ namespace Common.Cryptography
         /// HMAC traffic key 2.4.3-3.0.9
         /// </summary>
         /// <param name="sessionkey"></param>
-        private void ApplyHMACKey(byte[] sessionkey)
+        private void ApplyHMACKey()
         {
-            sessionkey = HMAC.ComputeHash(HMAC_Key, sessionkey);
+            var sessionkey = HMAC.ComputeHash(HMAC_Key, SessionKey);
             Array.Resize(ref sessionkey, 40);
-            SessionKey = sessionkey;
+            Array.Copy(sessionkey, SessionKey, sessionkey.Length);
         }
 
         /// <summary>
         /// ARC4 encryption 3.1.0+
         /// </summary>
         /// <param name="sessionkey"></param>
-        private void InitCryptors(byte[] sessionkey)
+        private void InitCryptors()
         {
             var (EncoderKey, DecoderKey) = LoadKeys();
 
             ARC4Encrypt = new ARC4();
             ARC4Decrypt = new ARC4();
 
-            ARC4Encrypt.SetKey(HMAC.ComputeHash(EncoderKey, sessionkey));
-            ARC4Decrypt.SetKey(HMAC.ComputeHash(DecoderKey, sessionkey));
+            ARC4Encrypt.SetKey(HMAC.ComputeHash(EncoderKey, SessionKey));
+            ARC4Decrypt.SetKey(HMAC.ComputeHash(DecoderKey, SessionKey));
 
             // drop 1024 bytes
             ARC4Encrypt.Process(new byte[0x400], 0x400);
             ARC4Decrypt.Process(new byte[0x400], 0x400);
 
-            Encode = ARC4Encrypt.Process;
-            Decode = ARC4Decrypt.Process;
+            Encode = EncryptImpl;
+            Decode = DecryptImpl;
         }
 
         #endregion
 
-        #region Pre-ARC4 Encryption/Decryption
+        #region Encryption/Decryption Methods
 
-        private void EncryptImpl(byte[] data, int count = 4)
+        /// <summary>
+        /// Pre-ARC4 encoding
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="count"></param>
+        private void EncodeImpl(byte[] data, int count = 4)
         {
             if (!Initialised || data.Length < count)
                 return;
@@ -87,8 +95,12 @@ namespace Common.Cryptography
                 data[i] = Key[2] = x;
             }
         }
-
-        private void DecryptImpl(byte[] data, int count = 6)
+        /// <summary>
+        /// Pre-ARC4 decoding
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="count"></param>
+        private void DecodeImpl(byte[] data, int count = 6)
         {
             if (!Initialised || data.Length < count)
                 return;
@@ -103,13 +115,44 @@ namespace Common.Cryptography
             }
         }
 
+        /// <summary>
+        /// ARC4 Encrypt
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="count"></param>
+        private void EncryptImpl(byte[] data, int count  = 4)
+        {
+            if (!Initialised || data.Length < count)
+                return;
+
+            ARC4Encrypt.Process(data, count);
+        }
+        /// <summary>
+        /// ARC4 Decrypt
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="count"></param>
+        private void DecryptImpl(byte[] data, int count = 6)
+        {
+            if (!Initialised || data.Length < count)
+                return;
+
+            ARC4Decrypt.Process(data, count);
+        }
+
         #endregion
 
         #region Helpers
 
+        public void Clear()
+        {
+            Array.Fill(Key, (byte)0);
+            Initialised = false;
+        }
+
         private (byte[] EncoderKey, byte[] DecoderKey) LoadKeys()
         {
-            var build = ClientAuth.ClientBuild;
+            var build = Authenticator.ClientBuild;
             var builds = Keys.Keys.ToArray();
 
             // 9614 was the first build to utilise this
@@ -134,6 +177,9 @@ namespace Common.Cryptography
         /// </summary>
         private readonly byte[] HMAC_Key = new byte[] { 0x38, 0xA7, 0x83, 0x15, 0xF8, 0x92, 0x25, 0x30, 0x71, 0x98, 0x67, 0xB1, 0x8C, 0x04, 0xE2, 0xAA };
 
+        /// <summary>
+        /// ARC4 Keys per build
+        /// </summary>
         private readonly Dictionary<uint, (byte[] EncoderKey, byte[] DecoderKey)> Keys = new Dictionary<uint, (byte[], byte[])>()
         {
             // 3.0.1

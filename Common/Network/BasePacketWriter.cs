@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
+using Common.Cryptography;
 using Common.Interfaces;
 
 namespace Common.Network
@@ -51,20 +53,22 @@ namespace Common.Network
         public void WritePackedGUID(ulong guid)
         {
             byte[] packed = new byte[9];
+            byte[] buffer = BitConverter.GetBytes(guid);
 
             int count = 0;
-            while (guid > 0)
+            for(int i = 0; i < buffer.Length; i++)
             {
-                byte bit = (byte)guid;
-                if (bit != 0)
+                if(buffer[i] != 0)
                 {
                     packed[0] |= (byte)(1 << count);
-                    packed[++count] = bit;
+                    packed[++count] = buffer[i];
                 }
-                guid >>= 8;
             }
 
             base.Write(packed, 0, count + 1);
         }
+
+
+        protected virtual void Encode(ref byte[] buffer, int count = 4) => Authenticator.PacketCrypt.Encode(buffer, count);
     }
 }
