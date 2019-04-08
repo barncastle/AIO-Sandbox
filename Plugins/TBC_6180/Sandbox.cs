@@ -10,7 +10,7 @@ namespace TBC_6180
         public static Sandbox Instance { get; } = new Sandbox();
 
         public string RealmName => "TBC (2.0.0.6180) Sandbox";
-        public Expansions Expansion => Expansions.Vanilla;
+        public Expansions Expansion => Expansions.TBC;
         public int Build => 6180;
         public int RealmPort => 3724;
         public int RedirectPort => 9002;
