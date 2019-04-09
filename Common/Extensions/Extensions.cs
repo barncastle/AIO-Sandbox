@@ -29,5 +29,8 @@ namespace Common.Extensions
 
             return char.ToUpper(s[0]) + s.ToLower().Substring(1);
         }
+
+        public static byte Clamp(this byte i, byte min, byte max) => Math.Max(Math.Min(i, max), min);
+
     }
 }
