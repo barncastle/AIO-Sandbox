@@ -52,7 +52,7 @@ namespace WotLK_9056.Handlers
             writer.WriteUInt32(0);
             writer.WriteUInt8(0);
             writer.WriteUInt32(0);
-            writer.WriteUInt8(Math.Min(Authenticator.ExpansionLevel, (byte)1)); // Expansion level
+            writer.WriteUInt8(Math.Max(Authenticator.ExpansionLevel, (byte)1)); // Expansion level
             manager.Send(writer);
         }
 
