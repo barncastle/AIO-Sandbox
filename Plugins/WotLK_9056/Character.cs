@@ -69,6 +69,7 @@ namespace WotLK_9056
             SetField(Fields.UNIT_FIELD_FLAGS, 8);
             SetField(Fields.UNIT_FIELD_BASE_MANA, Mana);
             SetField(Fields.UNIT_FIELD_DISPLAYID, DisplayId);
+            SetField(Fields.UNIT_FIELD_NATIVEDISPLAYID, this.GetDisplayId());
             SetField(Fields.UNIT_FIELD_MOUNTDISPLAYID, MountDisplayId);
             SetField(Fields.UNIT_FIELD_BYTES_1, ToUInt32((byte)StandState));
             SetField(Fields.UNIT_FIELD_BYTES_2, 0);
@@ -84,7 +85,7 @@ namespace WotLK_9056
             SetField(Fields.UNIT_FIELD_RANGED_ATTACK_POWER, 1);
             SetField(Fields.UNIT_FIELD_RANGED_ATTACK_POWER_MODS, 0);
 
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i < 0x80; i++)
                 SetField(Fields.PLAYER_EXPLORED_ZONES_1 + i, 0xFFFFFFFF);
 
             // send language skills so we can type commands
