@@ -146,8 +146,9 @@ namespace WotLK_10026.Handlers
             long pos = packet.Position;
 
             var character = manager.Account.ActiveCharacter;
-            ulong Flags = packet.ReadUInt64();
-            packet.ReadUInt16();
+
+            packet.ReadPackedGUID();
+            packet.Position += 14;
             character.Location.Update(packet, true);
 
             //packet.Position = pos;

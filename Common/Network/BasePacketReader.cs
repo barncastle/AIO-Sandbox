@@ -39,6 +39,18 @@ namespace Common.Network
 
         public byte[] ReadToEnd() => base.ReadBytes((int)(Size - Position));
 
+        public ulong ReadPackedGUID()
+        {
+            byte mask = ReadByte();
+            ulong guid = 0;
+
+            for (int i = 0; i < 8; i++)
+                if ((mask & (1 << i)) != 0)
+                    guid |= (ulong)ReadByte() << (i * 8);
+
+            return guid;
+        }
+
 
         protected virtual void Decode(ref byte[] buffer, int count = 6) => Authenticator.PacketCrypt.Decode(buffer, count);
     }

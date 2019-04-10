@@ -35,5 +35,7 @@
         byte[] ReadBytes(int count);
 
         byte[] ReadToEnd();
+
+        ulong ReadPackedGUID();
     }
 }
