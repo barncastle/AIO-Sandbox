@@ -2,6 +2,7 @@
 using System.Linq;
 using Common.Commands;
 using Common.Constants;
+using Common.Cryptography;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
@@ -57,7 +58,7 @@ namespace WotLK_10026.Handlers
             var character = manager.Account.GetCharacter(guid, Sandbox.Instance.Build);
 
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_DELETE], "SMSG_CHAR_DELETE");
-            writer.WriteUInt8(0x43);
+            writer.WriteUInt8((byte)(Authenticator.ClientBuild < 10257 ? 0x43 : 0x46));
             manager.Send(writer);
 
             if (character != null)
@@ -101,7 +102,9 @@ namespace WotLK_10026.Handlers
                 writer.WriteUInt32(0);
                 writer.WriteUInt32(0);
 
-                writer.WriteUInt8(c.RestedState);
+                if (Authenticator.ClientBuild < 10257)
+                    writer.WriteUInt8(c.RestedState); // -- removed from 10257
+
                 writer.WriteUInt8(0); // -- first login
                 writer.WriteUInt32(0);
                 writer.WriteUInt32(0);
@@ -148,7 +151,7 @@ namespace WotLK_10026.Handlers
             var character = manager.Account.ActiveCharacter;
 
             packet.ReadPackedGUID();
-            packet.Position += 14;
+            packet.Position += 10; // TODO check this 3.2.0
             character.Location.Update(packet, true);
 
             //packet.Position = pos;

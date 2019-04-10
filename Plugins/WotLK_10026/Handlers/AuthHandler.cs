@@ -16,7 +16,18 @@ namespace WotLK_10026.Handlers
         {
             Authenticator.Clear();
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_CHALLENGE], "SMSG_AUTH_CHALLENGE");
-            writer.WriteInt32(0);
+
+            // HACK auth struct changed, 2 new seeds
+            if(Authenticator.ClientBuild < 10257)
+            {
+                writer.WriteInt32(0);
+            }
+            else
+            {
+                writer.WriteInt32(1);
+                writer.Write(new byte[32]);
+            }
+            
             return writer;
         }
 
@@ -35,6 +46,10 @@ namespace WotLK_10026.Handlers
             packet.Position += 8; // client version, session id
             string name = packet.ReadString().ToUpper();
             packet.Position += 4 + 4 + 20; // realm type, salt, encrypted password
+
+            if (Authenticator.ClientBuild >= 10257)
+                packet.Position += 4 + 4; // more encryption stuff
+
             int addonsize = packet.ReadInt32();
 
             Account account = new Account(name);
