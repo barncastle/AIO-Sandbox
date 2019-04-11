@@ -4,7 +4,7 @@ using Common.Interfaces.Handlers;
 
 namespace WorldServer
 {
-    public class SandboxHost
+    public class SandboxHost : ISandbox
     {
         private readonly ISandbox _instance;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Common.Constants;
 using Common.Interfaces;
 
 namespace Common.Structs
@@ -11,17 +12,26 @@ namespace Common.Structs
         public float Z { get; set; }
         public float O { get; set; }
         public uint Map { get; set; }
-        public string Description { get; set; }
+        public string Description
+        {
+            get => desc;
+            set
+            {
+                desc = value;
+                if (desc.Length > 0)
+                    formattedDesc = Regex.Replace(desc, @"[\s',]", "", RegexOptions.Compiled);
+            }
+        }
+        public Expansions Expansion { get; set; }
 
-        private readonly string formattedDesc = "";
+        private string desc;
+        private string formattedDesc = "";
 
         #region Constructors
 
         public Location() { }
 
-        public Location(float x, float y, float z, float o, uint map) : this(x, y, z, o, map, "") { }
-
-        public Location(float x, float y, float z, float o, uint map, string description)
+        public Location(float x, float y, float z, float o, uint map, string description = "", Expansions expansion = Expansions.PreRelease)
         {
             X = x;
             Y = y;
@@ -29,9 +39,7 @@ namespace Common.Structs
             O = o;
             Map = map;
             Description = description;
-
-            if (!string.IsNullOrEmpty(description))
-                formattedDesc = Regex.Replace(description, @"[\s',]", "", RegexOptions.Compiled);
+            Expansion = expansion;
         }
 
         #endregion
@@ -61,8 +69,11 @@ namespace Common.Structs
 
         #region Helpers
 
-        public bool HasDescriptionValue(string needle, bool exact)
+        public bool IsValid(string needle, bool exact, Expansions expansion)
         {
+            if (Expansion > expansion)
+                return false;
+
             if (exact)
                 return formattedDesc.Equals(needle, StringComparison.OrdinalIgnoreCase);
             else

@@ -31,10 +31,10 @@ namespace Common.Commands
             if (args.Length == 0)
                 return;
 
-            if (Read<float>(args, 0, out _)) // Co-ordinate port
-                GoLocation(manager, args);
-            else if (args[0].ToLower().Trim() == "instance") // Area Trigger
+            if (args[0].Trim().ToLower() == "instance") // Area Trigger
                 GoTrigger(manager, args);
+            else if (Read<float>(args, 0, out _)) // Co-ordinate port
+                GoLocation(manager, args);
             else
                 GoNamedArea(manager, true, args); // Worldport
         }
@@ -44,7 +44,8 @@ namespace Common.Commands
             int skip = args[0] == "area" || args[0] == "instance" ? 1 : 0;
             string needle = string.Join(" ", args.Skip(skip)); // Replace "area" and "instance"
 
-            var locations = worldport ? Worldports.FindLocation(needle) : AreaTriggers.FindTrigger(needle);
+            var expansion = manager.SandboxHost.Expansion;
+            var locations = worldport ? Worldports.FindLocation(needle, expansion) : AreaTriggers.FindTrigger(needle, expansion);
 
             switch (locations.Count())
             {
@@ -93,13 +94,13 @@ namespace Common.Commands
 
             if (uint.TryParse(args[1], out uint areaid)) // Area Id check
             {
-                if (!AreaTriggers.Triggers.TryGetValue(areaid, out var loc))
-                {
-                    manager.Send(character.BuildMessage($"Area Id {areaid} does not exist"));
-                    return;
-                }
+                bool found = AreaTriggers.Triggers.TryGetValue(areaid, out var loc); // check it exists
+                bool applicable = loc.Expansion <= manager.SandboxHost.Expansion; // check expansion
 
-                character.Teleport(loc, ref manager);
+                if(found && applicable)
+                    character.Teleport(loc, ref manager);
+                else
+                    manager.Send(character.BuildMessage($"Area Id {areaid} does not exist"));
             }
             else
             {

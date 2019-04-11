@@ -7,6 +7,7 @@ namespace Common.Interfaces
     {
         Account Account { get; set; }
         Socket Socket { get; set; }
+        ISandbox SandboxHost { get; }
 
         void Recieve();
 

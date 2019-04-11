@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Common.Constants;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Logging;
@@ -14,6 +15,8 @@ namespace WorldServer.Network
     {
         public Account Account { get; set; }
         public Socket Socket { get; set; }
+        public ISandbox SandboxHost => WorldServer.Sandbox;
+
         public static WorldSocket WorldSession { get; set; }
 
         public void Recieve()

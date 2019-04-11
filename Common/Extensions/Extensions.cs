@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Reflection;
 using Common.Interfaces;
 using Common.Logging;
 
@@ -31,6 +32,12 @@ namespace Common.Extensions
         }
 
         public static byte Clamp(this byte i, byte min, byte max) => Math.Max(Math.Min(i, max), min);
+
+        public static void SetValueEx(this PropertyInfo pi, object obj, string value)
+        {
+            Type type = pi.PropertyType.IsEnum ? pi.PropertyType.GetEnumUnderlyingType() : pi.PropertyType;
+            pi.SetValue(obj, Convert.ChangeType(value, type));
+        }
 
     }
 }
