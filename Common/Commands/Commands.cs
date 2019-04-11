@@ -31,7 +31,9 @@ namespace Common.Commands
             if (args.Length == 0)
                 return;
 
-            if (args[0].Trim().ToLower() == "instance") // Area Trigger
+            args[0] = args[0].Trim().ToLower();
+
+            if (args[0] == "instance") // Area Trigger
                 GoTrigger(manager, args);
             else if (Read<float>(args, 0, out _)) // Co-ordinate port
                 GoLocation(manager, args);
@@ -41,8 +43,8 @@ namespace Common.Commands
 
         private static void GoNamedArea(IWorldManager manager, bool worldport, string[] args)
         {
-            int skip = args[0] == "area" || args[0] == "instance" ? 1 : 0;
-            string needle = string.Join(" ", args.Skip(skip)); // Replace "area" and "instance"
+            bool isinstance = args[0].Trim() == "instance";
+            string needle = string.Join(" ", args.Skip(isinstance ? 1 : 0)); // Replace "area" and "instance"
 
             var expansion = manager.SandboxHost.Expansion;
             var locations = worldport ? Worldports.FindLocation(needle, expansion) : AreaTriggers.FindTrigger(needle, expansion);
