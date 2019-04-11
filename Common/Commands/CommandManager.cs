@@ -7,41 +7,35 @@ namespace Common.Commands
 {
     public class CommandManager
     {
-        public static Dictionary<string, HandleCommand> CommandHandlers;
+        private delegate void CommandHandler(IWorldManager manager, string[] args);
 
-        public delegate void HandleCommand(IWorldManager manager, string[] args);
+        private static Dictionary<string, CommandHandler> CommandHandlers;
 
         static CommandManager()
         {
-            CommandHandlers = new Dictionary<string, HandleCommand>(StringComparer.OrdinalIgnoreCase);
-
-            DefineCommand("gps", Commands.Gps);
-            DefineCommand("help", Commands.Help);
-            DefineCommand("speed", Commands.Speed);
-            DefineCommand("go", Commands.Go);
-            DefineCommand("nudge", Commands.Nudge);
-            DefineCommand("morph", Commands.Morph);
-            DefineCommand("demorph", Commands.Demorph);
-            DefineCommand("fly", Commands.Fly);
+            CommandHandlers = new Dictionary<string, CommandHandler>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "gps",     Commands.Gps },
+                { "help",    Commands.Help },
+                { "speed",   Commands.Speed },
+                { "go",      Commands.Go },
+                { "nudge",   Commands.Nudge },
+                { "morph",   Commands.Morph },
+                { "demorph", Commands.Demorph },
+                { "fly",     Commands.Fly }
+            };
         }
 
-        public static void DefineCommand(string command, HandleCommand handler) => CommandHandlers[command.ToLower()] = handler;
 
-        public static bool InvokeHandler(string command, IWorldManager manager)
+        public static bool InvokeHandler(string message, IWorldManager manager)
         {
-            if (string.IsNullOrEmpty(command))
+            if (string.IsNullOrEmpty(message) || message[0] != '.')
                 return false;
 
-            if (command[0] != '.')
-                return false;
+            string[] parts = message.Split(' ');
 
-            string[] lines = command.Split(' ');
-            return InvokeHandler(lines[0], manager, lines.Skip(1).ToArray());
-        }
-
-        public static bool InvokeHandler(string command, IWorldManager manager, params string[] args)
-        {
-            command = command.TrimStart('.').Trim(); // Remove command "." prefix and format
+            string command = parts[0].TrimStart('.').Trim(); // remove command "." prefix and format
+            string[] args = parts.Skip(1).ToArray();
 
             if (CommandHandlers.TryGetValue(command, out var handle))
             {

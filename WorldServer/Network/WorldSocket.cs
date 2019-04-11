@@ -34,10 +34,7 @@ namespace WorldServer.Network
             return Started;
         }
 
-        public void StartConnectionThread()
-        {
-            new Thread(AcceptConnection).Start();
-        }
+        public void StartConnectionThread() => new Thread(AcceptConnection).Start();
 
         protected void AcceptConnection()
         {
@@ -50,7 +47,7 @@ namespace WorldServer.Network
                     {
                         Socket = worldListener.AcceptSocket()
                     };
-                    Task.Run(() => World.Recieve(), token.Token);
+                    Task.Run(World.Recieve, token.Token);
                 }
             }
         }

@@ -6,36 +6,31 @@ namespace Common.Cryptography
 {
     public class PacketCrypt
     {
-        public delegate void HandleCrypt(byte[] buffer, int count);
+        private delegate void CryptHandler(byte[] buffer, int count);
 
         public byte DigestSize { get; set; } = 20;
         public bool Initialised { get; set; } = false;
-        public HandleCrypt Encode { get; private set; }
-        public HandleCrypt Decode { get; private set; }
 
 
         private ARC4 ARC4Encrypt;
         private ARC4 ARC4Decrypt;
         private readonly byte[] SessionKey;
         private readonly byte[] Key;
+        private CryptHandler EncodeHandler;
+        private CryptHandler DecodeHandler;
 
         public PacketCrypt(byte[] sessionkey, uint build)
         {
             SessionKey = sessionkey;
             Array.Resize(ref SessionKey, 40);
             Key = new byte[4];
-            Encode = EncodeImpl;
-            Decode = DecodeImpl;
+            EncodeHandler = EncodeImpl;
+            DecodeHandler = DecodeImpl;
 
-            switch (true)
-            {
-                case true when build >= 8606 && build < 9614:
-                    ApplyHMACKey();
-                    break;
-                case true when build >= 9614:
-                    InitCryptors();
-                    break;
-            }
+            if (build >= 8606 && build < 9614)
+                ApplyHMACKey();
+            else if (build >= 9614)
+                InitCryptors();
         }
 
         #region Initialisers
@@ -69,13 +64,30 @@ namespace Common.Cryptography
             ARC4Encrypt.Process(new byte[0x400], 0x400);
             ARC4Decrypt.Process(new byte[0x400], 0x400);
 
-            Encode = EncryptImpl;
-            Decode = DecryptImpl;
+            EncodeHandler = ARC4Encrypt.Process;
+            DecodeHandler = ARC4Decrypt.Process;
         }
 
         #endregion
 
         #region Encryption/Decryption Methods
+
+        public void Encode(byte[] buffer, int count)
+        {
+            if (!Initialised || buffer.Length < count)
+                return;
+
+            EncodeHandler.Invoke(buffer, count);
+        }
+
+        public void Decode(byte[] buffer, int count)
+        {
+            if (!Initialised || buffer.Length < count)
+                return;
+
+            DecodeHandler.Invoke(buffer, count);
+        }
+
 
         /// <summary>
         /// Pre-ARC4 encoding
@@ -84,9 +96,6 @@ namespace Common.Cryptography
         /// <param name="count"></param>
         private void EncodeImpl(byte[] data, int count = 4)
         {
-            if (!Initialised || data.Length < count)
-                return;
-
             for (int i = 0; i < count; i++)
             {
                 Key[3] %= DigestSize;
@@ -102,9 +111,6 @@ namespace Common.Cryptography
         /// <param name="count"></param>
         private void DecodeImpl(byte[] data, int count = 6)
         {
-            if (!Initialised || data.Length < count)
-                return;
-
             for (int i = 0; i < count; i++)
             {
                 Key[1] %= DigestSize;
@@ -113,31 +119,6 @@ namespace Common.Cryptography
                 Key[0] = data[i];
                 data[i] = x;
             }
-        }
-
-        /// <summary>
-        /// ARC4 Encrypt
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="count"></param>
-        private void EncryptImpl(byte[] data, int count = 4)
-        {
-            if (!Initialised || data.Length < count)
-                return;
-
-            ARC4Encrypt.Process(data, count);
-        }
-        /// <summary>
-        /// ARC4 Decrypt
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="count"></param>
-        private void DecryptImpl(byte[] data, int count = 6)
-        {
-            if (!Initialised || data.Length < count)
-                return;
-
-            ARC4Decrypt.Process(data, count);
         }
 
         #endregion

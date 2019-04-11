@@ -10,10 +10,7 @@ namespace WorldServer.Network
         public Socket RealmSocket { get; set; }
         public Socket ProxySocket { get; set; }
 
-        public void RecieveRealm()
-        {
-            WorldServer.Sandbox.AuthHandler.HandleRealmList(RealmSocket);
-        }
+        public void RecieveRealm() =>WorldServer.Sandbox.AuthHandler.HandleRealmList(RealmSocket);
 
         public void RecieveProxy()
         {

@@ -37,9 +37,9 @@ namespace WorldServer.Network
             return Started;
         }
 
-        public void StartRealmThread() => Task.Run(() => AcceptRealmConnection(), token.Token);
+        public void StartRealmThread() => Task.Run(AcceptRealmConnection, token.Token);
 
-        public void StartProxyThread() => Task.Run(() => AcceptProxyConnection(), token.Token);
+        public void StartProxyThread() => Task.Run(AcceptProxyConnection, token.Token);
 
         protected void AcceptRealmConnection()
         {
@@ -52,7 +52,7 @@ namespace WorldServer.Network
                     {
                         RealmSocket = realmListener.AcceptSocket()
                     };
-                    Task.Run(() => Realm.RecieveRealm(), token.Token);
+                    Task.Run(Realm.RecieveRealm, token.Token);
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace WorldServer.Network
                     {
                         ProxySocket = proxyListener.AcceptSocket()
                     };
-                    Task.Run(() => Proxy.RecieveProxy(), token.Token);
+                    Task.Run(Proxy.RecieveProxy, token.Token);
                 }
             }
         }
