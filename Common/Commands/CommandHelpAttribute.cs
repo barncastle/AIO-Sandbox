@@ -2,7 +2,7 @@
 
 namespace Common.Commands
 {
-    [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     public class CommandHelpAttribute : Attribute
     {
         public readonly string HelpText;
