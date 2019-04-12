@@ -19,7 +19,7 @@ namespace Common.Structs
             {
                 desc = value;
                 if (desc.Length > 0)
-                    formattedDesc = Regex.Replace(desc, @"[\s',]", "", RegexOptions.Compiled);
+                    formattedDesc = Regex.Replace(desc, @"[\s',]", "", RegexOptions.Compiled).Trim();
             }
         }
         public Expansions Expansion { get; set; }
@@ -69,7 +69,7 @@ namespace Common.Structs
 
         #region Helpers
 
-        public bool IsValid(string needle, bool exact, Expansions expansion)
+        internal bool IsMatch(string needle, Expansions expansion, bool exact = false)
         {
             if (Expansion > expansion)
                 return false;
@@ -79,6 +79,7 @@ namespace Common.Structs
             else
                 return formattedDesc.IndexOf(needle, StringComparison.OrdinalIgnoreCase) != -1;
         }
+
 
         public override string ToString() => $"X: {X}, Y: {Y}, Z: {Z}, O: {O}, Map: {Map}";
 

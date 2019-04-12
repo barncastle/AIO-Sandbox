@@ -9,11 +9,11 @@ namespace Common.Constants
 {
     public static class Worldports
     {
-        public static readonly IDictionary<string, Location> Locations;
+        public static readonly IList<Location> Locations;
 
         static Worldports()
         {
-            Locations = new Dictionary<string, Location>(StringComparer.OrdinalIgnoreCase);
+            Locations = new List<Location>();
 
             var properties = typeof(Location).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var resource = Properties.Resources.ResourceManager.GetString("Worldports");
@@ -28,25 +28,18 @@ namespace Common.Constants
                 for (j = 0; j < properties.Length; j++)
                     properties[j].SetValueEx(location, data[j]);
 
-                Locations[location.Description] = location;
+                Locations.Add(location);
             }
         }
 
-        public static IEnumerable<(string Desc, Location Loc)> FindLocation(string needle, Expansions expansion)
+        public static IEnumerable<Location> FindLocation(string needle, Expansions expansion)
         {
             needle = needle.Replace(" ", "").Replace("'", "").Trim();
 
-            var exact = Locations.Where(x => x.Value.IsValid(needle, true, expansion));
-            if (exact.Any())
-            {
-                var location = exact.First();
-                yield return (location.Key, location.Value);
-                yield break;
-            }
+            var locations = Locations.Where(x => x.IsMatch(needle, expansion));
+            var exact = locations.FirstOrDefault(x => x.IsMatch(needle, expansion, true));
 
-            foreach (var location in Locations)
-                if (location.Value.IsValid(needle, false, expansion))
-                    yield return (location.Key, location.Value);
+            return  exact?.Yield() ?? locations;
         }
     }
 }

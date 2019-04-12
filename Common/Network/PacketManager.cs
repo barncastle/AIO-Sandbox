@@ -5,13 +5,13 @@ namespace Common.Network
 {
     public static class PacketManager
     {
-        public static Dictionary<Opcodes, HandlePacket> OpcodeHandlers;
+        public delegate void PacketHandler(ref IPacketReader packet, ref IWorldManager manager);
 
-        public delegate void HandlePacket(ref IPacketReader packet, ref IWorldManager manager);
+        private static Dictionary<Opcodes, PacketHandler> OpcodeHandlers;
 
-        static PacketManager() => OpcodeHandlers = new Dictionary<Opcodes, HandlePacket>();
+        static PacketManager() => OpcodeHandlers = new Dictionary<Opcodes, PacketHandler>();
 
-        public static void DefineOpcodeHandler(Opcodes opcode, HandlePacket handler)
+        public static void DefineOpcodeHandler(Opcodes opcode, PacketHandler handler)
         {
             OpcodeHandlers[opcode] = handler;
         }

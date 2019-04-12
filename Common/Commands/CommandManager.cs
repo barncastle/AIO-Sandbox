@@ -35,7 +35,7 @@ namespace Common.Commands
             string[] parts = message.Split(' ');
 
             string command = parts[0].TrimStart('.').Trim(); // remove command "." prefix and format
-            string[] args = parts.Skip(1).ToArray();
+            string[] args = parts.Skip(1).Select(x => x.Trim().ToLower()).ToArray();
 
             if (CommandHandlers.TryGetValue(command, out var handle))
             {

@@ -31,8 +31,6 @@ namespace Common.Commands
             if (args.Length == 0)
                 return;
 
-            args[0] = args[0].Trim().ToLower();
-
             if (args[0] == "instance") // Area Trigger
                 GoTrigger(manager, args);
             else if (Read<float>(args, 0, out _)) // Co-ordinate port
@@ -43,7 +41,7 @@ namespace Common.Commands
 
         private static void GoNamedArea(IWorldManager manager, bool worldport, string[] args)
         {
-            bool isinstance = args[0].Trim() == "instance";
+            bool isinstance = args[0] == "instance";
             string needle = string.Join(" ", args.Skip(isinstance ? 1 : 0)); // Replace "area" and "instance"
 
             var expansion = manager.SandboxHost.Expansion;
@@ -56,14 +54,14 @@ namespace Common.Commands
                     break;
 
                 case 1: // Single match
-                    manager.Account.ActiveCharacter.Teleport(locations.First().Loc, ref manager);
+                    manager.Account.ActiveCharacter.Teleport(locations.First(), ref manager);
                     break;
 
                 default: // Multiple possible matches
                     manager.Send(manager.Account.ActiveCharacter.BuildMessage("Multiple matches:"));
 
-                    foreach (var (Desc, Loc) in locations)
-                        manager.Send(manager.Account.ActiveCharacter.BuildMessage(" " + Desc));
+                    foreach (var location in locations)
+                        manager.Send(manager.Account.ActiveCharacter.BuildMessage(" " + location.Description));
 
                     break;
             }
@@ -148,7 +146,7 @@ namespace Common.Commands
             Read(args, 0, out float speed);
             speed = Math.Min(Math.Max(speed, 0.1f), 1000f); // Min 0.1 Max 1000.0
 
-            string type = (args.Length > 1 ? args[1] : "all").ToLower().Trim();
+            string type = args.Length > 1 ? args[1] : "all";
             bool canfly = Authenticator.ClientBuild >= 5965;
 
             var character = manager.Account.ActiveCharacter;
@@ -231,7 +229,7 @@ namespace Common.Commands
             bool enabled = false;
 
             IPacketWriter packet = null;
-            switch (args[0].ToLower().Trim())
+            switch (args[0])
             {
                 case "on":
                     packet = character.BuildFly(true);

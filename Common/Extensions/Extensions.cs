@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Reflection;
 using Common.Interfaces;
@@ -39,5 +40,9 @@ namespace Common.Extensions
             pi.SetValue(obj, Convert.ChangeType(value, type));
         }
 
+        public static IEnumerable<T> Yield<T>(this T item)
+        {
+            yield return item;
+        }
     }
 }

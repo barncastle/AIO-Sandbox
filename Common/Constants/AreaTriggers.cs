@@ -34,21 +34,14 @@ namespace Common.Constants
             }
         }
 
-        public static IEnumerable<(string Desc, Location Loc)> FindTrigger(string needle, Expansions expansion)
+        public static IEnumerable<Location> FindTrigger(string needle, Expansions expansion)
         {
             needle = needle.Replace(" ", "").Replace("'", "").Trim();
 
-            var exact = Triggers.Where(x => x.Value.IsValid(needle, true, expansion) && !Continents.Contains(x.Value.Map));
-            if (exact.Any())
-            {
-                var trigger = exact.First();
-                yield return ($"{trigger.Value.Description} : {trigger.Key}", trigger.Value);
-                yield break;
-            }
+            var triggers = Triggers.Values.Where(x => x.IsMatch(needle, expansion) && !Continents.Contains(x.Map));
+            var exact = triggers.FirstOrDefault(x => x.IsMatch(needle, expansion, true));
 
-            foreach (var trigger in Triggers)
-                if (trigger.Value.IsValid(needle, false, expansion) && !Continents.Contains(trigger.Value.Map))
-                    yield return ($"{trigger.Value.Description} : {trigger.Key}", trigger.Value);
+            return exact?.Yield() ?? triggers;
         }
     }
 }
