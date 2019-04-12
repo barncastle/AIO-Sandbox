@@ -11,6 +11,8 @@ namespace Common.Constants
     {
         public static readonly IDictionary<uint, Location> Triggers;
 
+        private static readonly uint[] Continents = new uint[] { 0, 1, 530, 571 };
+
         static AreaTriggers()
         {
             Triggers = new Dictionary<uint, Location>();
@@ -36,7 +38,7 @@ namespace Common.Constants
         {
             needle = needle.Replace(" ", "").Replace("'", "").Trim();
 
-            var exact = Triggers.Where(x => x.Value.IsValid(needle, true, expansion) && x.Value.Map > 1);
+            var exact = Triggers.Where(x => x.Value.IsValid(needle, true, expansion) && !Continents.Contains(x.Value.Map));
             if (exact.Any())
             {
                 var trigger = exact.First();
@@ -45,7 +47,7 @@ namespace Common.Constants
             }
 
             foreach (var trigger in Triggers)
-                if (trigger.Value.IsValid(needle, false, expansion) && trigger.Value.Map > 1)
+                if (trigger.Value.IsValid(needle, false, expansion) && !Continents.Contains(trigger.Value.Map))
                     yield return ($"{trigger.Value.Description} : {trigger.Key}", trigger.Value);
         }
     }
