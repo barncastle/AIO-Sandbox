@@ -19,6 +19,8 @@ namespace WorldServer.Network
 
         public static WorldSocket WorldSession { get; set; }
 
+        private DateTime? LastPacket;
+
         public void Recieve()
         {
             Send(WorldServer.Sandbox.AuthHandler.HandleAuthChallenge()); // SMSG_AUTH_CHALLENGE
@@ -52,6 +54,8 @@ namespace WorldServer.Network
 
                         buffer = buffer.AsSpan().Slice((int)pkt.Size).ToArray();
                     }
+
+                    LastPacket = DateTime.Now;
                 }
             }
 
@@ -65,12 +69,16 @@ namespace WorldServer.Network
 
         private async Task DoAutoSaveAsync()
         {
-            await Task.Delay(60000); // initial delay
+            await Task.Delay(45000); // initial delay
 
             while (Socket?.Connected == true)
             {
                 Account?.Save();
-                await Task.Delay(60000);
+                await Task.Delay(45000);
+
+                // check for disconnect, pings should be every ~20 seconds
+                if (LastPacket.HasValue && (DateTime.Now - LastPacket.Value).TotalSeconds > 45)
+                    Socket?.Disconnect(false);
             }
         }
     }
