@@ -39,8 +39,10 @@ namespace Common.Constants
         TAUREN = 6,
         GNOME = 7,
         TROLL = 8,
+        GOBLIN = 9,
         BLOODELF = 10,
-        DRAENEI = 11
+        DRAENEI = 11,
+        WORGEN = 22
     }
 
     public enum PowerTypes : uint

@@ -19,8 +19,10 @@ namespace Common.Constants
             { Races.TAUREN,    new []{ 0x3Bu, 0x3Cu } },
             { Races.GNOME,     new []{ 0x61Bu, 0x61Cu } },
             { Races.TROLL,     new []{ 0x5C6u, 0x5C7u } },
+            { Races.GOBLIN,    new []{ 0x1AEEu, 0x1AEFu } },
             { Races.BLOODELF,  new []{ 0x3C74u, 0x3C73u } },
             { Races.DRAENEI,   new []{ 0x3EFDu, 0x3EFEu } },
+            { Races.WORGEN,    new []{ 0x72EEu, 0x72EFu } },
         };
 
         public static readonly Dictionary<Races, uint> FactionTemplates = new Dictionary<Races, uint>()
@@ -33,8 +35,10 @@ namespace Common.Constants
             { Races.TAUREN,    (uint)Races.TAUREN },
             { Races.GNOME,     (uint)Races.GNOME },
             { Races.TROLL,     116 },
+            { Races.GOBLIN,    2204 },
             { Races.BLOODELF,  1610 },
             { Races.DRAENEI,   1629 },
+            { Races.WORGEN,    2203 },
         };
     }
 }
