@@ -16,7 +16,7 @@ namespace Common.Constants
             Locations = new List<Location>();
 
             var properties = typeof(Location).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var resource = Properties.Resources.ResourceManager.GetString("Worldports");
+            var resource = Properties.Resources.Worldports;
             var entries = resource.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             int j;

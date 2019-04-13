@@ -18,7 +18,7 @@ namespace Common.Constants
             Triggers = new Dictionary<uint, Location>();
 
             var properties = typeof(Location).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var resource = Properties.Resources.ResourceManager.GetString("AreaTriggers");
+            var resource = Properties.Resources.AreaTriggers;
             var entries = resource.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             int j;

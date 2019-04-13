@@ -1,18 +1,23 @@
 # AIO Sandbox
 
-This project is an attempt to make a plugin based "All In One" sandbox server supports all pre-WotLK builds of WoW with an emphasis on exploration.
+This project is an attempt to make a plugin based "All In One" sandbox server supports all pre-Cata builds of WoW with an emphasis on exploration.
 
 You'll need [.Net Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2) to run this. This project was built with Visual Studio 2017.
 
 ##### Builds: #####
+Clients and Patches can be found at the following links:
+- [www.ownedcore.com](http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-model-editing/406638-collection-exploration-patches-of-various-locations.html)
+- [www.getmangos.eu](https://www.getmangos.eu/downloads/category/7-world-of-warcraft-patches/)
+- [www.patches-scrolls.de](https://www.patches-scrolls.de/patch/4875/7/)
 
-Clients for the below can be found [on this thread](http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-model-editing/406638-collection-exploration-patches-of-various-locations.html).
 
-| Build                           | Status  |
-| ------------------------------- | :------ |
-| Pre Release (0.5.3 - 1.0.1)     | Working |
-| Vanilla (1.1.0 - 1.12.x)        | Working |
-| Burning Crusade (2.0.0-2.4.x)\* | Working |
+| Build                                  | Status  |
+| -------------------------------------- | :------ |
+| Pre Release (0.5.3 - 1.0.1)            | Working |
+| Vanilla (1.1.0 - 1.12.x)               | Working |
+| Burning Crusade (2.0.0 - 2.4.3)        | Working |
+| Wrath of the Lich King (3.0.1 - 3.3.5) | Working |
+| Cataclysm (4.0.0.11927)                | Working |
 
 ##### Commands: #####
 * **.demorph** : resets the current morph state
@@ -25,9 +30,9 @@ Clients for the below can be found [on this thread](http://www.ownedcore.com/for
 * **.go instance {id}** : teleports inside the specified instance
 * **.morph {id}** : morphs the player to the specified model
 * **.nudge Optional: [0-100] {z offset}** : teleports you forward X * one step in the direction you're facing and optionally adjusts your Z co-ordinate
-* **.speed [0.1 - 10] Optional: {run | swim | fly | all}** : sets your speed; defaults to 'all' if no type is supplied
+* **.speed [0.1 - 1000] Optional: {run | swim | fly | all}** : sets your speed; defaults to 'all' if no type is supplied
 
 For some interesting places to visit have a look at [Marlamin's map viewer](https://newmaps.marlam.in) - co-ordinates can be toggled with the "Enable technical details?" checkbox.
 
 ##### Note: ######
-By default your account will be granted access to the latest expansion however if you have manually patched between expansions you will get a version mismatch error on login (your client won't be complete). To bypass this either change the `Expansion` field in the `app.config` file to `0` or reinstall using the official expansion disk.
+By default your account will be granted access to the latest expansion however if you have manually patched between expansions you will get a version mismatch error on login (your client won't be complete). To bypass this either change the `Expansion` field in the `app.config` file to `0` or reinstall using an official expansion disk.
