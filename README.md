@@ -17,7 +17,7 @@ Clients and Patches can be found at the following links:
 | Vanilla (1.1.0 - 1.12.x)               | Working |
 | Burning Crusade (2.0.0 - 2.4.3)        | Working |
 | Wrath of the Lich King (3.0.1 - 3.3.5) | Working |
-| Cataclysm (4.0.0.11927)                | Working |
+| Cataclysm (4.0.0-4.0.0.12065)          | Working |
 
 ##### Commands: #####
 * **.demorph** : resets the current morph state
@@ -30,7 +30,7 @@ Clients and Patches can be found at the following links:
 * **.go instance {id}** : teleports inside the specified instance
 * **.morph {id}** : morphs the player to the specified model
 * **.nudge Optional: [0-100] {z offset}** : teleports you forward X * one step in the direction you're facing and optionally adjusts your Z co-ordinate
-* **.speed [0.1 - 1000] Optional: {run | swim | fly | all}** : sets your speed; defaults to 'all' if no type is supplied
+* **.speed [0.1 - 1000] Optional: {run | swim | fly | all}** : sets your speed; defaults to 'all' if no type is specified
 
 For some interesting places to visit have a look at [Marlamin's map viewer](https://newmaps.marlam.in) - co-ordinates can be toggled with the "Enable technical details?" checkbox.
 
