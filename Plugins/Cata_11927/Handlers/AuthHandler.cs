@@ -36,9 +36,6 @@ namespace WotLK_11927.Handlers
             packet.Position += 8; // client version, session id
             string name = packet.ReadString().ToUpper();
             packet.Position += 4 + 4 + 20 + 4 + 4; // realm type, salt, encrypted password
-            if (Authenticator.ClientBuild > 12213)
-                packet.Position += 12;
-
             int addonsize = packet.ReadInt32();
 
             Account account = new Account(name);
