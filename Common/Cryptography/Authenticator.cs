@@ -11,11 +11,11 @@ namespace Common.Cryptography
         /// <summary>
         /// Login password
         /// </summary>
-        public static string Password { get; } = "admin";
+        public static string Password { get; private set; } = "admin";
         /// <summary>
         /// Preferred account expansion access. 0 = Vanilla, 1 = TBC etc
         /// </summary>
-        public static byte ExpansionLevel { get; set; } = 1;
+        public static byte ExpansionLevel { get; private set; } = 1;
         /// <summary>
         /// Build as sent by the client
         /// </summary>
@@ -180,6 +180,18 @@ namespace Common.Cryptography
             result[0] = 1;
             Array.Copy(M2, 0, result, 2, M2.Length);
             return result;
+        }
+
+
+        public static void LoadConfig()
+        {
+            var parser = new INIParser("settings.conf");
+
+            if (parser.TryGetValue("Settings", "Expansion", out byte exp))
+                ExpansionLevel = exp;
+
+            if (parser.TryGetValue("Settings", "Password", out string pass))
+                Password = pass;
         }
 
         #endregion

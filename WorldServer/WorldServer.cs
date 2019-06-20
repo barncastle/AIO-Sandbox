@@ -29,9 +29,7 @@ namespace WorldServer
 
             if (WorldManager.WorldSession.Start() && RealmManager.RealmSession.Start())
             {
-                // load preferred expansion level
-                if (byte.TryParse(ConfigurationManager.AppSettings["Expansion"], out var exp))
-                    Authenticator.ExpansionLevel = exp;
+                Authenticator.LoadConfig();
 
                 RealmManager.RealmSession.StartRealmThread();
                 RealmManager.RealmSession.StartProxyThread();
