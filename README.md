@@ -35,4 +35,4 @@ Clients and Patches can be found at the following links:
 For some interesting places to visit have a look at [Marlamin's map viewer](https://newmaps.marlam.in) - co-ordinates can be toggled with the "Enable technical details?" checkbox.
 
 ##### Note: ######
-By default your account will be granted access to the latest expansion however if you have manually patched between expansions you will get a version mismatch error on login (your client won't be complete). To bypass this either change the `Expansion` field in the `app.config` file to `0` or reinstall using an official expansion disk.
+By default your account will be granted access to the latest expansion however if you have manually patched between expansions you will get a version mismatch error on login (your client won't be complete). To bypass this either change the `Expansion` field in the `settings.conf` file to `0` or reinstall using an official expansion disk.
