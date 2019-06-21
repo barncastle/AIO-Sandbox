@@ -44,5 +44,13 @@ namespace Common.Extensions
         {
             yield return item;
         }
+
+        public static string Sanitize(this string value)
+        {
+            if (value == null || value.Length <= 1)
+                return value;
+
+            return string.Join("", value.Split(new char[] { ' ', '\t', '\r', '\n', '\'', ',' }));
+        }
     }
 }
