@@ -17,7 +17,7 @@ Clients and Patches can be found at the following links:
 | Vanilla (1.1.0 - 1.12.x)               | Working           |
 | Burning Crusade (2.0.0 - 2.4.3)        | Working           |
 | Wrath of the Lich King (3.0.1 - 3.3.5) | Working           |
-| Cataclysm (4.0.0-4.0.0.12122)          | Working but buggy |
+| Cataclysm (4.0.0-4.0.0.12319)          | Working but buggy |
 
 ##### Commands: #####
 * **.demorph** : resets the current morph state

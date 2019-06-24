@@ -9,7 +9,7 @@ namespace WotLK_12122
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName => "Cata (4.0.0.12122) Sandbox";
+        public string RealmName => "Cata (4.0.0.12122-4.0.0.12319) Sandbox";
         public Expansions Expansion => Expansions.Cata;
         public int Build => 12122;
         public int RealmPort => 3724;
