@@ -36,7 +36,7 @@ namespace Common.Constants
 
         public static IEnumerable<Location> FindTrigger(string needle, Expansions expansion)
         {
-            needle = needle.Replace(" ", "").Replace("'", "").Trim();
+            needle = needle.Sanitize();
 
             var triggers = Triggers.Values.Where(x => x.IsMatch(needle, expansion) && !Continents.Contains(x.Map));
             var exact = triggers.FirstOrDefault(x => x.IsMatch(needle, expansion, true));

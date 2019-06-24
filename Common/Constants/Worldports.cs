@@ -34,7 +34,7 @@ namespace Common.Constants
 
         public static IEnumerable<Location> FindLocation(string needle, Expansions expansion)
         {
-            needle = needle.Replace(" ", "").Replace("'", "").Trim();
+            needle = needle.Sanitize();
 
             var locations = Locations.Where(x => x.IsMatch(needle, expansion));
             var exact = locations.FirstOrDefault(x => x.IsMatch(needle, expansion, true));

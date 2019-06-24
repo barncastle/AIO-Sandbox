@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using Common.Constants;
+using Common.Extensions;
 using Common.Interfaces;
 
 namespace Common.Structs
@@ -12,20 +12,10 @@ namespace Common.Structs
         public float Z { get; set; }
         public float O { get; set; }
         public uint Map { get; set; }
-        public string Description
-        {
-            get => desc;
-            set
-            {
-                desc = value;
-                if (desc.Length > 0)
-                    formattedDesc = Regex.Replace(desc, @"[\s',]", "", RegexOptions.Compiled).Trim();
-            }
-        }
+        public string Description { get; set; }
         public Expansions Expansion { get; set; }
 
-        private string desc;
-        private string formattedDesc = "";
+        private readonly string formattedDesc = "";
 
         #region Constructors
 
@@ -40,6 +30,8 @@ namespace Common.Structs
             Map = map;
             Description = description;
             Expansion = expansion;
+
+            formattedDesc = description.Sanitize();
         }
 
         #endregion
