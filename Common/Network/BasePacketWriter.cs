@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using Common.Cryptography;
@@ -58,7 +58,7 @@ namespace Common.Network
             {
                 if (buffer[i] != 0)
                 {
-                    packed[0] |= (byte)(1 << count);
+                    packed[0] |= (byte)(1 << i);
                     packed[++count] = buffer[i];
                 }
             }
