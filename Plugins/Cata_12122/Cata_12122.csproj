@@ -6,8 +6,8 @@
     <ProjectGuid>{2BD7E34B-BEF2-4888-B990-0182FFEDB019}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WotLK_12122</RootNamespace>
-    <AssemblyName>WotLK_12122</AssemblyName>
+    <RootNamespace>Cata_12122</RootNamespace>
+    <AssemblyName>Cata_12122</AssemblyName>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <OutputPath>..\..\bin\$(Configuration)_$(Platform)\Plugins</OutputPath>
