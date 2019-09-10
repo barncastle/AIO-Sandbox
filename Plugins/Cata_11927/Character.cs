@@ -4,7 +4,7 @@ using Common.Extensions;
 using Common.Interfaces;
 using Common.Structs;
 
-namespace WotLK_11927
+namespace Cata_11927
 {
     public class Character : BaseCharacter
     {
@@ -155,11 +155,11 @@ namespace WotLK_11927
             Location = new Location(x, y, z, o, map);
             manager.Send(BuildUpdate());
 
+            // retain flight
+            manager.Send(BuildFly(IsFlying));
+
             if (mapchange)
             {
-                // retain flight
-                manager.Send(BuildFly(IsFlying));
-
                 // send timesync
                 PacketWriter timesyncreq = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TIME_SYNC_REQ], "SMSG_TIME_SYNC_REQ");
                 timesyncreq.Write(0);

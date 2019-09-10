@@ -8,7 +8,7 @@ using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Structs;
 
-namespace WotLK_12122.Handlers
+namespace Cata_12122.Handlers
 {
     public class AuthHandler : IAuthHandler
     {
