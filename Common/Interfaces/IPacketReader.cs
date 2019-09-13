@@ -32,6 +32,8 @@
 
         string ReadString();
 
+        string ReadString(int size);
+
         byte[] ReadBytes(int count);
 
         byte[] ReadToEnd();

@@ -37,6 +37,11 @@ namespace Common.Network
             return sb.ToString();
         }
 
+        public string ReadString(int size)
+        {
+            return Encoding.UTF8.GetString(ReadBytes(size));
+        }
+
         public byte[] ReadToEnd() => base.ReadBytes((int)(Size - Position));
 
         public ulong ReadPackedGUID()

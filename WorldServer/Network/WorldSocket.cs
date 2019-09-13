@@ -16,6 +16,7 @@ namespace WorldServer.Network
 
         public WorldSocket() => token = new CancellationTokenSource();
 
+
         public bool Start()
         {
             try
@@ -36,7 +37,8 @@ namespace WorldServer.Network
 
         public void StartConnectionThread() => new Thread(AcceptConnection).Start();
 
-        protected void AcceptConnection()
+
+        private void AcceptConnection()
         {
             while (true)
             {
@@ -47,12 +49,14 @@ namespace WorldServer.Network
                     {
                         Socket = worldListener.AcceptSocket()
                     };
+
+                    World.Handshake();
                     Task.Run(World.Recieve, token.Token);
                 }
             }
         }
 
-        protected void Dispose()
+        private void Dispose()
         {
             token.Cancel();
             worldListener.Stop();

@@ -45,9 +45,9 @@ namespace Common.Extensions
             {
                 string addonName = inPacket.ReadString();
                 bool enabled = inPacket.ReadBool();
-                uint crc = inPacket.ReadUInt32();
-                uint unk = inPacket.ReadUInt32();
-                bool requireskey = crc != 0x1C776D01u && crc != 0x4C1C776Du; // offical crcs
+                uint filecrc = inPacket.ReadUInt32();
+                uint urlcrc = inPacket.ReadUInt32();
+                bool requireskey = filecrc != 0x1C776D01u && filecrc != 0x4C1C776Du; // offical crcs
 
                 outPacket.WriteUInt8(2); // blizzard
                 outPacket.WriteBool(true); // enabled
