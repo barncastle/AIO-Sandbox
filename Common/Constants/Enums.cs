@@ -26,6 +26,7 @@ namespace Common.Constants
         SHAMAN = 7,
         MAGE = 8,
         WARLOCK = 9,
+        MONK = 10,
         DRUID = 11
     }
 
@@ -42,7 +43,11 @@ namespace Common.Constants
         GOBLIN = 9,
         BLOODELF = 10,
         DRAENEI = 11,
-        WORGEN = 22
+        WORGEN = 22,
+        HUMAN_GILNEAN = 23,
+        PANDAREN_NEUTRAL = 24,
+        PANDAREN_ALLI = 25,
+        PANDAREN_HORDE = 26
     }
 
     public enum PowerTypes : uint
