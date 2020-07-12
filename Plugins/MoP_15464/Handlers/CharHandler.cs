@@ -140,13 +140,17 @@ namespace MoP_15464.Handlers
         {
             var character = manager.Account.ActiveCharacter;
 
+            var bitunpack = new BitUnpacker(packet);
+            var language = packet.ReadUInt32();
+            var message = packet.ReadString(bitunpack.GetBits<int>(9));
+
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
-            writer.WriteUInt8((byte)packet.ReadInt32()); // System Message
-            packet.ReadUInt32();
+            writer.WriteUInt8(1); // System Message
             writer.WriteUInt32(0); // Language: General
             writer.WriteUInt64(character.Guid);
-
-            string message = packet.ReadString();
+            writer.WriteUInt32(0);
+            writer.WriteUInt64(0);
+            writer.WriteInt32(message.Length + 1);
             writer.WriteString(message);
             writer.WriteUInt8(0);
 

@@ -36,7 +36,7 @@ namespace MoP_15464
             packer.Write(0); // UPDATEFLAG_ANIMKITS
             packer.Write(0); // false
             packer.Write(0); // UPDATEFLAG_STATIONARY_POSITION
-            packer.Write(0); // ?
+            packer.Write(1); // ?
             packer.Write(0); // UPDATEFLAG_GO_TRANSPORT_POSITION
             packer.Write(1); // UPDATEFLAG_ROTATION
             packer.Write(0); // false
@@ -139,9 +139,9 @@ namespace MoP_15464
             for (int i = 0; i < 0x9C; i++)
                 SetField(Fields.PLAYER_FIELD_EXPLOREDZONES + i, 0xFFFFFFFF);
 
-            //// send language skills so we can type commands
-            //SetField(Fields.PLAYER_FIELD_SKILL, CharacterData.COMMON_SKILL_ID);
-            //SetField(Fields.PLAYER_FIELD_SKILL + 1, CharacterData.ORCISH_SKILL_ID);
+            // send language skills so we can type commands
+            SetField(Fields.PLAYER_FIELD_SKILL, CharacterData.COMMON_SKILL_ID);
+            SetField(Fields.PLAYER_FIELD_SKILL + 1, CharacterData.ORCISH_SKILL_ID);
 
             // misc
             SetField(Fields.PLAYER_FIELD_CHARACTERPOINTS, 0);
@@ -196,14 +196,15 @@ namespace MoP_15464
                 // Loading screen
                 PacketWriter transferPending = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TRANSFER_PENDING], "SMSG_TRANSFER_PENDING");
                 transferPending.WriteUInt32(map);
+                transferPending.WriteUInt8(0); // customLoadScreenSpell, hasTransport bits
                 manager.Send(transferPending);
 
                 // New world transfer
                 PacketWriter newWorld = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_NEW_WORLD], "SMSG_NEW_WORLD");
-                newWorld.WriteUInt32(map);
-                newWorld.WriteFloat(x);
                 newWorld.WriteFloat(y);
+                newWorld.WriteFloat(x);
                 newWorld.WriteFloat(z);
+                newWorld.WriteUInt32(map);
                 newWorld.WriteFloat(o);
                 manager.Send(newWorld);
 

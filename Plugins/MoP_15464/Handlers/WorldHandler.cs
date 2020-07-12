@@ -53,20 +53,20 @@ namespace MoP_15464.Handlers
             accountdata.WriteUInt32((uint)AccountDataMask.ALL);
             for (int i = 0; i < 8; i++)
                 accountdata.WriteUInt32(0);
-            manager.Send(accountdata);            
+            manager.Send(accountdata);
 
-            //// send language spells so we can type commands
-            //PacketWriter spells = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_INITIAL_SPELLS], "SMSG_INITIAL_SPELLS");
-            //spells.WriteUInt8(0);
-            //spells.WriteUInt16(2); // spell count
-            //spells.WriteUInt32(CharacterData.COMMON_SPELL_ID);
-            //spells.WriteUInt16(0);
-            //spells.WriteUInt32(CharacterData.ORCISH_SPELL_ID);
-            //spells.WriteUInt16(0);
-            //spells.WriteUInt16(0); // cooldown count
-            //manager.Send(spells);
+            // send language spells so we can type commands
+            PacketWriter spells = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_INITIAL_SPELLS], "SMSG_INITIAL_SPELLS");
+            spells.WriteUInt8(0);
+            spells.WriteUInt16(2); // spell count
+            spells.WriteUInt32(CharacterData.COMMON_SPELL_ID);
+            spells.WriteUInt16(0);
+            spells.WriteUInt32(CharacterData.ORCISH_SPELL_ID);
+            spells.WriteUInt16(0);
+            spells.WriteUInt16(0); // cooldown count
+            manager.Send(spells);
 
-            //HandleQueryTime(ref packet, ref manager);            
+            HandleQueryTime(ref packet, ref manager);            
 
             manager.Send(character.BuildUpdate());
 
