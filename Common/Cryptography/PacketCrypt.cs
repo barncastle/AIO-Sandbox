@@ -15,7 +15,7 @@ namespace Common.Cryptography
         private readonly byte[] Key = new byte[4];
 
         private ARC4 ARC4Encrypt;
-        private ARC4 ARC4Decrypt;        
+        private ARC4 ARC4Decrypt;
         private CryptHandler EncodeHandler;
         private CryptHandler DecodeHandler;
 
@@ -166,12 +166,12 @@ namespace Common.Cryptography
         /// <summary>
         /// TBC hardcoded 16 byte Key located at 0x0088FB3C
         /// </summary>
-        private readonly byte[] HMAC_Key = { 0x38, 0xA7, 0x83, 0x15, 0xF8, 0x92, 0x25, 0x30, 0x71, 0x98, 0x67, 0xB1, 0x8C, 0x04, 0xE2, 0xAA };
+        private static readonly byte[] HMAC_Key = { 0x38, 0xA7, 0x83, 0x15, 0xF8, 0x92, 0x25, 0x30, 0x71, 0x98, 0x67, 0xB1, 0x8C, 0x04, 0xE2, 0xAA };
 
         /// <summary>
         /// ARC4 Keys per build
         /// </summary>
-        private readonly Dictionary<uint, (byte[] EncoderKey, byte[] DecoderKey)> Keys = new Dictionary<uint, (byte[], byte[])>()
+        private static readonly Dictionary<uint, (byte[] EncoderKey, byte[] DecoderKey)> Keys = new Dictionary<uint, (byte[], byte[])>()
         {
             // 3.0.1
             [09614] = (new byte[] { 0x22, 0xBE, 0xE5, 0xCF, 0xBB, 0x07, 0x64, 0xD9, 0x00, 0x45, 0x1B, 0xD0, 0x24, 0xB8, 0xD5, 0x45 },
