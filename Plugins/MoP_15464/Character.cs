@@ -36,7 +36,7 @@ namespace MoP_15464
             packer.Write(0); // UPDATEFLAG_ANIMKITS
             packer.Write(0); // false
             packer.Write(0); // UPDATEFLAG_STATIONARY_POSITION
-            packer.Write(0); // ?
+            packer.Write(1); // ?
             packer.Write(0); // UPDATEFLAG_GO_TRANSPORT_POSITION
             packer.Write(1); // UPDATEFLAG_ROTATION
             packer.Write(0); // false
