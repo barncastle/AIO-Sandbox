@@ -11,13 +11,14 @@ Clients and Patches can be found at the following links:
 - [www.patches-scrolls.de](https://www.patches-scrolls.de/patch/4875/7/)
 
 
-| Build                                  | Status            |
-| -------------------------------------- | :---------------- |
-| Pre Release (0.5.3 - 1.0.1)            | Working           |
-| Vanilla (1.1.0 - 1.12.x)               | Working           |
-| Burning Crusade (2.0.0 - 2.4.3)        | Working           |
-| Wrath of the Lich King (3.0.1 - 3.3.5) | Working           |
-| Cataclysm (4.0.0-4.0.0.12319)          | Working but buggy |
+| Build                                  | Status                      |
+| -------------------------------------- | :-------------------------- |
+| Pre Release (0.5.3 - 1.0.1)            | Working                     |
+| Vanilla (1.1.0 - 1.12.x)               | Working                     |
+| Burning Crusade (2.0.0 - 2.4.3)        | Working                     |
+| Wrath of the Lich King (3.0.1 - 3.3.5) | Working                     |
+| Cataclysm (4.0.0-4.0.0.12319)          | Working but buggy           |
+| Mists of Pandaria (5.0.1.15464)        | Can login and teleport maps |
 
 ##### Commands: #####
 * **.demorph** : resets the current morph state
