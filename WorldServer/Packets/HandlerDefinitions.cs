@@ -1,4 +1,7 @@
-﻿using Common.Network;
+﻿using System;
+using Common.Interfaces;
+using Common.Network;
+using WorldServer.Network;
 
 namespace WorldServer.Packets
 {
@@ -6,6 +9,8 @@ namespace WorldServer.Packets
     {
         public static void InitializePacketHandler()
         {
+            PacketManager.DefineOpcodeHandler(Opcodes.MSG_VERIFY_CONNECTIVITY, HandleAuthChallenge);
+
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_AUTH_SESSION, WorldServer.Sandbox.AuthHandler.HandleAuthSession);
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_LOGOUT_REQUEST, WorldServer.Sandbox.AuthHandler.HandleLogoutRequest);
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_CHAR_ENUM, WorldServer.Sandbox.CharHandler.HandleCharEnum);
@@ -50,6 +55,11 @@ namespace WorldServer.Packets
             PacketManager.DefineOpcodeHandler(Opcodes.MSG_MOVE_STOP_ASCEND, WorldServer.Sandbox.CharHandler.HandleMovementStatus);
 
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_STANDSTATECHANGE, WorldServer.Sandbox.CharHandler.HandleStandState);
+        }
+
+        private static void HandleAuthChallenge(ref IPacketReader packet, ref IWorldManager manager)
+        {
+            WorldServer.Sandbox.AuthHandler.HandleAuthChallenge();
         }
     }
 }

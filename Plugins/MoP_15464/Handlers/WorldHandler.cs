@@ -4,8 +4,9 @@ using Common.Extensions;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Logging;
+using Common.Network;
 
-namespace Cata_12025.Handlers
+namespace MoP_15464.Handlers
 {
     public class WorldHandler : IWorldHandler
     {
@@ -27,7 +28,12 @@ namespace Cata_12025.Handlers
 
         public void HandlePlayerLogin(ref IPacketReader packet, ref IWorldManager manager)
         {
-            ulong guid = packet.ReadUInt64();
+            BitUnpacker unpacker = new BitUnpacker(packet);
+
+            byte[] mask = { 5, 6, 2, 4, 0, 3, 1, 7 };
+            byte[] bytes = { 0, 4, 5, 6, 2, 3, 7, 1 };            
+            ulong guid = unpacker.ReadPackedGuid(mask, bytes);
+
             Character character = (Character)manager.Account.SetActiveChar(guid, Sandbox.Instance.Build);
             character.DisplayId = character.GetDisplayId();
 
@@ -49,12 +55,6 @@ namespace Cata_12025.Handlers
                 accountdata.WriteUInt32(0);
             manager.Send(accountdata);
 
-            // Tutorial Flags : REQUIRED
-            PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
-            for (int i = 0; i < 8; i++)
-                tutorial.WriteInt32(-1);
-            manager.Send(tutorial);
-
             // send language spells so we can type commands
             PacketWriter spells = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_INITIAL_SPELLS], "SMSG_INITIAL_SPELLS");
             spells.WriteUInt8(0);
@@ -66,12 +66,12 @@ namespace Cata_12025.Handlers
             spells.WriteUInt16(0); // cooldown count
             manager.Send(spells);
 
-            HandleQueryTime(ref packet, ref manager);
+            HandleQueryTime(ref packet, ref manager);            
 
             manager.Send(character.BuildUpdate());
 
-            // handle flying
-            manager.Send(character.BuildFly(character.IsFlying));
+            //// handle flying
+            //manager.Send(character.BuildFly(character.IsFlying));
 
             // Force timesync : REQUIRED
             PacketWriter timesyncreq = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TIME_SYNC_REQ], "SMSG_TIME_SYNC_REQ");

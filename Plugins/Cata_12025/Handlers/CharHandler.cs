@@ -8,7 +8,7 @@ using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Structs;
 
-namespace WotLK_12025.Handlers
+namespace Cata_12025.Handlers
 {
     public class CharHandler : ICharHandler
     {

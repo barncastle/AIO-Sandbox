@@ -6,9 +6,10 @@ using Common.Cryptography;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
+using Common.Network;
 using Common.Structs;
 
-namespace Cata_12122.Handlers
+namespace MoP_15464.Handlers
 {
     public class AuthHandler : IAuthHandler
     {
@@ -16,9 +17,10 @@ namespace Cata_12122.Handlers
         {
             Authenticator.Clear();
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_CHALLENGE], "SMSG_AUTH_CHALLENGE");
-            writer.Write(new byte[32]);
-            writer.WriteUInt8(0);
+            writer.WriteInt16(0); // extended header
             writer.WriteUInt32(0xDEADBABE);
+            writer.Write(new byte[32]);
+            writer.WriteUInt8(1);
             return writer;
         }
 
@@ -34,28 +36,46 @@ namespace Cata_12122.Handlers
         {
             Authenticator.PacketCrypt.Initialised = true;
 
-            packet.Position = 45;
-            string name = packet.ReadString().ToUpper();
-            packet.Position += 4;
+            packet.Position = 58;
             int addonsize = packet.ReadInt32();
+            int decompressedSize = packet.ReadInt32();
+            byte[] addonData = this.GetAddonInfo(packet);       
+
+            // get account name
+            packet.Position = 62 + addonsize;
+            var bitUnpack = new BitUnpacker(packet);
+            int nameLen = bitUnpack.GetBits<int>(12);
+            string name = packet.ReadString(nameLen).ToUpper();
 
             Account account = new Account(name);
             account.Load<Character>();
             manager.Account = account;
 
-            // enable addons
-            var addonPacketInfo = new PacketReader(this.GetAddonInfo(packet), false);
+            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_RESPONSE], "SMSG_AUTH_RESPONSE");
+            var bitPack = new BitPacker(writer);
+            bitPack.Write(0); // IsInQueue
+            bitPack.Write(1); // HasAccountData
+            bitPack.Flush();
+            writer.WriteUInt8(0);
+            writer.WriteUInt8(4);
+            writer.WriteUInt32(0);
+            writer.WriteUInt32(0);
+            writer.WriteUInt8(4);
+            writer.WriteUInt32(0);
+            writer.WriteUInt8(0xC);
+            manager.Send(writer);
+
+            // create addoninfo packet
+            var addonPacketInfo = new PacketReader(addonData, false);
             var addonPacketResponse = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_ADDON_INFO], "SMSG_ADDON_INFO");
-            this.WriteAddonInfo(addonPacketInfo, addonPacketResponse, addonsize);
+            this.WriteAddonInfo(addonPacketInfo, addonPacketResponse, decompressedSize);
             manager.Send(addonPacketResponse);
 
-            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_AUTH_RESPONSE], "SMSG_AUTH_RESPONSE");
-            writer.WriteUInt8(0x0C); // AUTH_OK
-            writer.WriteUInt32(0);
-            writer.WriteUInt8(0);
-            writer.WriteUInt32(0);
-            writer.WriteUInt8(Authenticator.ExpansionLevel.Clamp(2, 3)); // Expansion level
-            manager.Send(writer);
+            // Tutorial Flags : REQUIRED
+            PacketWriter tutorial = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TUTORIAL_FLAGS], "SMSG_TUTORIAL_FLAGS");
+            for (int i = 0; i < 8; i++)
+                tutorial.WriteUInt32(0);
+            manager.Send(tutorial);
         }
 
         public void HandleLogoutRequest(ref IPacketReader packet, ref IWorldManager manager)

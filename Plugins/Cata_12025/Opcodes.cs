@@ -2,7 +2,7 @@
 using System.Linq;
 using Common.Interfaces;
 
-namespace WotLK_12025
+namespace Cata_12025
 {
     public class Opcodes : IOpcodes
     {

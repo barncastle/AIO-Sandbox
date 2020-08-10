@@ -39,7 +39,7 @@ namespace Common.Constants
             var locations = Locations.Where(x => x.IsMatch(needle, expansion));
             var exact = locations.FirstOrDefault(x => x.IsMatch(needle, expansion, true));
 
-            return  exact?.Yield() ?? locations;
+            return exact?.Yield() ?? locations;
         }
     }
 }

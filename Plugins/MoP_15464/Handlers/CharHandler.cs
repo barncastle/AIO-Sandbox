@@ -2,13 +2,13 @@
 using System.Linq;
 using Common.Commands;
 using Common.Constants;
-using Common.Cryptography;
 using Common.Extensions;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
+using Common.Network;
 using Common.Structs;
 
-namespace Cata_12122.Handlers
+namespace MoP_15464.Handlers
 {
     public class CharHandler : ICharHandler
     {
@@ -73,57 +73,64 @@ namespace Cata_12122.Handlers
             var account = manager.Account;
             var result = account.Characters.Where(x => x.Build == Sandbox.Instance.Build);
 
-            // Account Data Hash : REQUIRED
-            PacketWriter accountdata = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_ACCOUNT_DATA_MD5], "SMSG_ACCOUNT_DATA_MD5");
-            accountdata.WriteInt32((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-            accountdata.WriteUInt8(1);
-            accountdata.WriteUInt32((uint)AccountDataMask.GLOBAL);
-            for (int i = 0; i < 3; i++)
-                accountdata.WriteUInt32(0);
-            manager.Send(accountdata);
-
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_ENUM], "SMSG_CHAR_ENUM");
-            writer.WriteUInt8((byte)result.Count());
+            BitPacker bitPacker = new BitPacker(writer);
+
+            bitPacker.Write(1);
+            bitPacker.Write(0, 23);
+            bitPacker.Write(result.Count(), 17);
 
             foreach (Character c in result)
             {
-                writer.WriteUInt64(c.Guid);
-                writer.WriteString(c.Name);
+                bitPacker.Write(0, 3);
+                bitPacker.Write(c.Guid & 0xFF);
+                bitPacker.Write((c.Guid >> 8) & 0xFF);
+                bitPacker.Write(0);
+                bitPacker.Write(c.Name.Length, 7);
+                bitPacker.Write(0, 4);
+                bitPacker.Write((c.Guid >> 16) & 0xFF);
+                bitPacker.Write((c.Guid >> 24) & 0xFF);
+                bitPacker.Write(0, 5);
+            }
 
-                writer.WriteUInt8(c.Race);
-                writer.WriteUInt8(c.Class);
+            bitPacker.Flush();
+
+            foreach (Character c in result)
+            {
                 writer.WriteUInt8(c.Gender);
-                writer.WriteUInt8(c.Skin);
-                writer.WriteUInt8(c.Face);
-                writer.WriteUInt8(c.HairStyle);
-                writer.WriteUInt8(c.HairColor);
-                writer.WriteUInt8(c.FacialHair);
                 writer.WriteUInt8((byte)c.Level);
 
-                writer.WriteUInt32(c.Zone);
-                writer.WriteUInt32(c.Location.Map);
-
-                writer.WriteFloat(c.Location.X);
-                writer.WriteFloat(c.Location.Y);
-                writer.WriteFloat(c.Location.Z);
-
-                writer.WriteUInt32(0);
-                writer.WriteUInt32(0);
-                writer.WriteUInt32(0);
-
-                writer.WriteUInt8(0);
-                writer.WriteUInt32(0);
-                writer.WriteUInt32(0);
-                writer.WriteUInt32(0);
-
-                // Items
-                int inventorySize = Authenticator.ClientBuild < 12122 ? 0x14 : 0x17;
-                for (int j = 0; j < inventorySize; j++)
+                // items
+                for (int i = 0; i < 0x17; i++)
                 {
-                    writer.WriteUInt32(0);    // DisplayId
-                    writer.WriteUInt8(0);     // InventoryType
-                    writer.WriteUInt32(0);    // Enchant
+                    writer.WriteUInt32(0);
+                    writer.WriteUInt32(0);
+                    writer.WriteUInt8(0);
                 }
+
+                writer.WriteGUIDByte(c.Guid, 0);
+                writer.WriteFloat(c.Location.Z);
+                writer.WriteUInt8(c.HairColor);
+                writer.WriteUInt32(c.Zone);
+                writer.WriteGUIDByte(c.Guid, 3);
+                writer.WriteGUIDByte(c.Guid, 1);
+                writer.WriteUInt32(0);
+                writer.WriteFloat(c.Location.X);
+                writer.WriteUInt8(0);
+                writer.WriteUInt8(c.HairStyle);
+                writer.WriteUInt32(c.Location.Map);
+                writer.WriteUInt8(c.Face);
+                writer.WriteUInt8(c.Skin);
+                writer.Write(System.Text.Encoding.ASCII.GetBytes(c.Name));
+                writer.WriteUInt8(c.FacialHair);
+                writer.WriteUInt8(c.Class);
+                writer.WriteUInt32(0);
+                writer.WriteUInt8(c.Race);
+                writer.WriteFloat(c.Location.Y);
+                writer.WriteGUIDByte(c.Guid, 2);
+                writer.WriteUInt32(0); // customise flags
+                writer.WriteUInt32(0); // char flags
+                writer.WriteUInt32(0);
             }
 
             manager.Send(writer);
@@ -133,13 +140,17 @@ namespace Cata_12122.Handlers
         {
             var character = manager.Account.ActiveCharacter;
 
+            var bitunpack = new BitUnpacker(packet);
+            var language = packet.ReadUInt32();
+            var message = packet.ReadString(bitunpack.GetBits<int>(9));
+
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_MESSAGECHAT], "SMSG_MESSAGECHAT");
-            writer.WriteUInt8((byte)packet.ReadInt32()); // System Message
-            packet.ReadUInt32();
+            writer.WriteUInt8(1); // System Message
             writer.WriteUInt32(0); // Language: General
             writer.WriteUInt64(character.Guid);
-
-            string message = packet.ReadString();
+            writer.WriteUInt32(0);
+            writer.WriteUInt64(0);
+            writer.WriteInt32(message.Length + 1);
             writer.WriteString(message);
             writer.WriteUInt8(0);
 

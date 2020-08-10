@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Common.Network;
 
-namespace WotLK_12025
+namespace Cata_12025
 {
     public class PacketWriter : BasePacketWriter
     {

@@ -15,7 +15,7 @@ namespace Common.Structs
         public string Description { get; set; }
         public Expansions Expansion { get; set; }
 
-        private readonly string formattedDesc = "";
+        private string formattedDesc;
 
         #region Constructors
 
@@ -65,6 +65,9 @@ namespace Common.Structs
         {
             if (Expansion > expansion)
                 return false;
+
+            if (string.IsNullOrEmpty(formattedDesc))
+                formattedDesc = Description.Sanitize();
 
             if (exact)
                 return formattedDesc.Equals(needle, StringComparison.OrdinalIgnoreCase);

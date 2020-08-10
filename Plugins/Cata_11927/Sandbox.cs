@@ -1,9 +1,9 @@
 ﻿using Common.Constants;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
-using WotLK_11927.Handlers;
+using Cata_11927.Handlers;
 
-namespace WotLK_11927
+namespace Cata_11927
 {
     public class Sandbox : ISandbox
     {

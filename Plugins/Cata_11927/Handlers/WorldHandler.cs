@@ -5,7 +5,7 @@ using Common.Interfaces;
 using Common.Interfaces.Handlers;
 using Common.Logging;
 
-namespace WotLK_11927.Handlers
+namespace Cata_11927.Handlers
 {
     public class WorldHandler : IWorldHandler
     {

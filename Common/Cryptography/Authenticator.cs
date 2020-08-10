@@ -15,7 +15,7 @@ namespace Common.Cryptography
         /// <summary>
         /// Preferred account expansion access. 0 = Vanilla, 1 = TBC etc
         /// </summary>
-        public static byte ExpansionLevel { get; private set; } = 1;
+        public static byte ExpansionLevel { get; private set; } = 0;
         /// <summary>
         /// Build as sent by the client
         /// </summary>
@@ -72,30 +72,27 @@ namespace Common.Cryptography
 
             packet.Position = 33; // Skip to username
             BUsername = packet.ReadBytes(packet.ReadByte()); // Read username
-            string username = Encoding.ASCII.GetString(BUsername);
 
-            byte[] x;
+            byte[] credshash;
             using (SHA1 sha = new SHA1CryptoServiceProvider())
             {
-                byte[] user = Encoding.ASCII.GetBytes(username.ToUpper() + ":" + Password.ToUpper());
-                byte[] res = Salt.Concat(sha.ComputeHash(user, 0, user.Length)).ToArray();
-                x = sha.ComputeHash(res, 0, res.Length).Reverse().ToArray();
+                string username = Encoding.ASCII.GetString(BUsername);
+                byte[] credentials = Encoding.ASCII.GetBytes(username.ToUpper() + ":" + Password.ToUpper());
+                byte[] tmp = Salt.Concat(sha.ComputeHash(credentials)).ToArray();
+                credshash = sha.ComputeHash(tmp).Reverse().ToArray();
             }
 
-            byte[] b = new byte[20];
-            new Random().NextBytes(b);
-            RB = b.Reverse().ToArray();
+            RB = new byte[20];
+            new Random().NextBytes(RB);
 
             G = new BigInteger(new byte[] { 7 });
-            V = G.ModPow(new BigInteger(x), new BigInteger(RN));
+            V = G.ModPow(new BigInteger(credshash), new BigInteger(RN));
 
             K = new BigInteger(new byte[] { 3 });
-            BigInteger temp = (K * V) + G.ModPow(new BigInteger(RB), new BigInteger(RN));
-            B = temp % new BigInteger(RN);
+            B = ((K * V) + G.ModPow(new BigInteger(RB), new BigInteger(RN))) % new BigInteger(RN);
 
-            int size = ClientBuild < 5428 ? 118 : 119;
-
-            byte[] result = new byte[size];
+            // create packet data
+            byte[] result = new byte[GetLogonChallengeSize()];
             Array.Copy(B.GetBytes(32).Reverse().ToArray(), 0, result, 3, 32);
             result[35] = 1;
             result[36] = 7;
@@ -115,73 +112,54 @@ namespace Common.Cryptography
             if (new BigInteger(A) % new BigInteger(N) == 0)
                 return new byte[1];
 
-            SHA1 sha1 = new SHA1CryptoServiceProvider();
-            byte[] rU = sha1.ComputeHash(AB).Reverse().ToArray();
-
-            // SS_Hash
-            BigInteger s = V.ModPow(new BigInteger(rU), new BigInteger(RN));
-            s *= new BigInteger(rA);
-            s = s.ModPow(new BigInteger(RB), new BigInteger(RN));
-
-            byte[] S1 = new byte[16];
-            byte[] S2 = new byte[16];
-            byte[] S = s.GetBytes(32);
-            byte[] rS = S.Reverse().ToArray();
-            for (int t = 0; t < 16; t++)
+            using (SHA1 sha1 = new SHA1CryptoServiceProvider())
             {
-                S1[t] = rS[t * 2];
-                S2[t] = rS[(t * 2) + 1];
+                // SS_Hash
+                byte[] rU = sha1.ComputeHash(AB).Reverse().ToArray();
+                var s = V.ModPow(new BigInteger(rU), new BigInteger(RN)) * new BigInteger(rA);
+                s = s.ModPow(new BigInteger(RB), new BigInteger(RN));
+
+                byte[] S1 = new byte[16], S2 = new byte[16];
+                byte[] rS = s.GetBytes(32).Reverse().ToArray();
+                for (int t = 0; t < 16; t++)
+                {
+                    S1[t] = rS[t * 2];
+                    S2[t] = rS[(t * 2) + 1];
+                }
+
+                byte[] hashS1 = sha1.ComputeHash(S1), hashS2 = sha1.ComputeHash(S2);
+                byte[] ss_hash = new byte[hashS1.Length + hashS2.Length];
+                for (int t = 0; t < hashS1.Length; t++)
+                {
+                    ss_hash[t * 2] = hashS1[t];
+                    ss_hash[(t * 2) + 1] = hashS2[t];
+                }
+
+                // calc M1 & M2
+                byte[] NHash = sha1.ComputeHash(N);
+                byte[] GHash = sha1.ComputeHash(G.GetBytes());
+
+                var tmp = Enumerable.Range(0, 20)
+                                    .Select(t => (byte)(NHash[t] ^ GHash[t]))
+                                    .Concat(sha1.ComputeHash(BUsername))
+                                    .Concat(Salt)
+                                    .Concat(A)
+                                    .Concat(B.GetBytes(32).Reverse())
+                                    .Concat(ss_hash);
+
+                byte[] M1 = sha1.ComputeHash(tmp.ToArray());
+                byte[] M2 = sha1.ComputeHash(A.Concat(M1).Concat(ss_hash).ToArray());
+
+                // instantiate coders/cryptors
+                PacketCrypt = new PacketCrypt(ss_hash, ClientBuild);
+
+                // create packet data
+                byte[] result = new byte[GetLogonProofSize()];
+                result[0] = 1;
+                Array.Copy(M2, 0, result, 2, M2.Length);
+                return result;
             }
-
-            byte[] hashS1 = sha1.ComputeHash(S1);
-            byte[] hashS2 = sha1.ComputeHash(S2);
-            byte[] ss_hash = new byte[hashS1.Length + hashS2.Length];
-            for (int t = 0; t < hashS1.Length; t++)
-            {
-                ss_hash[t * 2] = hashS1[t];
-                ss_hash[(t * 2) + 1] = hashS2[t];
-            }
-
-            // calc M1
-            byte[] M1;
-            byte[] NHash = sha1.ComputeHash(N);
-            byte[] GHash = sha1.ComputeHash(G.GetBytes());
-            byte[] NG_Hash = new byte[20];
-
-            for (int t = 0; t < 20; t++)
-                NG_Hash[t] = (byte)(NHash[t] ^ GHash[t]);
-
-            var tmp = NG_Hash.Concat(sha1.ComputeHash(BUsername))
-                             .Concat(Salt)
-                             .Concat(A)
-                             .Concat(B.GetBytes(32).Reverse())
-                             .Concat(ss_hash);
-            M1 = sha1.ComputeHash(tmp.ToArray());
-
-            // calc M2
-            byte[] M2;
-            tmp = A.Concat(M1).Concat(ss_hash);
-            M2 = sha1.ComputeHash(tmp.ToArray());
-            sha1.Dispose();
-
-            // instantiate coders/cryptors
-            PacketCrypt = new PacketCrypt(ss_hash, ClientBuild);
-
-            // additional information, always zeroed
-            int extradata = 0;
-            if (ClientBuild < 6178 || ClientBuild == 6180)
-                extradata = 04; // uint unk
-            else if (ClientBuild < 8089)
-                extradata = 06; // uint unk, ushort unkFlags
-            else
-                extradata = 10; // uint account flag, uint surveyId, ushort unkFlags
-
-            byte[] result = new byte[22 + extradata];
-            result[0] = 1;
-            Array.Copy(M2, 0, result, 2, M2.Length);
-            return result;
         }
-
 
         public static void LoadConfig()
         {
@@ -192,6 +170,25 @@ namespace Common.Cryptography
 
             if (parser.TryGetValue("Settings", "Password", out string pass))
                 Password = pass;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static int GetLogonChallengeSize()
+        {
+            return ClientBuild < 5428 ? 0x76 : 0x77;
+        }
+
+        private static int GetLogonProofSize()
+        {
+            if (ClientBuild < 6178 || ClientBuild == 6180)
+                return 0x16 + 0x4; // + uint unk
+            else if (ClientBuild < 8089)
+                return 0x16 + 0x6; // + uint unk, ushort unkFlags
+            else
+                return 0x16 + 0xA; // + uint account flag, uint surveyId, ushort unkFlags
         }
 
         #endregion

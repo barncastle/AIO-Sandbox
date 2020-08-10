@@ -146,11 +146,11 @@ namespace TBC_6180
             Location = new Location(x, y, z, o, map);
             manager.Send(BuildUpdate());
 
+            // retain flight
+            manager.Send(BuildFly(IsFlying));
+
             if (mapchange)
             {
-                // retain flight
-                manager.Send(BuildFly(IsFlying));
-
                 // send timesync
                 PacketWriter timesyncreq = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_TIME_SYNC_REQ], "SMSG_TIME_SYNC_REQ");
                 timesyncreq.Write(0);

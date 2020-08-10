@@ -1,17 +1,17 @@
 ﻿using Common.Constants;
 using Common.Interfaces;
 using Common.Interfaces.Handlers;
-using Cata_12122.Handlers;
+using MoP_15464.Handlers;
 
-namespace Cata_12122
+namespace MoP_15464
 {
     public class Sandbox : ISandbox
     {
         public static Sandbox Instance { get; } = new Sandbox();
 
-        public string RealmName => "Cata (4.0.0.12122-4.0.0.12319) Sandbox";
-        public Expansions Expansion => Expansions.Cata;
-        public int Build => 12122;
+        public string RealmName => "MoP (5.0.1.15464) Sandbox";
+        public Expansions Expansion => Expansions.MoP;
+        public int Build => 15464;
         public int RealmPort => 3724;
         public int RedirectPort => 9002;
         public int WorldPort => 8129;

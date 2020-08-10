@@ -13,13 +13,14 @@ namespace WorldServer.Network
 {
     public class WorldManager : IWorldManager
     {
+        public static WorldSocket WorldSession { get; set; }
+
         public Account Account { get; set; }
         public Socket Socket { get; set; }
         public ISandbox SandboxHost => WorldServer.Sandbox;
 
-        public static WorldSocket WorldSession { get; set; }
+        private DateTime? LastPacket;        
 
-        private DateTime? LastPacket;
 
         public void Recieve()
         {
@@ -66,6 +67,21 @@ namespace WorldServer.Network
         }
 
         public void Send(IPacketWriter packet) => Socket.SendData(packet, packet.Name);
+
+        public void Handshake()
+        {
+            if (SandboxHost.Expansion < Expansions.MoP)
+                return;
+            
+            string handshake = "WORLD OF WARCRAFT CONNECTION - SERVER TO CLIENT\0";
+
+            byte[] data = new byte[handshake.Length + 2];
+            data[0] = (byte)handshake.Length;
+            System.Text.Encoding.UTF8.GetBytes(handshake).CopyTo(data, 2);
+
+            Socket.Send(data, 0, data.Length, SocketFlags.None);
+        }
+
 
         private async Task DoAutoSaveAsync()
         {

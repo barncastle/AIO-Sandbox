@@ -1,7 +1,7 @@
 ﻿using System;
 using Common.Network;
 
-namespace WotLK_12122
+namespace Cata_12122
 {
     public class PacketReader : BasePacketReader
     {

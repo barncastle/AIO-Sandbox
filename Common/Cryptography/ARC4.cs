@@ -2,7 +2,7 @@
 {
     public class ARC4
     {
-        const int StateSize = 0x100;
+        private const int StateSize = 0x100;
         private readonly byte[] state;
         private byte x, y;
 
@@ -24,10 +24,7 @@
             {
                 j = (byte)((j + key[i % key.Length] + state[i]) & 255);
 
-                // swap
-                byte tmp = state[i];
-                state[i] = state[j];
-                state[j] = tmp;
+                (state[i], state[j]) = (state[j], state[i]); // swap
             }
         }
 
@@ -38,10 +35,7 @@
                 x = (byte)((x + 1) % StateSize);
                 y = (byte)((y + state[x]) % StateSize);
 
-                // swap
-                byte tmp = state[x];
-                state[x] = state[y];
-                state[y] = tmp;
+                (state[x], state[y]) = (state[y], state[x]); // swap
 
                 buffer[i] = (byte)(state[(state[x] + state[y]) % StateSize] ^ buffer[i]);
             }

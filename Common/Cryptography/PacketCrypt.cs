@@ -11,19 +11,18 @@ namespace Common.Cryptography
         public byte DigestSize { get; set; } = 20;
         public bool Initialised { get; set; } = false;
 
+        private readonly byte[] SessionKey = new byte[40];
+        private readonly byte[] Key = new byte[4];
 
         private ARC4 ARC4Encrypt;
         private ARC4 ARC4Decrypt;
-        private readonly byte[] SessionKey;
-        private readonly byte[] Key;
         private CryptHandler EncodeHandler;
         private CryptHandler DecodeHandler;
 
         public PacketCrypt(byte[] sessionkey, uint build)
         {
-            SessionKey = sessionkey;
-            Array.Resize(ref SessionKey, 40);
-            Key = new byte[4];
+            sessionkey.CopyTo(SessionKey, 0);
+
             EncodeHandler = EncodeImpl;
             DecodeHandler = DecodeImpl;
 
@@ -43,7 +42,7 @@ namespace Common.Cryptography
         {
             var sessionkey = HMAC.ComputeHash(HMAC_Key, SessionKey);
             Array.Resize(ref sessionkey, 40);
-            Array.Copy(sessionkey, SessionKey, sessionkey.Length);
+            sessionkey.CopyTo(SessionKey, 0);
         }
 
         /// <summary>
@@ -77,7 +76,7 @@ namespace Common.Cryptography
             if (!Initialised || buffer.Length < count)
                 return;
 
-            EncodeHandler.Invoke(buffer, count);
+            EncodeHandler(buffer, count);
         }
 
         public void Decode(byte[] buffer, int count)
@@ -85,7 +84,7 @@ namespace Common.Cryptography
             if (!Initialised || buffer.Length < count)
                 return;
 
-            DecodeHandler.Invoke(buffer, count);
+            DecodeHandler(buffer, count);
         }
 
 
@@ -140,6 +139,17 @@ namespace Common.Cryptography
             if (build < 9614)
                 throw new NotSupportedException();
 
+            // conflicting keys hack fix
+            switch (build)
+            {
+                // Cata 4.3.4 conflicts with MoP 5.0.1
+                case 15499:
+                case 15531:
+                case 15595:
+                    build = 15354; // 4.3.3
+                    break;
+            }
+
             // find the closest previous build
             for (int i = 1; i < builds.Length; i++)
                 if (builds[i] > build)
@@ -156,12 +166,12 @@ namespace Common.Cryptography
         /// <summary>
         /// TBC hardcoded 16 byte Key located at 0x0088FB3C
         /// </summary>
-        private readonly byte[] HMAC_Key = new byte[] { 0x38, 0xA7, 0x83, 0x15, 0xF8, 0x92, 0x25, 0x30, 0x71, 0x98, 0x67, 0xB1, 0x8C, 0x04, 0xE2, 0xAA };
+        private static readonly byte[] HMAC_Key = { 0x38, 0xA7, 0x83, 0x15, 0xF8, 0x92, 0x25, 0x30, 0x71, 0x98, 0x67, 0xB1, 0x8C, 0x04, 0xE2, 0xAA };
 
         /// <summary>
         /// ARC4 Keys per build
         /// </summary>
-        private readonly Dictionary<uint, (byte[] EncoderKey, byte[] DecoderKey)> Keys = new Dictionary<uint, (byte[], byte[])>()
+        private static readonly Dictionary<uint, (byte[] EncoderKey, byte[] DecoderKey)> Keys = new Dictionary<uint, (byte[], byte[])>()
         {
             // 3.0.1
             [09614] = (new byte[] { 0x22, 0xBE, 0xE5, 0xCF, 0xBB, 0x07, 0x64, 0xD9, 0x00, 0x45, 0x1B, 0xD0, 0x24, 0xB8, 0xD5, 0x45 },
@@ -169,6 +179,10 @@ namespace Common.Cryptography
             // 3.3.3
             [11643] = (new byte[] { 0xCC, 0x98, 0xAE, 0x04, 0xE8, 0x97, 0xEA, 0xCA, 0x12, 0xDD, 0xC0, 0x93, 0x42, 0x91, 0x53, 0x57 },
                        new byte[] { 0xC2, 0xB3, 0x72, 0x3C, 0xC6, 0xAE, 0xD9, 0xB5, 0x34, 0x3C, 0x53, 0xEE, 0x2F, 0x43, 0x67, 0xCE }),
+
+            // 5.0.1
+            [15464] = (new byte[] { 0x08, 0xF1, 0x95, 0x9F, 0x47, 0xE5, 0xD2, 0xDB, 0xA1, 0x3D, 0x77, 0x8F, 0x3F, 0x3E, 0xE7, 0x00 },
+                       new byte[] { 0x40, 0xAA, 0xD3, 0x92, 0x26, 0x71, 0x43, 0x47, 0x3A, 0x31, 0x08, 0xA6, 0xE7, 0xDC, 0x98, 0x2A }),
         };
 
         #endregion
