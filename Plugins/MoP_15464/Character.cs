@@ -142,6 +142,7 @@ namespace MoP_15464
             // send language skills so we can type commands
             SetField(Fields.PLAYER_FIELD_SKILL, CharacterData.COMMON_SKILL_ID);
             SetField(Fields.PLAYER_FIELD_SKILL + 1, CharacterData.ORCISH_SKILL_ID);
+            SetField(Fields.PLAYER_FIELD_SKILL + 2, CharacterData.PANDAREN_SKILL_ID);
 
             // misc
             SetField(Fields.PLAYER_FIELD_CHARACTERPOINTS, 0);

@@ -29,6 +29,10 @@ namespace MoP_15464.Handlers
                 FacialHair = packet.ReadByte()
             };
 
+            // HACK neutral panda faction template doesn't work
+            if (cha.Race == (byte)Races.PANDAREN_NEUTRAL)
+                cha.Race = (byte)Races.PANDAREN_ALLI;
+
             var result = manager.Account.Characters.Where(x => x.Build == Sandbox.Instance.Build);
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_CHAR_CREATE], "SMSG_CHAR_CREATE");
 

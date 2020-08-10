@@ -8,6 +8,8 @@ namespace Common.Constants
         public const uint COMMON_SPELL_ID = 668;
         public const uint ORCISH_SKILL_ID = 109;
         public const uint ORCISH_SPELL_ID = 669;
+        public const uint PANDAREN_SKILL_ID = 905;
+        public const uint PANDAREN_SPELL_ID = 108127;
 
         public static readonly Dictionary<Races, uint[]> DisplayIds = new Dictionary<Races, uint[]>()
         {

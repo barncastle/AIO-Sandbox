@@ -58,10 +58,12 @@ namespace MoP_15464.Handlers
             // send language spells so we can type commands
             PacketWriter spells = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_INITIAL_SPELLS], "SMSG_INITIAL_SPELLS");
             spells.WriteUInt8(0);
-            spells.WriteUInt16(2); // spell count
+            spells.WriteUInt16(3); // spell count
             spells.WriteUInt32(CharacterData.COMMON_SPELL_ID);
             spells.WriteUInt16(0);
             spells.WriteUInt32(CharacterData.ORCISH_SPELL_ID);
+            spells.WriteUInt16(0);
+            spells.WriteUInt32(CharacterData.PANDAREN_SPELL_ID);
             spells.WriteUInt16(0);
             spells.WriteUInt16(0); // cooldown count
             manager.Send(spells);
