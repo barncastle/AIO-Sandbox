@@ -46,6 +46,7 @@ namespace MoP_15464
               { global::Opcodes.SMSG_FORCE_FLIGHT_SPEED_CHANGE , 0x9670 },
               { global::Opcodes.SMSG_MOVE_UNSET_CAN_FLY, 0x5626 },
               { global::Opcodes.SMSG_FORCE_SPEED_CHANGE, 0x9642 },
+              { global::Opcodes.MSG_MOVE_WORLDPORT_ACK, 0xD20A },
 
               { global::Opcodes.CMSG_LOGOUT_REQUEST, 0x1424 },
               { global::Opcodes.SMSG_LOGOUT_COMPLETE, 0xD270 },
@@ -81,8 +82,6 @@ namespace MoP_15464
               { global::Opcodes.MSG_MOVE_ROOT, 0x501C },
               { global::Opcodes.MSG_MOVE_UNROOT, 0x9644 },
               { global::Opcodes.MSG_MOVE_HEARTBEAT, 0x8672 },
-              { global::Opcodes.MSG_MOVE_WORLDPORT_ACK, 0xD20A },
-              { global::Opcodes.MSG_MOVE_TELEPORT_ACK, 0xD65A },
         };
 
         public uint this[global::Opcodes opcode] => opcodes[opcode];
