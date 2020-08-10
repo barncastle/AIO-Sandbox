@@ -100,7 +100,7 @@
 4055,3005.87,-3435.01,293.882,0,533,Naxxramas,0
 4156,3498.28,-5349.9,144.968,1.31324,533,Naxxramas Entrance,0
 4297,-360.671,3071.9,-15.0977,5.14274,530,Hellfire Ramparts Exit,2
-4304,-233.33,3199.71,-50,0.785398,530,Hellfire Ramparts - Omor Exit Target,2
+4304,-233.33,3199.71,-50,0.785398,530,Hellfire Ramparts - Omor Exit,2
 4311,4954,-1886.2,1326,0.13,534,Battle Of Mount Hyjal - Alliance Base Entrance,2
 4312,5497.33,-2971.14,1537.63,2.832,534,Battle Of Mount Hyjal - Horde Base Entrance,2
 4313,5152.33,-3364.4,1644.74,6.2,534,Battle Of Mount Hyjal - Night Elf Base Entrance,2
@@ -186,7 +186,7 @@
 5136,2435.77,-5610.34,366.82,0.610865,0,Ebon Hold  Middle - Bottom Target,3
 5137,2472.9,-5530.64,420.643,4.45059,0,Ebon Hold  Bottom - Middle Target,3
 5138,2415.16,-5733.04,153.922,3.64774,0,Ebon Hold  Bottom - Ground Target,3
-5148,-8756.6,-4457.02,-200.481,1.39626,1,Culling of Stratholme Stratholme - Exit Target,3
+5148,-8756.6,-4457.02,-200.481,1.39626,1,Culling of Stratholme Stratholme - Exit,3
 5150,1431.1,556.92,36.69,5.16,595,Culling of Stratholme Entrance,3
 5181,-8756.87,-4459.29,-200.73,1.32,1,Culling of Stratholme Exit,3
 5191,3005.68,-3447.77,293.93,4.65,533,Naxxramas Entrance1,3
@@ -234,3 +234,187 @@
 5740,5354.01,2053.53,707.695,0.785398,668,Halls of Reflection The Impenetrable Door,3
 5869,3274,533.531,87.665,3.16,724,The Ruby Sanctum Entrance,3
 5872,3604.23,192.083,-110.821,2.195,571,The Ruby Sanctum Exit,3
+45,1124.64,512.467,0.989549,1.5708,1004,Scarlet Monastery Entrance,4
+78,-14.5732,-385.475,62.4561,1.5708,36,Deadmines Entrance,4
+101,48.9849,0.483882,-16.3942,6.28319,34,Stormwind Jail Entrance,4
+109,-8661.57,616.574,86.1877,5.49779,0,Stormwind High Prison Exit,4
+119,-11208,1676.41,24.5716,4.71239,0,Deadmines Exit Front Target,4
+121,-11341,1576.55,93.7284,3.03687,0,Deadmines Rear Exit,4
+145,-228.191,2111.41,76.8904,1.22173,33,Shadowfang Entrance,4
+194,-232.594,1567.67,76.8845,4.36332,0,Shadowfang Bridge Exit,4
+226,-738.462,-2217.8,16.919,6.02139,1,Wailing Caverns Exit,4
+228,-158.441,131.601,-74.2552,5.84685,43,Wailing Cavern Entrance,4
+242,-4462,-1663.06,81.8912,3.92699,1,Razorfen Exit,4
+244,1942.27,1544.23,83.3055,1.309,47,Razorfen Entrance,4
+257,-150.234,106.594,-39.779,4.45059,48,Blackfathom Entrance,4
+259,4248.14,745.047,-24.4963,4.36332,1,Blackfathom Exit,4
+286,-228.859,46.1018,-46.0186,1.5708,70,Uldaman Entrance,4
+288,-6066.36,-2954.85,209.772,3.1765,0,Uldaman Exit,4
+322,-5145.15,897.054,287.396,5.41052,0,Gnomeregan Exit,4
+324,-329.484,-3.22991,-152.846,2.96706,90,Gnomeregan Entrance,4
+442,2593.68,1111.23,50.9518,4.71239,129,Razorfen Downs Entrance,4
+444,-4659.44,-2527.94,81.6564,1.0472,1,Razorfen Downs Exit,4
+446,-328.474,95.3291,-91.0008,3.14159,109,Sunken Temple Entrance,4
+448,-10291.1,-3984.65,-70.4401,1.29154,0,Sunken Temple Exit,4
+503,-8766.11,845.499,87.9952,3.83972,0,Stormwind Low Prison Exit,4
+523,-733.636,1.86838,-249.09,3.14159,90,Gnomeregan Entrance 02 Target,4
+525,-4915.38,811.773,268.77,4.71239,0,Gnomeregan Exit 02 Target,4
+527,8380.56,998.536,29.1294,3.40339,1,Darnassus Exit,4
+542,9946.25,2612.97,1316.49,4.71239,1,Darnassus Entrance,4
+602,2915.34,-801.58,160.333,3.49066,0,Scarlet Monastery Exit 01,4
+604,2915.13,-823.637,160.327,3.49066,0,Scarlet Monastery Exit 02,4
+606,2885.96,-835.802,160.327,0.349066,0,Scarlet Monastery Exit 03,4
+608,2869.32,-820.818,160.333,0.349066,0,Scarlet Monastery Exit 04,4
+610,853.179,1319.18,18.6714,1.5708,189,Scarlet Monastery Entrance 02,4
+612,1608.1,-318.919,18.6714,4.71239,189,Scarlet Monastery Entrance 03,4
+614,820.743,607.812,13.6389,0,1001,Scarlet Halls Entrance,4
+702,-9014.94,873.326,148.616,5.23599,0,Stormwind - Mage Exit,4
+704,-9016.97,885.436,29.6207,5.41052,0,Stormwind - Mage Entrance,4
+882,-6619.97,-3765.74,266.309,3.40339,0,Uldaman Exit Rear,4
+902,-212.95,382.427,-38.7486,1.39626,70,Uldaman Entrance Rear,4
+922,-6795.56,-2890.72,8.88742,3.14159,1,Zul'Farrak Exit,4
+924,1212.67,842.04,8.93346,6.28319,209,Zul'Farrak Entrance,4
+943,-5191.27,-2802.59,-7.21111,5.67232,1,Thousand Needles - Test of Faith Target,4
+1064,-4750.38,-3754.44,49.0485,0.785398,1,Onyxia's Lair Exit,4
+1466,456.929,34.0923,-68.0896,4.71239,230,Blackrock Depths Entrance,4
+1468,78.3534,-226.841,49.7662,4.71239,229,Blackrock Spire Entrance,4
+1470,-7524.65,-1229.13,285.731,2.0944,0,Blackrock Spire Exit,4
+1472,-7178.41,-922.152,166.092,2.00713,0,Blackrock Depths Exit,4
+2166,-4839.51,-1317.74,501.868,1.48353,0,Ironforge - Tram Exit 001,4
+2171,-8359.27,517.585,84.4087,2.35619,0,Stormwind - Tram Exit 001,4
+2173,67.7607,2490.98,-4.29649,3.14159,369,Stormwind - Tram Entrance 001,4
+2175,69.2277,10.3932,-4.29665,3.14159,369,Ironforge - Tram Entrance 001,4
+2214,3590.87,-3643.22,138.491,5.49779,329,Stratholme - Back Entrance 001,4
+2216,3393.27,-3392,143.151,1.5708,329,Stratholme - Front Right Entrance 001,4
+2217,3393,-3366.9,142.836,4.71239,329,Stratholme - Front Left Entrance 001,4
+2221,3233.06,-4048.3,108.442,2.00713,0,Stratholme - Back Exit 001,4
+2226,1813.15,-4415.75,-18.2856,2.00713,1,OrgrimmarInstance Exit 001,4
+2230,0.797643,-8.23429,-15.5288,4.71239,389,OrgrimmarInstance Entrance 001,4
+2406,-276.241,1652.68,77.5589,3.14159,0,Shadowfang - South Fall Target,4
+2407,-276.241,1652.68,77.5589,3.14159,0,Shadowfang - South Fall Target,4
+2408,-225.34,1556.53,93.0454,4.71239,0,Shadowfang Front Fall Exit,4
+2409,-225.34,1556.53,93.0454,4.71239,0,Shadowfang Front Fall Exit,4
+2410,-181.26,1580.65,97.4466,6.28319,0,Shadowfang - North Fall Target,4
+2411,-181.26,1580.65,97.4466,6.28319,0,Shadowfang - North Fall Target,4
+2530,1637.91,-4240.25,56.1744,3.92699,1,Orgrimmar - Barracks Exit 001,4
+2534,-8762.82,402.434,103.901,5.49779,0,Stormwind - Barracks Exit 001,4
+2547,1399.42,-2574.59,107.786,6.28319,0,Scholomance - Exit Porch Target 001,4
+2548,1399.42,-2574.59,107.786,6.28319,0,Scholomance - Exit Porch Target 001,4
+2549,1399.42,-2574.59,107.786,6.28319,0,Scholomance - Exit Porch Target 001,4
+2567,199.876,125.346,138.43,4.67748,1007,Scholomance Entrance,4
+2568,1273.91,-2553.09,91.8393,3.57792,0,Scholomance - Stairs Exit 001,4
+2606,536.495,-1085.72,106.27,3.66519,0,Alterac Valley - Horde Exit,4
+2608,101.144,-184.934,127.344,4.88692,0,Alterac Valley - Alliance Exit,4
+2848,30.8916,-54.079,-5.02784,4.71239,249,Onyxia's Lair Entrance,4
+2886,1091.89,-466.985,-105.084,3.14159,409,Molten Core Entrance,4
+2890,-7508.32,-1039.74,180.912,3.83972,0,Molten Core Exit,4
+3126,-1183.87,2876.53,85.8458,1.65806,1,Maraudon - Purple Exit,4
+3131,-1471.77,2616.09,76.301,6.10865,1,Maraudon - Orange Exit,4
+3133,1016.83,-458.52,-43.4737,6.28319,349,Maraudon - Orange Entrance,4
+3134,755.078,-617.696,-32.9222,1.5708,349,Maraudon - Purple Entrance,4
+3183,47.4501,-153.665,-2.71439,5.49779,429,Dire Maul - East Entrance 01,4
+3184,-203.166,-322.997,-2.72467,4.71239,429,Dire Maul - East Entrance 02,4
+3185,10.5786,-836.991,-32.3988,6.28319,429,Dire Maul - East Entrance 03,4
+3186,-65.6559,159.561,-3.4647,2.35619,429,Dire Maul - West Entrance 01,4
+3187,33.1083,158.977,-3.47126,0.785398,429,Dire Maul - West Entrance 02,4
+3189,254.92,-19.463,-2.5596,5.49779,429,Dire Maul - North Entrance 02,4
+3190,-3812.76,1250.33,160.273,6.28319,1,Dire Maul - West Exit 01,4
+3191,-3766.57,1249.48,160.273,3.14159,1,Dire Maul - West Exit 02,4
+3193,-3520.07,1100.1,161.027,1.5708,1,Dire Maul - North Exit 02,4
+3194,-3768.78,935.179,161.027,3.14159,1,Dire Maul - East Exit 01,4
+3195,-3980.81,801.198,161.012,1.5708,1,Dire Maul - East Exit 02,4
+3196,-4031.25,129.345,26.4744,2.70526,1,Dire Maul - East Exit 03,4
+3197,-3585.84,847.367,138.641,2.35619,1,Dire Maul - East Exit 04,4
+3528,1091.89,-466.985,-105.084,3.14159,409,Molten Core Entrance,4
+3529,1091.89,-466.985,-105.084,3.14159,409,Molten Core Entrance,4
+3726,-7672.32,-1107.05,396.651,0.785398,469,Blackwing Lair Entrance,4
+3728,-7524.65,-1229.13,285.731,2.0944,0,Blackrock Spire Exit,4
+3948,-1215.59,-2531.75,21.6734,3.1765,0,Arathi Highlands - Arathi Basin Exit - Alliance,4
+3949,-831.881,-3518.52,72.4831,3.36849,0,Arathi Highlands - Arathi Basin Exit - Horde,4
+4006,-8415.7,1502.44,30.6862,5.49779,1,Ahn'Qiraj Ruins - Outbound Teleport Target,4
+4008,-8436.53,1519.17,31.907,2.61799,509,Ahn'Qiraj Ruins - Inbound Teleport Target,4
+4010,-8221.35,2014.34,129.071,0.872665,531,Ahn'Qiraj Temple - Inbound Teleport Target,4
+4012,-8239.01,1993.25,129.071,4.01426,1,Ahn'Qiraj Temple - Outbound Target,4
+4131,-11102,-1998.2,49.8921,6.28319,532,Karazhan - Front Entrance,4
+4135,-11041.8,-1995.14,96.2004,2.18166,532,Karazhan - Upper Entrance,4
+4145,-310.515,3084.06,-3.7682,4.71239,530,Hellfire Military Exit,4
+4147,-302.408,3162.92,31.7273,5.32325,530,Hellfire Demon Exit,4
+4149,-312.27,3086.53,-116.53,2.02458,530,Hellfire Raid Exit,4
+4150,-1355.28,1641.57,68.274,1.0472,543,Hellfire Ramparts Entrance,4
+4151,-40.7388,-19.2881,-13.8417,1.13446,540,Hellfire Military Entrance,4
+4152,-2.73782,19.8424,-44.7973,4.36332,542,Hellfire Demon Entrance,4
+4153,188.452,36.776,67.931,4.71239,544,Hellfire Raid Entrance,4
+4233,9331.49,-7812.27,136.569,5.23599,530,Eversong Woods - Duskwither UP Target,4
+4267,9334.03,-7880.02,74.9095,2.35619,530,Eversong Woods - Duskwither DOWN Target,4
+5879,5036.41,-2045.99,1368.39,5.2961,1,Firelands Forgeworks Exit,4
+5880,5029.45,-2029.36,1148.97,0.214575,1,Firelands Forgeworks Enterance,4
+5893,3948.62,-2818.22,618.747,0,1,Hyjal - Teleport from Seat of the Prophets,4
+5895,4316.05,-3282.51,1035.53,0,1,Hyjal - Teleport From Sulfuron Spire,4
+5926,1172.59,1094.79,119.232,1.5708,659,The Lost Isles - Volcanoth's Lair - Teleport Target - Phase 8+,4
+5931,4679.1,-3675.53,696.452,1.3644,1,The Crucible of Flame Enterance,4
+5937,4653.99,-3688.44,955.265,2.38149,1,The Crucible of Flame Exit,4
+6011,-7571.14,-1324.96,245.538,1.67552,0,Blackrock Caverns Exit in Eastern Kingdoms,4
+6073,-5592.83,5408.36,-1798.57,2.44346,0,Vashj'ir - Throne of Tides Exit,4
+6108,209.903,1133.02,205.569,4.67748,645,Blackrock Caverns Entrance,4
+6177,-4058.4,-3450.03,281.387,3.40339,0,Grim Batol Dungeon Exit,4
+6179,-624.155,-189.365,272.04,4.954,670,Grim Batol Dungeon Entrance,4
+6194,1023.72,644.747,156.672,1.74533,646,Deepholm - Stonecore Exit,4
+6196,851.052,986.474,317.266,0,725,Stonecore Entrance,4
+6197,-5592.83,5408.36,-1798.57,2.44346,0,Vashj'ir - Throne of Tides Exit,4
+6201,-601.151,809.526,244.809,0,643,Throne of Tides Entrance,4
+6210,3392.41,-3406.85,142.246,4.71239,0,Stratholme - Front Right Exit,4
+6211,3393.17,-3352.15,142.246,1.5708,0,Stratholme - Front Left Exit,4
+6321,-6547.88,-4443.24,332.079,0.663225,0,Badlands - Cliff Teleport Target,4
+6322,-6519.82,-4608.52,28.4842,4.36332,0,Badlands - Dock Teleport Target,4
+6341,-4892.19,-4235.68,827.759,5.23599,0,Twilight Bastion Exit,4
+6354,-561.351,-531.174,890.593,0,671,Twilight Bastion Entrance,4
+6485,-954.106,462.408,51.9705,1.5708,644,Halls of Origination Entrance,4
+6487,-10210.5,-1837.61,20.1278,0,1,Halls of Origination Exit,4
+6488,-10679.7,-1307.1,17.3427,0.349066,1,Lost City of the Tol'vir Exit,4
+6580,-7538.8,-1196.29,477.76,5.06145,0,Blackwing Descent Exit in Eastern Kingdoms,4
+6581,-345.872,-224.344,193.127,0,669,Blackwing Descent Entrance,4
+6610,-11513.3,-2309.88,608.393,0.628319,1,The Vortex Pinnacle Exit in Kalimdor,4
+6612,-337.627,15.3073,626.979,3.89208,657,The Vortex Pinnacle Entrance,4
+6618,-1268.03,1049.9,106.995,0,732,Baradin Hold Exit,4
+6620,-10700.4,-1312.69,17.6029,3.45575,755,Lost City of Tol'vir Entrance,4
+6664,158.236,1337.12,170.192,0,757,Baradin Hold Entrance,4
+6672,-305.42,816.58,199.489,0,754,Skywall Raid Entrance,4
+6673,-11351.5,48.4549,723.883,5.16617,1,Uldum - Skywall Raid Exit,4
+6769,-11916.2,-1209.47,92.2873,1.5708,0,Zul'Gurub Exit,4
+6775,-11916,-1253.71,92.2921,4.71239,859,Zul'Gurub Entrance,4
+6864,-547.313,318.42,115.473,5.91667,720,Firelands Entrance,4
+6866,3994.61,-2959.75,1002.55,5.18363,1,Firelands Exit,4
+7151,3238.55,-4998.39,194.093,2.35619,939,CoT - Well of Eternity Entrance,4
+7152,3726.54,-400.181,110.834,1.85005,938,CoT - End Time Entrance,4
+7154,4927.03,315.03,100.157,4.71239,940,CoT - Hour of Twilight Entrance,4
+7155,-2298.73,-2392.64,87.4725,6.26573,967,CoT - Dragon Soul Entrance,4
+7161,-8599.41,-4015.61,-205.547,4.59022,1,CoT - Well of Eternity Exit In Kalimdor,4
+7162,-8304.37,-4461.43,-208.077,3.59538,1,CoT - End Time Exit In Kalimdor,4
+7163,-8291.52,-4561.34,-223.312,1.48353,1,CoT - Hour of Twilight Exit In Kalimdor,4
+7164,-8280.75,-4521.05,-219.09,3.63028,1,CoT - Dragon Soul Exit In Kalimdor,4
+7539,1273.91,-2553.09,90.6353,3.57792,0,Scholomance Exit,5
+7687,957.884,-2474.01,180.505,1.29244,870,Temple of the Jade Serpent Exit,5
+7694,3657.29,2551.92,766.966,0.436332,959,Shado-Pan Monastery - Entrance,5
+7699,3631.29,2538.41,769.912,3.61283,870,Shado-Pan Monastery Exit,5
+7705,-732.115,1266.13,116.108,1.81208,961,Stormstout Brewery - Entrance,5
+7725,692.365,2080.17,374.694,3.18706,870,Gate of the Setting Sun Exit,5
+7726,722.097,2108.08,402.978,1.59264,962,Gate of the Setting Sun - Entrance,5
+7755,-713.356,1263.42,136.223,0.268626,870,Stormstout Brewery Exit,5
+7801,2869.32,-820.818,160.333,0.349066,0,Scarlet Halls Exit,5
+7802,2915.34,-801.58,160.333,3.49066,0,Scarlet Monastery Exit,5
+7838,3861.55,1045.11,490.17,0,1008,Mogu'shan Vaults Entrance,5
+7839,3982.09,1111.19,497.31,0,870,Mogu'shan Vaults Exit,5
+7854,953.37,-2487.5,180.431,4.36908,960,Temple of the Jade Serpent - Entrance,5
+8027,-1020.99,-3145.79,28.3346,0,996,Terrace of Endless Spring Entrance,5
+8028,955.523,-55.8068,512.152,0,870,Terrace of Endless Spring Exit,5
+8134,-3969.67,-2542.71,26.7537,4.71239,994,Mogushan Palace - Entrance,5
+8135,1391.83,437.694,478.941,2.31752,870,Mogushan Palace Exit,5
+8310,692.365,2080.17,374.694,3.18706,870,Gate of the Setting Sun Exit,5
+8312,1433.27,5085.39,133.807,3.57792,870,Siege of Niuzao Temple Exit,5
+8313,168.066,4053.84,256.013,0,870,Heart of Fear Exit,5
+8314,-2378.92,459.879,422.441,0,1009,Heart of Fear Entrance,5
+8315,1455.33,5100.01,149.415,0.959931,1011,Siege of Niuzao Temple - Entrance,5
+8881,7241.18,5038.31,76.22,2.339,1064,Throne Of Thunder Exit,5
+8882,5892.45,6610.35,106.108,4.5203,1098,Throne Of Thunder - Entrance,5
+9244,1238.59,605.595,317.472,0,870,Siege of Orgrimmar Exit,5
+9245,1440.89,263.047,283.558,1.63,1136,Siege of Orgrimmar Entrance,5
