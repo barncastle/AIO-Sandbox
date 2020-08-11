@@ -11,7 +11,6 @@ namespace Common.Network
 
         public BitPacker(IPacketWriter packetWriter) => _packetWriter = packetWriter;
 
-
         public void Write<T>(T bit)
         {
             --Position;
@@ -36,6 +35,11 @@ namespace Common.Network
             }
         }
 
+        public void WriteMask(ulong guid, params int[] offsets)
+        {
+            for (var i = 0; i < offsets.Length; i++)
+                Write((guid >> (offsets[i] * 8)) & 0xFF);
+        }
 
         public void Flush()
         {

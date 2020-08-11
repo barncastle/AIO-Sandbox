@@ -28,8 +28,6 @@ namespace MoP_15464
             writer.WritePackedGUID(Guid);
             writer.WriteUInt8(4); // ObjectType, 4 = Player
 
-            byte[] guidBytes = BitConverter.GetBytes(Guid);
-
             packer.Write(0); // ?
             packer.Write(0); // ?
             packer.Write(1); // UPDATEFLAG_SELF
@@ -56,21 +54,18 @@ namespace MoP_15464
             // UPDATEFLAG_LIVING
             packer.Write(0); // isTransport
             packer.Write(1); // !(has pitch)
-            packer.Write(guidBytes[5]);
-            packer.Write(guidBytes[3]);
+            packer.WriteMask(Guid, 5, 3);
             packer.Write(1); // !(is missing time)
             packer.Write(0); // MOVEMENTFLAG2_INTERPOLATED_TURNING
             packer.Write(0); // false
-            packer.Write(guidBytes[2]);
+            packer.WriteMask(Guid, 2);
             packer.Write(1); // !MOVEFLAG_SPLINE_ELEVATION
             packer.Write(0); // false
-            packer.Write(guidBytes[1]);
+            packer.WriteMask(Guid, 1);
             packer.Write(1); // !MOVEMENT_FLAGS_2
-            packer.Write(guidBytes[4]);
+            packer.WriteMask(Guid, 4);
             packer.Write(0); // Has spline data
-            packer.Write(guidBytes[6]);
-            packer.Write(guidBytes[0]);
-            packer.Write(guidBytes[7]);
+            packer.WriteMask(Guid, 6, 0, 7);
             packer.Write(1); // !MOVEMENT_FLAGS
             packer.Write(0); // !Rotation
             packer.Flush();
@@ -109,7 +104,7 @@ namespace MoP_15464
             SetField(Fields.OBJECT_FIELD_SCALE, Scale);
             SetField(Fields.UNIT_FIELD_TARGET, (ulong)0);
             SetField(Fields.UNIT_FIELD_BASEHEALTH, Health);
-            SetField(Fields.UNIT_FIELD_HEALTH, Health);    
+            SetField(Fields.UNIT_FIELD_HEALTH, Health);
             SetField(Fields.UNIT_FIELD_MAXHEALTH, Health);
             SetField(Fields.UNIT_FIELD_LEVEL, Level);
             SetField(Fields.UNIT_FIELD_FACTIONTEMPLATE, this.GetFactionTemplate());
@@ -181,15 +176,25 @@ namespace MoP_15464
             if (!mapchange)
             {
                 PacketWriter movementStatus = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.MSG_MOVE_TELEPORT_ACK], "MSG_MOVE_TELEPORT_ACK");
-                movementStatus.WritePackedGUID(Guid);
-                movementStatus.WriteUInt64(0);
-                movementStatus.WriteUInt16(0);
-                movementStatus.WriteUInt32(0);
-                movementStatus.WriteFloat(x);
-                movementStatus.WriteFloat(y);
-                movementStatus.WriteFloat(z);
+                BitPacker bitPacker = new BitPacker(movementStatus);
+                bitPacker.WriteMask(Guid, 4, 5, 3, 6);
+                bitPacker.Write(0); // byte28
+                bitPacker.Write(0); // byte38
+                bitPacker.WriteMask(Guid, 1, 2, 0, 7);
+                bitPacker.Flush();
+                movementStatus.WriteGUIDByte(Guid, 6);
                 movementStatus.WriteFloat(o);
-                movementStatus.WriteFloat(0);
+                movementStatus.WriteGUIDByte(Guid, 3);
+                movementStatus.WriteFloat(y);
+                movementStatus.WriteGUIDByte(Guid, 4);
+                movementStatus.WriteFloat(z);
+                movementStatus.WriteGUIDByte(Guid, 1);
+                movementStatus.WriteGUIDByte(Guid, 5);
+                movementStatus.WriteGUIDByte(Guid, 7);
+                movementStatus.WriteGUIDByte(Guid, 0);
+                movementStatus.WriteFloat(x);
+                movementStatus.WriteUInt32(map);
+
                 manager.Send(movementStatus);
             }
             else
@@ -233,26 +238,61 @@ namespace MoP_15464
 
         public override IPacketWriter BuildForceSpeed(float modifier, SpeedType type = SpeedType.Run)
         {
-            global::Opcodes opcode;
+            PacketWriter writer;
+            BitPacker bitPacker;
             switch (type)
             {
                 case SpeedType.Fly:
-                    opcode = global::Opcodes.SMSG_FORCE_FLIGHT_SPEED_CHANGE;
+                    writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_FORCE_FLIGHT_SPEED_CHANGE], "SMSG_FORCE_FLIGHT_SPEED_CHANGE");
+                    bitPacker = new BitPacker(writer);
+                    writer.WriteFloat(modifier * 7f);
+                    writer.WriteInt32(0);
+                    bitPacker.WriteMask(Guid, 5, 0, 2, 1, 4, 3, 6, 7);
+                    bitPacker.Flush();
+                    writer.WriteGUIDByte(Guid, 2);
+                    writer.WriteGUIDByte(Guid, 7);
+                    writer.WriteGUIDByte(Guid, 6);
+                    writer.WriteGUIDByte(Guid, 3);
+                    writer.WriteGUIDByte(Guid, 0);
+                    writer.WriteGUIDByte(Guid, 5);
+                    writer.WriteGUIDByte(Guid, 1);
+                    writer.WriteGUIDByte(Guid, 4);
                     break;
                 case SpeedType.Swim:
-                    opcode = global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE;
+                    writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE], "SMSG_FORCE_SWIM_SPEED_CHANGE");
+                    bitPacker = new BitPacker(writer);
+                    bitPacker.WriteMask(Guid, 3, 7, 0, 1, 4, 2, 6, 5);
+                    bitPacker.Flush();
+                    writer.WriteGUIDByte(Guid, 4);
+                    writer.WriteGUIDByte(Guid, 7);
+                    writer.WriteGUIDByte(Guid, 2);
+                    writer.WriteGUIDByte(Guid, 0);
+                    writer.WriteGUIDByte(Guid, 1);
+                    writer.WriteFloat(modifier * 7f);
+                    writer.WriteInt32(0);
+                    writer.WriteGUIDByte(Guid, 3);
+                    writer.WriteGUIDByte(Guid, 5);
+                    writer.WriteGUIDByte(Guid, 6);
                     break;
                 default:
-                    opcode = global::Opcodes.SMSG_FORCE_SPEED_CHANGE;
+                    writer = new PacketWriter(Sandbox.Instance.Opcodes[global::Opcodes.SMSG_FORCE_SPEED_CHANGE], "SMSG_FORCE_SPEED_CHANGE");
+                    bitPacker = new BitPacker(writer);
+                    writer.WriteInt32(0);
+                    writer.WriteFloat(modifier * 7f);
+                    bitPacker.WriteMask(Guid, 6, 5, 3, 7, 4, 1, 0, 2);
+                    bitPacker.Flush();
+                    writer.WriteGUIDByte(Guid, 4);
+                    writer.WriteGUIDByte(Guid, 6);
+                    writer.WriteGUIDByte(Guid, 5);
+                    writer.WriteGUIDByte(Guid, 0);
+                    writer.WriteGUIDByte(Guid, 1);
+                    writer.WriteGUIDByte(Guid, 7);
+                    writer.WriteGUIDByte(Guid, 3);
+                    writer.WriteGUIDByte(Guid, 2);
                     break;
             }
 
-            PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
-            writer.WritePackedGUID(Guid);
-            writer.Write(0);
-            if (type == SpeedType.Run)
-                writer.WriteUInt8(0);
-            return this.BuildForceSpeed(writer, modifier);
+            return writer;
         }
 
         public override IPacketWriter BuildFly(bool mode)
@@ -261,8 +301,37 @@ namespace MoP_15464
 
             var opcode = mode ? global::Opcodes.SMSG_MOVE_SET_CAN_FLY : global::Opcodes.SMSG_MOVE_UNSET_CAN_FLY;
             PacketWriter writer = new PacketWriter(Sandbox.Instance.Opcodes[opcode], opcode.ToString());
-            writer.WritePackedGUID(Guid);
-            writer.Write(2);
+            BitPacker bitPacker = new BitPacker(writer);
+
+            if (mode)
+            {
+                writer.WriteInt32(2);
+                bitPacker.WriteMask(Guid, 3, 1, 2, 5, 6, 7, 0, 4);
+                bitPacker.Flush();
+                writer.WriteGUIDByte(Guid, 5);
+                writer.WriteGUIDByte(Guid, 0);
+                writer.WriteGUIDByte(Guid, 1);
+                writer.WriteGUIDByte(Guid, 2);
+                writer.WriteGUIDByte(Guid, 6);
+                writer.WriteGUIDByte(Guid, 7);
+                writer.WriteGUIDByte(Guid, 4);
+                writer.WriteGUIDByte(Guid, 3);
+            }
+            else
+            {
+                bitPacker.WriteMask(Guid, 6, 5, 3, 4, 0, 2, 7, 1);
+                bitPacker.Flush();
+                writer.WriteGUIDByte(Guid, 7);
+                writer.WriteGUIDByte(Guid, 4);
+                writer.WriteGUIDByte(Guid, 6);
+                writer.WriteGUIDByte(Guid, 0);
+                writer.WriteInt32(2);
+                writer.WriteGUIDByte(Guid, 1);
+                writer.WriteGUIDByte(Guid, 2);
+                writer.WriteGUIDByte(Guid, 5);
+                writer.WriteGUIDByte(Guid, 3);
+            }
+
             return writer;
         }
 

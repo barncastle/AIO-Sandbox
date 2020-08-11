@@ -39,19 +39,18 @@ namespace MoP_15464
               { global::Opcodes.SMSG_TIME_SYNC_REQ, 0x9A7 },
               { global::Opcodes.SMSG_UPDATE_ACCOUNT_DATA, 0x0172 },
               { global::Opcodes.SMSG_NAME_QUERY_RESPONSE, 0x9D9 },
+              { global::Opcodes.SMSG_MOVE_SET_CAN_FLY, 0x128 },
+              { global::Opcodes.SMSG_MOVE_UNSET_CAN_FLY, 0x18A },
+              { global::Opcodes.SMSG_FORCE_SPEED_CHANGE, 0x396 },
+              { global::Opcodes.SMSG_FORCE_FLIGHT_SPEED_CHANGE , 0xAF },
+              { global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE, 0x91B },
+              { global::Opcodes.MSG_MOVE_TELEPORT_ACK, 0x907 },
               // -->
 
               // TODO!
-              { global::Opcodes.SMSG_MOVE_SET_CAN_FLY, 0x38C },
-              { global::Opcodes.SMSG_FORCE_FLIGHT_SPEED_CHANGE , 0x9670 },
-              { global::Opcodes.SMSG_MOVE_UNSET_CAN_FLY, 0x5626 },
-              { global::Opcodes.SMSG_FORCE_SPEED_CHANGE, 0x9642 },
-              { global::Opcodes.MSG_MOVE_WORLDPORT_ACK, 0xD20A },
-              { global::Opcodes.MSG_MOVE_TELEPORT_ACK, 0xD65A },
-
+              { global::Opcodes.MSG_MOVE_WORLDPORT_ACK, 0xD20A },             
               { global::Opcodes.CMSG_LOGOUT_REQUEST, 0x1424 },
-              { global::Opcodes.SMSG_LOGOUT_COMPLETE, 0xD270 },
-              { global::Opcodes.SMSG_FORCE_SWIM_SPEED_CHANGE, 0x106C },
+              { global::Opcodes.SMSG_LOGOUT_COMPLETE, 0xD270 },              
               { global::Opcodes.CMSG_STANDSTATECHANGE, 0x448 },
               { global::Opcodes.CMSG_AREATRIGGER, 0xFFFF },
               { global::Opcodes.CMSG_ZONEUPDATE, 0x9FE7 },
