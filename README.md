@@ -9,6 +9,7 @@ Clients and Patches can be found at the following links:
 - [www.ownedcore.com](http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-model-editing/406638-collection-exploration-patches-of-various-locations.html)
 - [www.getmangos.eu](https://www.getmangos.eu/downloads/category/7-world-of-warcraft-patches/)
 - [www.patches-scrolls.de](https://www.patches-scrolls.de/patch/4875/7/)
+- [MFIL Downloader](https://github.com/barncastle/MFIL-Downloader) (Cata+)
 
 
 | Build                                  | Status            |
