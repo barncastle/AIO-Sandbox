@@ -1,18 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B736A574-F0AD-43D2-BF24-A54EDC0BCD6B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WorldServer</RootNamespace>
+    <OutputPath>..\bin\$(Configuration)_$(Platform)\</OutputPath>
+    <TargetFramework>net5.0</TargetFramework>
+
     <AssemblyName>AIO Sandbox</AssemblyName>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <FileAlignment>512</FileAlignment>
-    <OutputPath>..\bin\$(Configuration)_$(Platform)</OutputPath>
+    <RootNamespace>WorldServer</RootNamespace>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -22,6 +18,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -30,27 +27,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>favicon.ico</ApplicationIcon>
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{63268176-7ff9-4b3e-aaad-cc7c329f924a}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="favicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="settings.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+
 </Project>
