@@ -2,7 +2,7 @@
 
 This project is an attempt to make a plugin based "All In One" sandbox server supports all pre-Cata builds of WoW with an emphasis on exploration.
 
-You'll need [.Net Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2) to run this. This project was built with Visual Studio 2017.
+You'll need [.Net Core 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) to run this. This project was built with Visual Studio 2019.
 
 ##### Builds: #####
 Clients and Patches can be found at the following links:
