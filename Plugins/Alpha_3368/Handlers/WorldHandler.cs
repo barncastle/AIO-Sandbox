@@ -48,11 +48,7 @@ namespace Alpha_3368.Handlers
             uint id = packet.ReadUInt32();
             if (AreaTriggers.Triggers.ContainsKey(id))
             {
-                // HACK - Scarlet Monastery
-                Location loc = AreaTriggers.Triggers[id];
-                if (id == 45)
-                    loc = new Location(77f, -1f, 20f, 0, 44);
-
+                var loc = AreaTriggers.Triggers[id];
                 manager.Account.ActiveCharacter.Teleport(loc, ref manager);
             }
             else

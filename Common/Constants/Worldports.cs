@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Common.Extensions;
+using Common.Interfaces;
 using Common.Structs;
 
 namespace Common.Constants
@@ -14,7 +15,10 @@ namespace Common.Constants
         static Worldports()
         {
             Locations = new List<Location>();
+        }
 
+        public static void Initialize(ISandbox sandbox)
+        {
             var properties = typeof(Location).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var resource = Properties.Resources.Worldports;
             var entries = resource.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -28,7 +32,8 @@ namespace Common.Constants
                 for (j = 0; j < properties.Length; j++)
                     properties[j].SetValueEx(location, data[j]);
 
-                Locations.Add(location);
+                if (location.Expansion <= sandbox.Expansion)
+                    Locations.Add(location);
             }
         }
 

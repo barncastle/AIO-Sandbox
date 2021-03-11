@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Configuration;
+using Common.Constants;
 using Common.Cryptography;
 using Common.Logging;
 using WorldServer.Network;
@@ -46,6 +46,8 @@ namespace WorldServer
                 Log.Message();
 
                 HandlerDefinitions.InitializePacketHandler();
+                AreaTriggers.Initialize(Sandbox);
+                Worldports.Initialize(Sandbox);
             }
             else
             {

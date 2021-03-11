@@ -75,15 +75,6 @@ namespace Alpha_3494.Handlers
             if (AreaTriggers.Triggers.ContainsKey(id))
             {
                 var loc = AreaTriggers.Triggers[id];
-
-                // Hacky override
-                switch (id)
-                {
-                    case 45: // Scarlet Monestary
-                        loc = new Common.Structs.Location(77f, -1f, 20f, 0, 44);
-                        break;
-                }
-
                 manager.Account.ActiveCharacter.Teleport(loc, ref manager);
             }
             else
