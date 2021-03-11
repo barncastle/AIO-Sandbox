@@ -31,6 +31,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <TrimmerRootAssembly Include="System.Runtime" />
+    <TrimmerRootAssembly Include="System.Diagnostics.Debug" />
+    <TrimmerRootAssembly Include="System.Runtime.Extensions" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="settings.conf">
