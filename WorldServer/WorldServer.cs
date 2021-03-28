@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Common.Constants;
 using Common.Cryptography;
 using Common.Logging;
@@ -14,6 +15,8 @@ namespace WorldServer
 
         private static void Main()
         {
+            CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+
             Log.Message(LogType.INIT, "                AIO SANDBOX                ");
             Log.Message(LogType.INIT, "             REALM/PROXY/WORLD             ");
             Log.Message();
