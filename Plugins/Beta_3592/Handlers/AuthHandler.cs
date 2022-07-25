@@ -77,6 +77,9 @@ namespace Beta_3592.Handlers
                             break;
 
                         case RealmlistOpcodes.LOGON_PROOF:
+                            writer.Write(Authenticator.LogonProof(packet));
+                            break;
+
                         case RealmlistOpcodes.RECONNECT_PROOF:
                             writer.WriteUInt8((byte)RealmlistOpcodes.RECONNECT_PROOF);
                             writer.WriteUInt8(0);

@@ -98,25 +98,25 @@ namespace MoP_15464
             #endregion
 
             SetField(Fields.OBJECT_FIELD_GUID, Guid);
-            SetField(Fields.OBJECT_FIELD_DATA, 0);
-            SetField(Fields.OBJECT_FIELD_ENTRYID, 0);
+            //SetField(Fields.OBJECT_FIELD_DATA, 0);
+            //SetField(Fields.OBJECT_FIELD_ENTRYID, 0);
             SetField(Fields.OBJECT_FIELD_TYPE, (uint)0x19);
             SetField(Fields.OBJECT_FIELD_SCALE, Scale);
-            SetField(Fields.UNIT_FIELD_TARGET, (ulong)0);
-            SetField(Fields.UNIT_FIELD_BASEHEALTH, Health);
+            //SetField(Fields.UNIT_FIELD_TARGET, (ulong)0);
+            //SetField(Fields.UNIT_FIELD_BASEHEALTH, Health);
             SetField(Fields.UNIT_FIELD_HEALTH, Health);
             SetField(Fields.UNIT_FIELD_MAXHEALTH, Health);
             SetField(Fields.UNIT_FIELD_LEVEL, Level);
             SetField(Fields.UNIT_FIELD_FACTIONTEMPLATE, this.GetFactionTemplate());
             SetField(Fields.UNIT_FIELD_DISPLAYPOWER, ToUInt32(Race, Class, Gender, PowerType));
-            SetField(Fields.UNIT_FIELD_STATS, Strength);
-            SetField(Fields.UNIT_FIELD_STATS + 1, Agility);
-            SetField(Fields.UNIT_FIELD_STATS + 2, Stamina);
-            SetField(Fields.UNIT_FIELD_STATS + 3, Intellect);
-            SetField(Fields.UNIT_FIELD_STATS + 4, Spirit);
-            SetField(Fields.UNIT_FIELD_FLAGS, 8);
-            SetField(Fields.UNIT_FIELD_FLAGS2, 0x800);
-            SetField(Fields.UNIT_FIELD_BASEMANA, Mana);
+            //SetField(Fields.UNIT_FIELD_STATS, Strength);
+            //SetField(Fields.UNIT_FIELD_STATS + 1, Agility);
+            //SetField(Fields.UNIT_FIELD_STATS + 2, Stamina);
+            //SetField(Fields.UNIT_FIELD_STATS + 3, Intellect);
+            //SetField(Fields.UNIT_FIELD_STATS + 4, Spirit);
+            //SetField(Fields.UNIT_FIELD_FLAGS, 8);
+            //SetField(Fields.UNIT_FIELD_FLAGS2, 0x800);
+            //SetField(Fields.UNIT_FIELD_BASEMANA, Mana);
             SetField(Fields.UNIT_FIELD_DISPLAYID, DisplayId);
             SetField(Fields.UNIT_FIELD_NATIVEDISPLAYID, this.GetDisplayId());
             SetField(Fields.UNIT_FIELD_MOUNTDISPLAYID, MountDisplayId);
@@ -140,18 +140,18 @@ namespace MoP_15464
             SetField(Fields.PLAYER_FIELD_SKILL + 2, CharacterData.PANDAREN_SKILL_ID);
 
             // misc
-            SetField(Fields.PLAYER_FIELD_CHARACTERPOINTS, 0);
-            SetField(Fields.PLAYER_FIELD_CHARACTERPOINTS + 1, 0);
-            SetField(Fields.PLAYER_FIELD_TRACKCREATUREMASK, 0);
-            SetField(Fields.PLAYER_FIELD_TRACKRESOURCEMASK, 0);
-            SetField(Fields.PLAYER_FIELD_EXPERTISE, 0);
-            SetField(Fields.PLAYER_FIELD_OFFHANDEXPERTISE, 0);
-            SetField(Fields.PLAYER_FIELD_BLOCKPERCENTAGE, 0);
-            SetField(Fields.PLAYER_FIELD_DODGEPERCENTAGE, 0);
-            SetField(Fields.PLAYER_FIELD_PARRYPERCENTAGE, 0);
-            SetField(Fields.PLAYER_FIELD_CRITPERCENTAGE, 0);
-            SetField(Fields.PLAYER_FIELD_RANGEDCRITPERCENTAGE, 0);
-            SetField(Fields.PLAYER_FIELD_OFFHANDCRITPERCENTAGE, 0);
+            //SetField(Fields.PLAYER_FIELD_CHARACTERPOINTS, 0);
+            //SetField(Fields.PLAYER_FIELD_CHARACTERPOINTS + 1, 0);
+            //SetField(Fields.PLAYER_FIELD_TRACKCREATUREMASK, 0);
+            //SetField(Fields.PLAYER_FIELD_TRACKRESOURCEMASK, 0);
+            //SetField(Fields.PLAYER_FIELD_EXPERTISE, 0);
+            //SetField(Fields.PLAYER_FIELD_OFFHANDEXPERTISE, 0);
+            //SetField(Fields.PLAYER_FIELD_BLOCKPERCENTAGE, 0);
+            //SetField(Fields.PLAYER_FIELD_DODGEPERCENTAGE, 0);
+            //SetField(Fields.PLAYER_FIELD_PARRYPERCENTAGE, 0);
+            //SetField(Fields.PLAYER_FIELD_CRITPERCENTAGE, 0);
+            //SetField(Fields.PLAYER_FIELD_RANGEDCRITPERCENTAGE, 0);
+            //SetField(Fields.PLAYER_FIELD_OFFHANDCRITPERCENTAGE, 0);
 
             // FillInPartialObjectData
             writer.WriteUInt8(MaskSize); // UpdateMaskBlocks

@@ -59,7 +59,7 @@ namespace Vanilla_4671
             SetField(Fields.UNIT_FIELD_STAT2, Stamina);
             SetField(Fields.UNIT_FIELD_STAT3, Intellect);
             SetField(Fields.UNIT_FIELD_STAT4, Spirit);
-            SetField(Fields.UNIT_FIELD_FLAGS, 0);
+            SetField(Fields.UNIT_FIELD_FLAGS, 8);
             SetField(Fields.UNIT_FIELD_BASE_MANA, Mana);
             SetField(Fields.UNIT_FIELD_DISPLAYID, DisplayId);
             SetField(Fields.UNIT_FIELD_MOUNTDISPLAYID, MountDisplayId);
