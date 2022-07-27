@@ -1,5 +1,9 @@
 # AIO Sandbox
 
+**This branch is a proof of concept for the [Matrix Card Two Factor Authentication](https://imgur.com/0vnQMVJ) system that has existed since TBC (2.0.0.5991). This demo requires the digits '00 11 22 33' to successfully login.** 
+  
+**When logging in, the client randomly selects several cells and asks the user to input the corresponding numbers from their personalised [matrix card](https://ediwang.cdn.moonglade.blog/ediwang-images/img-dfa03229-e409-4147-91fa-7aba1f420e94.jpg). These numbers are then compared against a server-side representation of the card, and if matching, completes the authentication process.**
+
 This project is an attempt to make a plugin based "All In One" sandbox server supports all pre-Cata builds of WoW with an emphasis on exploration.
 
 You'll need [.Net Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2) to run this. This project was built with Visual Studio 2017.

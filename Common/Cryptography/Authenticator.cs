@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using Common.Interfaces;
@@ -51,6 +52,7 @@ namespace Common.Cryptography
             0xF1, 0x86, 0x59, 0x99, 0x76, 0x02, 0x50, 0xAA,
             0xB9, 0x45, 0xE0, 0x9E, 0xDD, 0x2A, 0xA3, 0x45,
         };
+
         private static readonly byte[] RN = N.Reverse().ToArray();
         private static BigInteger B;
         private static BigInteger V;
@@ -99,6 +101,17 @@ namespace Common.Cryptography
             result[37] = 32;
             Array.Copy(N, 0, result, 38, N.Length);
             Array.Copy(Salt, 0, result, 70, Salt.Length);
+
+            if (result.Length > 0x77)
+            {
+                result[118] = 2; // security_flags MATRIX_CARD
+                result[119] = MatrixCard.Width;
+                result[120] = MatrixCard.Height;
+                result[121] = MatrixCard.DigitCount;
+                result[122] = MatrixCard.ChallengeCount;
+                Array.Copy(RB, 0, result, 123, 8); // seed[8]- anything random, I'm arbitrarily using RB
+            }
+
             return result;
         }
 
@@ -108,6 +121,9 @@ namespace Common.Cryptography
             byte[] kM1 = packet.ReadBytes(20);
             byte[] rA = A.Reverse().ToArray();
             byte[] AB = A.Concat(B.GetBytes(32).Reverse()).ToArray();
+
+            packet.Position = 74;
+            byte securityFlags = packet.ReadByte();
 
             if (new BigInteger(A) % new BigInteger(N) == 0)
                 return new byte[1];
@@ -133,6 +149,27 @@ namespace Common.Cryptography
                 {
                     ss_hash[t * 2] = hashS1[t];
                     ss_hash[(t * 2) + 1] = hashS2[t];
+                }
+
+                // matrix card                
+                if ((securityFlags & 2) == 2)
+                {
+                    var clientProof = packet.ReadBytes(20).AsSpan();
+                    var seed = BitConverter.ToUInt64(RB);
+
+                    var matrix = new MatrixCard();
+                    var serverProof = matrix.GenerateServerProof(seed, ss_hash);
+
+                    if (!clientProof.SequenceEqual(serverProof))
+                    {
+                        return new byte[]
+                        {
+                            0x1, // LOGIN_PROOF 
+                            0x5, // FAIL_UNKNOWN_ACCOUNT
+                            0x0, // padding
+                            0x0
+                        };
+                    }
                 }
 
                 // calc M1 & M2
@@ -178,7 +215,15 @@ namespace Common.Cryptography
 
         private static int GetLogonChallengeSize()
         {
-            return ClientBuild < 5428 ? 0x76 : 0x77;
+            return ClientBuild switch
+            {
+                < 5428 => 0x76, // 1.11.0
+                < 5991 => 0x77, // 2.0.0
+                6005 => 0x77,   // 1.12.2
+                6141 => 0x77,   // 1.12.3
+                6180 => 0x77,   // 2.0.1 TBC prepatch
+                _ => 0x83
+            };
         }
 
         private static int GetLogonProofSize()
