@@ -19,10 +19,10 @@ namespace Common.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Common.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Common.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Common.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -71,25 +71,35 @@ namespace Common.Properties {
         ///121,-11339.4,1571.16,100.56,0,0,Deadmines - Outside End,0
         ///145,-229.135,2109.18,76.8898,1.2 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string AreaTriggers {
+        public static string AreaTriggers {
             get {
                 return ResourceManager.GetString("AreaTriggers", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Abandoned Armory,-2068.19,7463.77,-18.9908,5.21755,530,,2
-        ///Abyssal Sands,-7583.58,-3408.81,43.2019,2.47556,1,,0
-        ///Access Shaft Zeon,3742.43,2083.64,148.765,6.032,530,,2
-        ///Addles Stead,-10964,240.019,28.5578,2.99821,0,,0
-        ///Aerie Peak,260.366,-2125.21,119.565,3.18494,0,,0
-        ///Aeris Landing,-2059.85,8550.89,24.0587,1.944,530,,2
-        ///Agama Gor,-2020.72,-2107.58,91.9626,5.49717,1,,0
-        ///Agamand Mills,2799.46,847.549,111.842,0.509892,0,,0
-        ///Agmonds End,-7040.08,-3342.15,241.667,0.82338,0,,0
-        ///Agol Watha,451.572,-3342.23,119.689 [rest of string was truncated]&quot;;.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static string Worldports {
+        public static byte[] dancecache {
+            get {
+                object obj = ResourceManager.GetObject("dancecache", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -2068.19,7463.77,-18.9908,5.21755,530,Abandoned Armory,2
+        ///-7583.58,-3408.81,43.2019,2.47556,1,Abyssal Sands,0
+        ///3742.43,2083.64,148.765,6.032,530,Access Shaft Zeon,2
+        ///-10964,240.019,28.5578,2.99821,0,Addles Stead,0
+        ///260.366,-2125.21,119.565,3.18494,0,Aerie Peak,0
+        ///-2059.85,8550.89,24.0587,1.944,530,Aeris Landing,2
+        ///-2020.72,-2107.58,91.9626,5.49717,1,Agama Gor,0
+        ///2799.46,847.549,111.842,0.509892,0,Agamand Mills,0
+        ///-7040.08,-3342.15,241.667,0.82338,0,Agmonds End,0
+        ///451.572,-3342.23,119.689,0.772541,0,Agol Wat [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Worldports {
             get {
                 return ResourceManager.GetString("Worldports", resourceCulture);
             }

@@ -23,6 +23,6 @@ namespace MoP_15464
         public IWorldHandler WorldHandler => new WorldHandler();
 
         public IPacketReader ReadPacket(byte[] data, bool parse = true) => new PacketReader(data, parse);
-
+        public IPacketWriter GetPacketWriter(global::Opcodes opcode) => new PacketWriter(Opcodes[opcode], opcode.ToString());
     }
 }

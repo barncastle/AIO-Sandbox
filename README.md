@@ -1,5 +1,64 @@
 # AIO Sandbox
 
+**This branch is a proof of concept for the Dance Studio system that has existed since WotLK. The intention was to add a Dance Studio allowing players to create custom dance routines. It has only been partially implemented with support for routine playback but not creation. Dance routines are randomised, the start move and if a move is played changes each playthrough.**
+
+**This implementation has been tested on WoW WotLK 3.3.5.12340 and only supports WotLK clients.** 
+  
+
+## Dance Studio
+
+The Dance Studio feature currently loads locally defined dance routines from `Resources/dancecache.json`. Run the app and login *once* to generate this file.
+
+### Dance definitions:
+
+Add dances to `Resources/dancecache.json` using the following JSON schema:
+
+```json
+[
+  {
+    "Name": "ExampleDance",
+    "Routine": [
+      {
+        "MoveId": 61,
+        "Chance": 100,
+        "UseFallback": 0
+      }
+    ]
+  }
+]
+```
+
+#### Fields:
+
+- `Name`: The name of the dance routine.
+- `Routine`: Array of dance moves in playback order.
+- `MoveId`: Dance move ID from `DanceMoves.dbc`.
+- `Chance`: Percentage chance for the move to play (`0-100`).
+- `UseFallback`: Whether the move should force its fallback move (`0` or `1`).
+
+Example routines are provided by default in `Resources/dancecache.json`.
+
+### Playing a dance:
+
+To play a dance, enter the following in the in-game chat window, with `<name>` being the `Name` field from `Resources/dancecache.json`:
+
+```lua
+/script PlayDance("<name>")
+```
+
+### Known crash conditions:
+
+The client will crash if:
+
+- `MoveId = 1` is used with `UseFallback = 1`
+- A hold or repeat move directly follows another hold or repeat move
+  - ✅: `move -> hold/repeat`
+  - ❌: `move -> hold/repeat -> hold/repeat`
+
+---
+
+# Readme
+
 This project is an attempt to make a plugin based "All In One" sandbox server supports all pre-Cata builds of WoW with an emphasis on exploration.
 
 You'll need [.Net Core 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) to run this. This project was built with Visual Studio 2019.

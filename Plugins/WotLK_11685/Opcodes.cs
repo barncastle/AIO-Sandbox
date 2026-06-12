@@ -78,6 +78,17 @@ namespace WotLK_11685
             { global::Opcodes.SMSG_TIME_SYNC_REQ, 0x390 },
             { global::Opcodes.SMSG_INITIAL_SPELLS, 0x12A },
             { global::Opcodes.SMSG_ADDON_INFO, 0x2EF },
+            // Dance Studio
+            { global::Opcodes.SMSG_NOTIFY_DANCE, 0x44A },
+            { global::Opcodes.CMSG_PLAY_DANCE, 0x44B },
+            { global::Opcodes.SMSG_PLAY_DANCE, 0x44C },
+            { global::Opcodes.CMSG_STOP_DANCE, 0x44E },
+            { global::Opcodes.SMSG_STOP_DANCE, 0x44F },
+            { global::Opcodes.CMSG_SYNC_DANCE, 0x450 },
+            { global::Opcodes.CMSG_DANCE_QUERY, 0x451 },
+            { global::Opcodes.SMSG_DANCE_QUERY_RESPONSE, 0x452 },
+            { global::Opcodes.SMSG_INVALIDATE_DANCE, 0x453 },
+            { global::Opcodes.SMSG_LEARNED_DANCE_MOVES, 0x454 },
         };
 
         public uint this[global::Opcodes opcode] => opcodes[opcode];

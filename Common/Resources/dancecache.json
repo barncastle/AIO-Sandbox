@@ -1,0 +1,241 @@
+[
+  {
+    "Name": "SmokeTest_SingleMove",
+    "Routine": [
+      {
+        "MoveId": 28,
+        "Chance": 100,
+        "UseFallback": 0
+      }
+    ]
+  },
+  {
+    "Name": "Basic_Weighted_Animations",
+    "Routine": [
+      {
+        "MoveId": 22,
+        "Chance": 40,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 23,
+        "Chance": 30,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 24,
+        "Chance": 20,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 25,
+        "Chance": 10,
+        "UseFallback": 0
+      }
+    ]
+  },
+  {
+    "Name": "Fallback_Safe_Test",
+    "Routine": [
+      {
+        "MoveId": 22,
+        "Chance": 100,
+        "UseFallback": 1
+      },
+      {
+        "MoveId": 23,
+        "Chance": 100,
+        "UseFallback": 1
+      },
+      {
+        "MoveId": 24,
+        "Chance": 100,
+        "UseFallback": 1
+      }
+    ]
+  },
+  {
+    "Name": "Mixed_LongRoutine_Safe",
+    "Routine": [
+      {
+        "MoveId": 61,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 22,
+        "Chance": 50,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 26,
+        "Chance": 75,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 27,
+        "Chance": 25,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 28,
+        "Chance": 5,
+        "UseFallback": 1
+      }
+    ]
+  },
+  {
+    "Name": "Spell_Visual_Test",
+    "Routine": [
+      {
+        "MoveId": 61,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 41,
+        "Chance": 100,
+        "UseFallback": 0
+      }
+    ]
+  },
+  {
+    "Name": "Hold_Test_Short",
+    "Routine": [
+      {
+        "MoveId": 61,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 82,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 24,
+        "Chance": 100,
+        "UseFallback": 0
+      }
+    ]
+  },
+  {
+    "Name": "Repeat_Test_Long",
+    "Routine": [
+      {
+        "MoveId": 61,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 84,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 25,
+        "Chance": 100,
+        "UseFallback": 0
+      }
+    ]
+  },
+  {
+    "Name": "Hold_Then_Move_Then_Repeat_Test",
+    "Routine": [
+      {
+        "MoveId": 61,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 82,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 24,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 84,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 25,
+        "Chance": 100,
+        "UseFallback": 0
+      }
+    ]
+  },
+  {
+    "Name": "Showcase_Crescendo_Finale",
+    "Routine": [
+      {
+        "MoveId": 61,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 82,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 24,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 25,
+        "Chance": 85,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 84,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 23,
+        "Chance": 70,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 26,
+        "Chance": 80,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 83,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 27,
+        "Chance": 100,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 28,
+        "Chance": 60,
+        "UseFallback": 0
+      },
+      {
+        "MoveId": 22,
+        "Chance": 50,
+        "UseFallback": 1
+      },
+      {
+        "MoveId": 41,
+        "Chance": 100,
+        "UseFallback": 0
+      }
+    ]
+  },
+  {
+    "Name": "Should_Be_Removed_Empty",
+    "Routine": []
+  }
+]

@@ -18,5 +18,6 @@ namespace Common.Interfaces
         IWorldHandler WorldHandler { get; }
 
         IPacketReader ReadPacket(byte[] data, bool parse = true);
+        IPacketWriter GetPacketWriter(global::Opcodes opcode);
     }
 }

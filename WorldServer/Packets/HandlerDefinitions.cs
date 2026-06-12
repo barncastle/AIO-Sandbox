@@ -17,7 +17,15 @@ namespace WorldServer.Packets
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_CHAR_CREATE, WorldServer.Sandbox.CharHandler.HandleCharCreate);
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_CHAR_DELETE, WorldServer.Sandbox.CharHandler.HandleCharDelete);
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_PING, WorldServer.Sandbox.WorldHandler.HandlePing);
-            PacketManager.DefineOpcodeHandler(Opcodes.CMSG_PLAYER_LOGIN, WorldServer.Sandbox.WorldHandler.HandlePlayerLogin);
+
+            PacketManager.DefineOpcodeHandler(Opcodes.CMSG_PLAYER_LOGIN, (ref IPacketReader reader, ref IWorldManager manager) =>
+            {
+                WorldServer.Sandbox.WorldHandler.HandlePlayerLogin(ref reader, ref manager);
+                // big hack 
+                if (manager.SandboxHost.Expansion >= Common.Constants.Expansions.WotLK)
+                    DanceStudioHandler.LoadDanceStudio(ref manager);
+            });
+
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_QUERY_TIME, WorldServer.Sandbox.WorldHandler.HandleQueryTime);
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_NAME_QUERY, WorldServer.Sandbox.CharHandler.HandleNameCache);
 
@@ -55,6 +63,12 @@ namespace WorldServer.Packets
             PacketManager.DefineOpcodeHandler(Opcodes.MSG_MOVE_STOP_ASCEND, WorldServer.Sandbox.CharHandler.HandleMovementStatus);
 
             PacketManager.DefineOpcodeHandler(Opcodes.CMSG_STANDSTATECHANGE, WorldServer.Sandbox.CharHandler.HandleStandState);
+
+            // Dance studio
+            PacketManager.DefineOpcodeHandler(Opcodes.CMSG_PLAY_DANCE, DanceStudioHandler.HandlePlayDance);
+            PacketManager.DefineOpcodeHandler(Opcodes.CMSG_STOP_DANCE, DanceStudioHandler.HandleStopDance);
+            PacketManager.DefineOpcodeHandler(Opcodes.CMSG_SYNC_DANCE, DanceStudioHandler.HandleSyncDance);
+            PacketManager.DefineOpcodeHandler(Opcodes.CMSG_DANCE_QUERY, DanceStudioHandler.HandleDanceQuery);
         }
 
         private static void HandleAuthChallenge(ref IPacketReader packet, ref IWorldManager manager)

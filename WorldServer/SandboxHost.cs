@@ -28,6 +28,8 @@ namespace WorldServer
 
         public IPacketReader ReadPacket(byte[] data, bool parse = true) => _instance.ReadPacket(data, parse);
 
+        public IPacketWriter GetPacketWriter(global::Opcodes opcode) => _instance.GetPacketWriter(opcode);
+
         public override string ToString() => _instance.RealmName;
     }
 }
