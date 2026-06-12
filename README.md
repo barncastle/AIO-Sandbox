@@ -52,7 +52,7 @@ The client will crash if:
 
 - `MoveId = 1` is used with `UseFallback = 1`
 - A hold or repeat move directly follows another hold or repeat move
-  - ✅: `move -> hold/repeat`
+  - ✅: `move -> hold/repeat -> move`
   - ❌: `move -> hold/repeat -> hold/repeat`
 
 ---
